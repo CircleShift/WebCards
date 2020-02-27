@@ -1,0 +1,81 @@
+@media (max-width: 599px), (max-height: 500px) {
+    /*
+        Hide stuff
+    */
+    div.server {
+        display: none;
+    }
+
+    div.info {
+        display: none;
+    }
+
+    /*
+        TopBar for mobile
+    */
+
+    div.topbar > div.status {
+        height: 10px;
+    }
+
+    div.top-buttons {
+        height: 50px;
+    }
+
+    button.top-button {
+        padding: 5px;
+    }
+
+    button#reset:before, button#newgame:before, button#settings:before {
+        font-family: "IcoFont";
+        font-size: xx-large;
+    }
+    
+    button#newgame:before{
+        content: "\efc2";
+    }
+
+    button#settings {
+        display: inline-block;
+    }
+
+    button#settings:before {
+        content: "\ef3a";
+    }
+
+    button#reset:before{
+        content: "\efd1";
+    }
+
+    /*
+        Mobile lobby
+    */
+
+    div.lobby {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    div.content {
+        margin-top: 60px;
+        box-sizing: border-box;
+        flex: 1;
+    }
+
+    div.games {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        background-color: #ddd;
+        padding: 5px;
+        box-sizing: border-box;
+
+    }
+
+    div.game {
+        height: 12.5%;
+    }
+}

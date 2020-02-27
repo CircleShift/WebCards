@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta charset="utf-8">
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles/icofont.css">
+
+        <link rel="stylesheet" type="text/css" href="styles/home/base.css">
+        <link rel="stylesheet" type="text/css" href="styles/home/desktop.css">
+        <link rel="stylesheet" type="text/css" href="styles/home/mobile.css">
+    </head>
+
+    <body>
+        <div class="content">
+            <p style="font-size: 30px; font-weight: bold;"><span style="color: dodgerblue; font-weight: normal;">Web</span>Cards</p>
+            <div>
+                <select id="type">
+                    <option value="ws://" selected>ws</option>
+                    <option value="wss://">wss</option>
+                </select>
+
+                <input id="addr" type="text" value="127.0.0.1">
+
+                <input id="port" type="number" value="4040">
+            </div>
+
+            <a id="conn" href="client.html?s=ws://127.0.0.1:4040&g=-1">Connect</a>
+        </div>
+
+        <script>
+            var t = document.getElementById("type");
+            var a = document.getElementById("addr");
+            var p = document.getElementById("port");
+            var c = document.getElementById("conn");
+
+            t.onchange = updateLink;
+            a.onchange = updateLink;
+            p.onchange = updateLink;
+
+            function updateLink() {
+                var url = "client.html?s=" + t.value + a.value + ":" + p.value + "&g=-1";
+                c.setAttribute("href", url);
+            }
+        </script>
+    </body>
+</html>

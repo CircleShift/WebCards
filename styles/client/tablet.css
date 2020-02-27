@@ -1,0 +1,41 @@
+@media (min-width: 600px) and (orientation: portrait) {
+    body {
+        display: flex;
+    
+        align-items: center;
+        justify-content: center;
+    }
+
+    div.lobby {
+        max-width: 500px;
+    
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+    
+        align-items: center;
+    }
+
+    div.content {
+        min-width: 70vw;
+        min-height: 70vh;
+    
+        display: flex;
+        flex-direction: column;
+    }
+
+    div.info {
+        flex-direction: row;
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+
+    div.settings, div.stats {
+        width: auto;
+    }
+
+    div.settings {
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+}

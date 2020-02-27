@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        
+        
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles/icofont.css">
+
+        <link rel="stylesheet" type="text/css" href="styles/client/base.css">
+        <link rel="stylesheet" type="text/css" href="styles/client/desktop.css">
+        <link rel="stylesheet" type="text/css" href="styles/client/tablet.css">
+        <link rel="stylesheet" type="text/css" href="styles/client/mobile.css">
+        
+        <!--<script src="scripts/libs/discord-rpc.js"></script>-->
+        <script src="scripts/client/message.js"></script>
+        <script src="scripts/client/sock.js"></script>
+        <script src="scripts/client/lobby.js"></script>
+        <script src="scripts/client/table.js"></script>
+        <script src="scripts/client/client.js"></script>
+    </head>
+
+    <body>
+        
+        <div class="table" style="visibility: hidden;">
+
+        </div>
+
+        <div class="topbar" style="height: auto;">
+            <div class="top-buttons">
+                <button id="newgame" class="top-button" onclick="game.lob.newGameScreen()"></button>
+                <button id="settings" class="top-button" onclick="game.lob.mobileSettingsScreen()"></button>
+                <button id="reset" class="top-button" onclick="game.reset()"></button>
+            </div>
+
+            <div class="new-game" style="display: none;"></div>
+
+            <div class="mobile-settings" style="display: none;">
+                <span><input type="text" id="name" placeholder="Username"/></span>
+                <span><input type="color" id="usercolor" value="#f00"/></span>
+
+                <button id="set">Accept Settings</button>
+            </div>
+            
+            <div class="status" style="background-color: #DA0;"></div>
+        </div>
+
+        <div class="lobby">
+
+            <div class="server">
+                <span style="background-color: #DA0; font-weight: bold; color: white;" class="status">Connecting</span>
+                <span class="addr"></span>
+            </div>
+
+            <div class="content">
+
+                <div class="games">
+                    <div class="game">Hello</div>
+                </div>
+
+                <div class="info">
+                    <div class="stats">
+                        <div>
+                            <span>Game Name:</span><span id="game">-</span>
+                        </div>
+
+                        <div>
+                            <span>Packs Available:</span><span id="packs">-</span>
+                        </div>
+                        
+                        <div>
+                            <span>Players Online:</span><span id="online">-</span>
+                        </div>
+
+                        <div>
+                            <span>Players In Game:</span><span id="ingame">-</span>
+                        </div>
+
+                        <div>
+                            <span>Public Games:</span><span id="pubgame">-</span>
+                        </div>
+                    </div>
+
+                    <div class="settings">
+                        <span><input type="text" id="name" placeholder="Username"/></span>
+                        <span><input type="color" id="usercolor" value="#f00"/></span>
+
+                        <button onclick="game.acceptSettings()">Accept Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var params = new URLSearchParams((new URL(window.location)).search);
+            var game = new Client(params.get("s"), params.get("g"));
+            setTimeout(game.init.bind(game), 100);
+        </script>
+    </body>
+
+</html>
