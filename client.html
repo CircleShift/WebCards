@@ -2,7 +2,8 @@
 
 <html>
     <head>
-        
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta charset="utf-8">
         
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="styles/icofont.css">
@@ -12,12 +13,11 @@
         <link rel="stylesheet" type="text/css" href="styles/client/tablet.css">
         <link rel="stylesheet" type="text/css" href="styles/client/mobile.css">
         
-        <!--<script src="scripts/libs/discord-rpc.js"></script>-->
-        <script src="scripts/client/message.js"></script>
-        <script src="scripts/client/sock.js"></script>
-        <script src="scripts/client/lobby.js"></script>
-        <script src="scripts/client/table.js"></script>
-        <script src="scripts/client/client.js"></script>
+        <script src="scripts/message.js"></script>
+        <script src="scripts/sock.js"></script>
+        <script src="scripts/lobby.js"></script>
+        <script src="scripts/table.js"></script>
+        <script src="scripts/client.js"></script>
     </head>
 
     <body>
@@ -28,8 +28,8 @@
 
         <div class="topbar" style="height: auto;">
             <div class="top-buttons">
-                <button id="newgame" class="top-button" onclick="game.lob.newGameScreen()"></button>
-                <button id="settings" class="top-button" onclick="game.lob.mobileSettingsScreen()"></button>
+                <button id="newgame" class="top-button" onclick="game.lob.newGame()"></button>
+                <button id="settings" class="top-button" onclick="game.lob.mobileSettings()"></button>
                 <button id="reset" class="top-button" onclick="game.reset()"></button>
             </div>
 

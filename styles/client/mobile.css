@@ -1,4 +1,4 @@
-@media (max-width: 599px), (max-height: 500px) {
+@media (max-width: 599px) or (max-height: 500px) {
     /*
         Hide stuff
     */
