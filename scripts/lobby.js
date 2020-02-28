@@ -46,6 +46,7 @@ Lobby.prototype = {
     // { data.games[n].name } room name
     // { data.games[n].packs } list of the pack names used by this game
     // { data.games[n].id } room identifier (uuid)
+    // { data.games[n].max } max players in room
     gameList: function(data) {
         while (this.elements.games.firstChild != null) {
             this.elements.games.remove(this.elements.games.firstChild)
@@ -194,7 +195,6 @@ TopBar.prototype = {
 // #############
 
 // GameEl represents a single game in the lobby view.  It has methods for setting up the elements and such.
-
-function GameEl(name, packs, id) {
+function GameEl(name, packs, maxp, id) {
 
 }

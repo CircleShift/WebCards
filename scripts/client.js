@@ -13,12 +13,13 @@ function Client(serveraddr, game) {
 }
 
 Client.prototype = {
+    // Initialize the connection
     init: function() {
         this.soc.init();
     },
 
-    // Entry point for a message.
-    // If it's a close message, the
+    // Entry point for a message from the server.
+    // If it's a close message, we close the game if it is open and change the lobby to reflect the error/close.
     cb: function(m) {
         console.log(m);
 
@@ -42,6 +43,7 @@ Client.prototype = {
         }
     },
 
+    // Called when negotiating with the server for the first time and we are determining versions
     handshake: function(m) {
         switch (m.type) {
             case "verr":
@@ -57,6 +59,7 @@ Client.prototype = {
         }
     },
 
+    // Lobby switch, called when in the lobby and a message arrives from the server
     lobby: function (m) {
         switch (m.type) {
             case "plist":
@@ -87,6 +90,7 @@ Client.prototype = {
         }
     },
 
+    // Game switch, called when in game and a message arrives from the server
     game: function (m) {
         switch (m.type) {
             
