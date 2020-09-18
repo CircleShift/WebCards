@@ -8,21 +8,37 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="styles/icofont.css">
 
+        <link rel="stylesheet" type="text/css" href="styles/input.css">
+
         <link rel="stylesheet" type="text/css" href="styles/client/base.css">
         <link rel="stylesheet" type="text/css" href="styles/client/desktop.css">
         <link rel="stylesheet" type="text/css" href="styles/client/tablet.css">
         <link rel="stylesheet" type="text/css" href="styles/client/mobile.css">
+        <link rel="stylesheet" type="text/css" href="styles/client/card.css">
+
+        <link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
 
         <link rel="icon" sizes="32x32" href="images/wc-icon-32.png">
         <link rel="icon" sizes="48x48" href="images/wc-icon-48.png">
         <link rel="icon" sizes="96x96" href="images/wc-icon-96.png">
         <link rel="icon" sizes="144x144" href="images/wc-icon-144.png">
         <link rel="icon" sizes="288x288" href="images/wc-icon-288.png">
-        
-        <script src="scripts/message.js"></script>
-        <script src="scripts/sock.js"></script>
-        <script src="scripts/lobby.js"></script>
-        <script src="scripts/table.js"></script>
+
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/theme.js"></script>
+
+        <script src="scripts/cards/card.js"></script>
+        <script src="scripts/cards/deck.js"></script>
+        <script src="scripts/cards/drag.js"></script>
+
+        <script src="scripts/gui/input.js"></script>
+        <script src="scripts/gui/lobby.js"></script>
+        <script src="scripts/gui/table.js"></script>
+        <script src="scripts/gui/chat.js"></script>
+
+        <script src="scripts/socket/message.js"></script>
+        <script src="scripts/socket/sock.js"></script>
+
         <script src="scripts/client.js"></script>
 
         <title>WebCards - Client</title>
@@ -30,33 +46,33 @@
 
     <body>
         
-        <div class="table" style="visibility: hidden;">
+        <div class="table" state="closed">
 
         </div>
 
         <div class="topbar" style="height: auto;">
             <div class="top-buttons">
-                <button id="newgame" class="top-button" onclick="game.lob.newGame()"></button>
-                <button id="settings" class="top-button" onclick="game.lob.mobileSettings()"></button>
+                <button id="newgame" class="top-button" onclick="game.lobby.newGame()"></button>
+                <button id="settings" class="top-button" onclick="game.lobby.mobileSettings()"></button>
                 <button id="reset" class="top-button" onclick="game.reset()"></button>
             </div>
 
             <div class="new-game" style="display: none;"></div>
 
-            <div class="mobile-settings" style="display: none;">
-                <span><input type="text" id="name" placeholder="Username"/></span>
-                <span><input type="color" id="usercolor" value="#f00"/></span>
+            <div class="settings mobile-settings" style="display: none;">
+                <span><input type="text" placeholder="Username"/></span>
+                <span><input type="color" value="#f00"/></span>
 
                 <button id="set">Accept Settings</button>
             </div>
             
-            <div class="status" style="background-color: #DA0;"></div>
+            <div class="status"></div>
         </div>
 
         <div class="lobby">
 
             <div class="server">
-                <span style="background-color: #DA0; font-weight: bold; color: white;" class="status">Connecting</span>
+                <span style="font-weight: 700;" class="status">Connecting</span>
                 <span class="addr"></span>
             </div>
 
@@ -89,13 +105,27 @@
                         </div>
                     </div>
 
-                    <div class="settings">
-                        <span><input type="text" id="name" placeholder="Username"/></span>
-                        <span><input type="color" id="usercolor" value="#f00"/></span>
-
-                        <button onclick="game.acceptSettings()">Accept Settings</button>
+                    <div class="settings" >
+                        <div class="input-container" type="color" onclick="this.getElementsByTagName('input')[0].click()">
+                            <input type="color">
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="chat">
+            <button class="toggle-chat">Toggle Chat</button>
+
+            <div class="chat-select">
+            </div>
+
+            <div class="chat-text">
+            </div>
+
+            <div class="chat-input">
+                <input type="text" placeholder="Chat..."/>
+                <button>Send</button>
             </div>
         </div>
 

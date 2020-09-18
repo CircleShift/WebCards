@@ -1,0 +1,425 @@
+/*    Begin Input CSS    */
+
+/*    All input    */
+
+input, select
+{
+    -webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	margin: 5px;
+	
+	display: block;
+	
+	box-sizing: border-box;
+}
+
+/*    Button input    */
+
+input[type=button], input[type=submit], button, a
+{
+    padding: 10px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: var(--input-bg-button);
+	color: var(--input-color-button);
+	
+    font-size: medium;
+
+    transition-duration: 0.2s;
+
+    cursor: pointer;
+}
+
+input[type=button]:hover, input[type=submit]:hover, button:hover, a:hover
+{
+	background-color: var(--input-bg-button-hover);
+}
+
+input[type=button]:active, input[type=submit]:active, button:active, a:active
+{
+	background-color: var(--input-bg-button-active);
+}
+
+/*    Text, date, number, and time input    */
+
+input[type=text], input[type=date], input[type=time], input[type="number"]
+{
+	border: 2px solid var(--input-border-text);
+	border-radius: 3px;
+	padding: 5px;
+	background-color: var(--input-bg-text);
+	color: var(--input-color-text);
+	font-size: 1em;
+}
+
+input[type=text]:hover, input[type=date]:hover, input[type=time]:hover, input[type="number"]:hover
+{
+	border-color: var(--input-border-text-hover);
+}
+
+input[type=text]:focus, input[type=date]:focus, input[type=time]:focus, input[type="number"]:focus
+{
+	border-color: var(--input-border-text-active);
+}
+
+/*    Radial input    */
+
+input[type=radio]
+{	
+	width: 20px;
+	height: 20px;
+	
+	border: 3px solid var(--input-border-bool);
+	border-radius: 50%;
+	
+	transition-duration: 0.2s;
+	
+	background-color: var(--input-bg-bool);
+	
+	cursor: pointer;
+
+	display: inline-block;
+	vertical-align: middle;
+}
+
+input[type=radio]:checked, input[type=radio]:hover{
+	border-width: 6px;
+}
+
+input[type=radio]:checked
+{
+	background-color: var(--input-bg-bool-true);
+	border-color: var(--input-border-bool-true);
+}
+
+input[type=radio]:hover
+{
+	background-color: var(--input-bg-bool-hover);
+	border-color: var(--input-border-bool-hover);
+}
+
+input[type=radio]:active
+{
+	background-color: var(--input-bg-bool-active);
+	border-color: var(--input-border-bool-active);
+}
+
+/*    Checkbox input    */
+
+input[type=checkbox]
+{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	
+	display: inline-block;
+	vertical-align: middle;
+	
+	width: 20px;
+	height: 20px;
+	
+	border: 3px solid var(--input-border-bool);
+	
+	border-radius: 2px;
+	
+	transition-duration: 0.2s;
+	
+	background-color: var(--input-bg-bool);
+	
+	cursor: pointer;
+}
+
+input[type=checkbox]:checked
+{
+	border-width: 10px;
+	background-color: var(--input-border-bool-true);
+	border-color: var(--input-border-bool-true);
+}
+
+input[type=checkbox]:hover
+{
+	background-color: var(--input-bg-bool-hover);
+	border-color: var(--input-border-bool-hover);
+}
+
+input[type=checkbox]:active
+{
+	background-color: var(--input-bg-bool-active);
+	border-color: var(--input-border-bool-active);
+}
+
+input[type=checkbox]::after
+{
+	height: 15px;
+	width: 10px;
+	
+	box-sizing: border-box;
+	
+	position: relative;
+	
+	display: block;
+	
+	border-color: var(--input-bg-bool-true);
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	
+	top: calc(50% - 10px);
+	left: calc(50% - 5px);
+	
+	transform-origin: center;
+	transform: rotate(45deg);
+	
+	content: '';
+}
+
+input[type=checkbox]:checked::after
+{
+	border-width: 0px 3px 3px 0px;
+}
+
+/*    Color input    */
+
+input[type=color]
+{	
+	display: inline-block;
+	
+	vertical-align: middle;
+	
+	height: 20px;
+	width: 20px;
+	
+	margin: 0;
+	padding: 0;
+	
+	border: 0;
+	
+	cursor: pointer;
+}
+
+/*    File input    */
+
+input[type=file]
+{
+	display: none;
+}
+
+/*    Custom select    */
+
+div.input-select
+{
+	font-size: 1em;
+
+	display: block;
+	position: absolute;
+	
+}
+
+div.input-select > div
+{
+	display: none;
+	pointer-events: none;
+}
+
+div.input-select > div[selected=true]
+{
+	display: block;
+}
+
+div.input-container:focus > div.input-select
+{
+	pointer-events: all;
+
+	transform: translate(0, 2em);
+
+	border: 2px solid var(--input-border-select-active);
+	background-color: var(--input-bg-select-active);
+}
+
+div.input-container:focus > div.input-select > div
+{
+	pointer-events: all;
+	display: block;
+	padding: 5px;
+	width: 6em;
+}
+
+div.input-container:focus > div.input-select > div:hover
+{
+	background-color: var(--input-bg-select-hover);
+	color: var(--input-color-select-hover);
+}
+
+div.input-container:focus > div.input-select > div[selected=true]:after
+{
+	font-family: "IcoFont";
+	content: '\eed8';
+	font-size: medium;
+}
+
+/*    Input container    */
+
+*.input-container {
+	margin: 5px;
+	padding: 5px;
+
+	border-radius: 3px;
+
+	display: inline-block;
+}
+
+/*    Color container    */
+
+div.input-container[type=color]
+{
+	text-align: center;
+	
+	background-color: var(--input-bg-button);
+	color: var(--input-color-button);
+
+	transition-duration: 0.2s;
+	
+	cursor: pointer;
+	
+	width: max-content;
+}
+
+div.input-container[type=color]::after
+{
+	display: inline;
+	
+	vertical-align: middle;
+	
+	content: ' Pick a color';
+}
+
+div.input-container[type=color]:hover
+{
+	background-color: var(--input-bg-button-hover);
+}
+
+div.input-container[type=color]:active
+{
+	background-color: var(--input-bg-button-active);
+}
+
+/*    File input container    */
+
+div.input-container[type=file]
+{
+	background-color: var(--input-bg-button);
+	color: var(--input-color-button);
+	
+	transition-duration: 0.2s;
+
+	cursor: pointer;
+	
+	text-align: center;
+
+	width: max-content;
+	height: max-content;
+}
+
+div.input-container[type=file]:hover
+{
+	background-color: var(--input-bg-button-hover);
+}
+
+div.input-container[type=file]:active
+{
+	background-color: var(--input-bg-button-active);
+}
+
+div.input-container[type=file]::after
+{
+	display: inline;
+	
+	vertical-align: middle;
+	
+	content: attr(data-files);
+}
+
+/*    Radio input container    */
+
+div.input-container[type=radio]::before
+{
+	display: block;
+	content: 'Select one';
+	transition-duration: 0.2s;
+}
+
+div.input-container[type=radio]
+{
+	background-color: var(--input-bg-multi);
+}
+
+div.input-container[type=radio]:hover
+{
+	background-color: var(--input-bg-multi);
+}
+
+/*	  Select input container    */
+
+div.input-container[type=select]
+{
+	border: 2px solid var(--input-border-select);
+	background-color: var(--input-bg-select);
+	min-height: 1em;
+	width: 7em;
+
+	color: var(--input-color-select);
+
+	cursor: pointer;
+
+	overflow: hidden;
+
+	display: inline-block;
+
+	text-align: left;
+}
+
+div.input-container[type=select]:hover
+{
+	border-color: var(--input-border-select-hover);
+	background-color: var(--input-bg-select-hover);
+
+	color: var(--input-color-select-hover);
+}
+
+div.input-container[type=select]:focus
+{
+	border-color: var(--input-border-select-active);
+	background-color: var(--input-bg-select-active);
+
+	color: var(--input-color-select-active);
+
+	overflow: visible;
+}
+
+div.input-container[type=select]:after
+{
+	font-family: "IcoFont";
+	font-size: medium;
+	content: '\eab2';
+	display: block;
+	height: 100%;
+	width: 100%;
+	color: var(--input-color-select);
+	text-align: right;
+}
+
+div.input-container[type=select]:after:hover
+{
+	color: var(--input-color-select-hover);
+}
+
+div.input-container[type=select]:focus::after
+{
+	content: '\eab9';
+	color: var(--input-color-select-active);
+}
+
+/*    End Input CSS    */

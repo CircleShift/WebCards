@@ -38,4 +38,8 @@
         margin-top: 0px;
         margin-left: 10px;
     }
+
+    div.games {
+        flex: 4;
+    }
 }

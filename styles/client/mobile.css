@@ -1,4 +1,4 @@
-@media (max-width: 599px) or (max-height: 500px) {
+@media (max-width: 599px), (max-height: 500px) {
     /*
         Hide stuff
     */
@@ -7,6 +7,10 @@
     }
 
     div.info {
+        display: none;
+    }
+
+    div.chat {
         display: none;
     }
 
@@ -69,7 +73,7 @@
         overflow-x: hidden;
         overflow-y: auto;
 
-        background-color: #ddd;
+        background-color: var(--gui-bg-main);
         padding: 5px;
         box-sizing: border-box;
 

@@ -18,39 +18,115 @@
         <link rel="stylesheet" type="text/css" href="styles/home/desktop.css">
         <link rel="stylesheet" type="text/css" href="styles/home/mobile.css">
 
+        <link rel="stylesheet" type="text/css" href="styles/input.css">
+
+        <link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
+
+        <script src="scripts/gui/input.js"></script>
+
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/theme.js"></script>
+
         <title>WebCards</title>
     </head>
 
     <body>
         <div class="content">
-            <p style="font-size: 30px; font-weight: bold;"><span style="color: dodgerblue; font-weight: normal;">Web</span>Cards</p>
+            <p style="font-size: 30px; font-weight: normal;">Web<span style="color: #0084ff; font-weight: bold;">Cards</span></p>
             <div>
-                <select id="type">
-                    <option value="ws://" selected>ws</option>
-                    <option value="wss://">wss</option>
-                </select>
+                <div class="input-container" tabindex="0" type="select">
+                    <div id="protocol" tabindex="0" selected="1" class="input-select">
+                        <div value="ws://" onmousedown="MakeInput.selOption(this)">ws</div>
+                        <div value="wss://" onmousedown="MakeInput.selOption(this)" selected="true">wss</div>
+                    </div>
+                </div>
 
-                <input id="addr" type="text" value="127.0.0.1">
+                <input id="addr" type="text" value="localhost">
 
                 <input id="port" type="number" value="4040">
             </div>
 
-            <a id="conn" href="client.html?s=ws://127.0.0.1:4040&g=-1">Connect</a>
+            <button id="conn" onclick="connect()">Connect</button>
+
+            <div id="prev" class="prev">
+
+            </div>
+
+            <a style="border: none; padding: 0; display: contents; margin: 0;" href="http://vanilla-js.com/"><img src="images/vanilla.png"></a>
         </div>
 
         <script>
-            var t = document.getElementById("type");
-            var a = document.getElementById("addr");
-            var p = document.getElementById("port");
-            var c = document.getElementById("conn");
+            var prev = Cookies.getCookie("prevAddr");
+            var prevEl = document.getElementById("prev");
 
-            t.onchange = updateLink;
-            a.onchange = updateLink;
-            p.onchange = updateLink;
+            function hasAddr(url) {
+                let urls = prev.split(",");
 
-            function updateLink() {
-                var url = "client.html?s=" + t.value + a.value + ":" + p.value + "&g=-1";
-                c.setAttribute("href", url);
+                for(let i in urls)
+                {
+                    if(urls[i] == url)
+                        return true;
+                }
+
+                return false;
+            }
+
+            function addAddr(url) {
+                if(hasAddr(url))
+                    return;
+
+                if(prev != "")
+                    prev = prev + "," + url;
+                else
+                    prev = url;
+                
+                Cookies.setYearCookie("prevAddr", prev);
+            }
+
+            function delAddr(el, btn) {
+                let url = el.innerText;
+                let urls = prev.split(",");
+                urls.splice(urls.indexOf(url), 1);
+                Cookies.setCookie("prevAddr", urls.join());
+                el.remove();
+                btn.remove();
+                prev = Cookies.getCookie("prevAddr");
+            }
+
+            let urls = prev.split(",");
+            for(let i in urls) {
+                if(urls[i] == "")
+                    continue;
+                
+                let a = document.createElement("a");
+                a.innerText = urls[i];
+                a.href = "client.html?s=" + urls[i] + "&g=-1";
+                
+                let b = document.createElement("button");
+                b.innerText = "X";
+                b.onclick = delAddr.bind(null, a, b);
+
+                prevEl.appendChild(a);
+                prevEl.append(b);
+            }
+
+        </script>
+
+        <script>
+            var proto = document.getElementById("protocol");
+            var addr = document.getElementById("addr");
+            var port = document.getElementById("port");
+            var conn = document.getElementById("conn");
+
+            //t.onchange = updateLink;
+            //a.onchange = updateLink;
+            //p.onchange = updateLink;
+
+            function connect() {
+                let concat = MakeInput.selValue(proto) + addr.value + ":" + port.value;
+                addAddr(concat);
+                //c.setAttribute("href", url);
+                window.location = "client.html?s=" + concat + "&g=-1";
             }
         </script>
     </body>

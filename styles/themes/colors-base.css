@@ -1,0 +1,98 @@
+* {
+    /*  Main  */
+    --main-bg: white;
+    --main-color: black;
+
+    /*  Server  */
+    --server-bg-ok: #0C0;
+    --server-bg-loading: #DA0;
+    --server-bg-closed: #D00;
+    --server-color-ok: white;
+    --server-color-loading: white;
+    --server-color-closed: white;
+
+    /*  Gui and topbar  */
+    --gui-bg-main: #ddd;
+    --gui-bg-game: white;
+    --gui-color-game: black;
+    --gui-shadow-game: gray;
+
+    --top-border: black;
+    --top-bg: #eee;
+    --top-bg-button: #eee;
+    --top-bg-button-hover: #ccc;
+    --top-bg-button-active: white;
+    --top-color-button: black;
+    --top-color-button-hover: black;
+    --top-color-button-active: black;
+
+    /*  Table  */
+    --table-bg: rgb(20, 110, 50);
+
+    /*  Card defaults  */
+    --card-color: black;
+    --card-bg: white;
+    --card-border: #bbb;
+    --card-hover: #0f0;
+
+    --deck-shadow: #2696ff;
+    --deck-hover: #73bbff;
+
+    /*  Input  */
+    
+    --input-color-text: black;
+    --input-color-text-hover: black;
+    --input-color-text-active: black;
+    --input-bg-text: white;
+    --input-bg-text-hover: white;
+    --input-bg-text-active: white;
+    --input-border-text: #555;
+    --input-border-text-hover: black;
+    --input-border-text-active: #0084ff;
+
+    --input-color-button: white;
+    --input-color-button-hover: white;
+    --input-color-button-active: white;
+    --input-bg-button: #0084ff;
+    --input-bg-button-hover: #3ea2ff;
+    --input-bg-button-active:#0056a7;
+
+    --input-bg-bool: white;
+    --input-bg-bool-hover: white;
+    --input-bg-bool-active: white;
+    --input-border-bool: black;
+    --input-border-bool-hover: #3ea2ff;
+    --input-border-bool-active: black;
+    --input-border-bool-true: #0084ff;
+
+    --input-color-select: black;
+    --input-color-select-hover: black;
+    --input-color-select-active: #555;
+    --input-bg-select: white;
+    --input-bg-select-hover: white;
+    --input-bg-select-active: white;
+    --input-border-select: #555;
+    --input-border-select-hover: black;
+    --input-border-select-active: #0084ff;
+
+    --input-bg-multi: rgba(30, 30, 30, 0.3);
+    --input-bg-multi-hover: rgba(200, 200, 200, 0.3);
+
+    /*  Chat  */
+    --chat-color: black;
+    --chat-bg: white;
+
+    --chat-bg-text: rgba(0, 0, 0, 0.2);
+
+    --chat-bg-input: rgb(220, 220, 220);
+    --chat-bg-input-hover: rgb(220, 220, 220);
+    --chat-bg-input-active: rgb(220, 220, 220);
+    
+    --chat-bg-inactive: rgb(80, 80, 80);
+    --chat-bg-inactive-hover: rgb(130, 130, 130);
+    --chat-bg-inactive-active: rgb(40, 40, 40);
+
+    --chat-bg-active: #0084ff;
+    --chat-bg-active-hover: #3ea2ff;
+    --chat-bg-active-active:#0056a7;
+}

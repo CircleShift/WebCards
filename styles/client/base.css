@@ -11,12 +11,19 @@ html, body {
 
     display: block;
 
+    background-color: var(--main-bg);
+    color: var(--main-color);
+
+    overflow: hidden;
 }
 
-.topbar {
+/*    Topbar rules    */
+
+.topbar
+{
     position: fixed;
 
-    background-color: white;
+    background-color: var(--gui-bg-main);
 
     top: 0;
     left: 0;
@@ -29,66 +36,95 @@ html, body {
     z-index: 1;
 }
 
-.top-buttons {
+.top-buttons
+{
     display: flex;
 }
 
-button, input[type="button"] {
-    display: inline-block;
-    border: none;
-    background-color: dodgerblue;
-    padding: 10px;
-    font-size: medium;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button.top-button {
+button.top-button
+{
     border-radius: 0;
-    background-color: white;
+    background-color: var(--top-bg-button);
+    color: var(--top-color-button);
     flex: 1;
 
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-left: 1px solid var(--top-border);
+    border-right: 1px solid var(--top-border);
+
+    transition-duration: 0.2s;
 }
 
-.top-buttons > button:first-child {
+button.top-button:hover {
+    background-color: var(--top-bg-button-hover);
+    color: var(--top-color-button-hover);
+}
+
+button.top-button:active {
+    background-color: var(--top-bg-button-active);
+    color: var(--top-color-button-active);
+}
+
+.top-buttons > button:first-child
+{
     border-left: none;
 }
 
-.top-buttons > button:last-child {
+.top-buttons > button:last-child
+{
     border-right: none;
 }
 
-div.new-game {
+div.new-game
+{
     flex: 1;
     flex-grow: 1;
-    border-top: 2px solid black;
+    border-top: 2px solid var(--top-border);
 }
 
-div.mobile-settings {
+div.mobile-settings
+{
     flex: 1;
     flex-grow: 1;
-    border-top: 2px solid black;
+    border-top: 2px solid var(--top-border);
 }
 
-div.topbar > div.status {
+div.topbar > div.status
+{
     height: 5px;
     flex-basis: auto;
+
+    background-color: var(--server-bg-loading);
 }
 
-div.stats {
+div.topbar > div.status[s=loading] {
+    background-color: var(--server-bg-loading);
+}
+
+div.topbar > div.status[s=ok] {
+    background-color: var(--server-bg-ok);
+}
+
+div.topbar > div.status[s=closed] {
+    background-color: var(--server-bg-closed);
+}
+
+/*    Content rules    */
+
+div.stats
+{
     padding: 5px;
     display: flex;
     flex-direction: column;
 }
 
-div.stats > div {
+div.stats > div
+{
     flex: 1;
     display: flex;
 }
 
-div.stats > div > span {
+div.stats > div > span
+{
     flex-basis: content;
     display: inline-block;
 }
@@ -100,13 +136,194 @@ div.stats > div > span:last-child {
 }
 
 div.game {
-    background-color: white;
+    background-color: var(--gui-bg-game);
+    color: var(--gui-color-game);
     border-radius: 5px;
-    box-shadow: lightgray 3px 3px 2px;
+    box-shadow: var(--gui-shadow-game) 3px 3px 2px;
     box-sizing: border-box;
     margin-bottom: 10px;
+    padding: 5px;
+
+    text-align: left;
 }
 
 div.game:last-child {
     margin-bottom: none;
+}
+
+div.settings {
+    display:flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+/*    Table rules    */
+
+.table {
+    position: absolute;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+
+    animation-duration: 0.8s;
+
+    background-color: var(--table-bg);
+
+    overflow: hidden;
+}
+
+.table[state=open] ,.table[state=close]{
+    animation-name: slide-in;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+
+.table[state=close] {
+    animation-direction: reverse;
+}
+
+.table[state=closed] {
+    transform: translate(0, -100vh);
+    opacity: 0;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translate(0, -100vh);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+/*    Chat    */
+
+div.chat {
+    border-top-left-radius: 10px;
+    background-color: var(--chat-bg);
+    color: var(--chat-color);
+
+    width: 50vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: -50vw;
+
+    box-sizing: border-box;
+
+    top: 50vh;
+
+    transition-duration: 0.2s;
+
+    padding: 5px;
+
+    z-index: 4;
+}
+
+div.chat[show=true] {
+    right: 0;
+}
+
+button.toggle-chat {
+    position: absolute;
+    bottom: 5px;
+    left: -5px;
+    transform-origin: bottom left;
+    transform: rotate(-90deg);
+}
+
+div.chat > div {
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+div.chat-select, div.chat-input {
+    flex-basis: content;
+    display: flex;
+}
+
+div.chat-text {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
+    background-color: var(--chat-bg-text);
+    border-radius: 10px;
+    border: 5px solid rgba(0, 0, 0, 0);
+}
+
+div.chat-select > button {
+    flex: 1;
+
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+div.chat-select > button[active="false"] {
+    background-color: var(--chat-bg-inactive);
+}
+
+div.chat-select > button[active="false"]:hover {
+    background-color: var(--chat-bg-inactive-hover);
+}
+
+div.chat-select > button[active="false"]:active {
+    background-color: var(--chat-bg-inactive-active);
+}
+
+div.chat-select > button[active="true"] {
+    background-color: var(--chat-bg-active);
+}
+
+div.chat-select > button[active="true"]:hover {
+    background-color: var(--chat-bg-active-hover);
+}
+
+div.chat-select > button[active="true"]:active {
+    background-color: var(--chat-bg-active-active);
+}
+
+div.chat-select > button:first-child {
+    margin-left: 0;
+}
+
+div.chat-select > button:last-child {
+    margin-right: 0;
+}
+
+div.chat-input > input {
+    flex: 5;
+
+    margin: 0;
+    margin-right: 5px;
+
+    border-radius: 5px;
+
+    transition-duration: 0.2s;
+    border: none;
+
+    background-color: var(--chat-bg-input);
+}
+
+div.chat-input > input:hover {
+    background-color: var(--chat-bg-input-hover);
+}
+
+div.chat-input > input:focus {
+    background-color: var(--chat-bg-input-active);
+}
+
+div.chat-input > button {
+    flex: 1;
+}
+
+div.chat-text > div {
+    word-wrap: break-word;
+    word-break: break-all;
 }

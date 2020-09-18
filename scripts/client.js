@@ -1,109 +1,128 @@
+const VERSION = "1.0.0";
+
 // Client acts as the message hub for the whole game.
 // WebSocket messages come into Client and Client redirects them to the lobby or table based on the state of the game.
 // Client also performs the handshake for first starting the connection and messages everyone if the connection errors or closes.
-function Client(serveraddr, game) {
-    this.state = "handshake";
-    
-    this.soc = new SockWorker(serveraddr, "1", this.cb.bind(this));
+class Client{
 
-    this.lob = new Lobby(document.getElementsByClassName("lobby")[0], this.soc);
-    this.tab = new Table(document.getElementsByClassName("table")[0], this.soc);
+    constructor (serveraddr, game)
+    {
+        this.socket = new SockWorker(serveraddr, VERSION);
+        this.socket.addEventListener("error", this.socketError.bind(this));
+        this.socket.addEventListener("closed", this.socketClose.bind(this));
+        this.socket.addEventListener("handshake", this.handshake.bind(this));
+        this.socket.addEventListener("menu", this.menu.bind(this));
+        this.socket.addEventListener("game", this.game.bind(this));
 
-    this.game = game;
-}
+        this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
 
-Client.prototype = {
+        this.drag = new MultiDrag();
+        
+        this.table = new Table(document.getElementsByClassName("table")[0], this.drag, this.socket);
+
+        this.chat = new Chat(document.getElementsByClassName("chat")[0], this.socket);
+        this.chat.addChannel("global");
+        this.chat.switchChannel("global");
+
+        this.game = game;
+    }
+
     // Initialize the connection
-    init: function() {
-        this.soc.init();
-    },
+    init ()
+    {
+        this.socket.init();
+    }
 
-    // Entry point for a message from the server.
-    // If it's a close message, we close the game if it is open and change the lobby to reflect the error/close.
-    cb: function(m) {
-        console.log(m);
+    // Callbacks for if the socket fails or closes
 
-        if(m.type == "error" || m.type == "closed") {
-            var t = m.type;
-            t = t[0].toUpperCase() + t.slice(1)
-            this.lob.setState(t, "#D00", this.soc.server);
-            this.tab.handleClose();
-            return;
-        }
+    socketError() {
+        this.lobby.setState("Error", "closed", this.socket.server);
+        this.table.handleClose();
+    }
 
-        switch(this.state) {
-            case "handshake":
-                this.handshake(m);
-                break;
-            case "lobby":
-                this.lobby(m);
-                break;
-            case "game":
-                break;
-        }
-    },
+    socketClose() {
+        this.lobby.setState("Closed", "closed", this.socket.server);
+        this.table.handleClose();
+    }
 
-    // Called when negotiating with the server for the first time and we are determining versions
-    handshake: function(m) {
+    // Callback when negotiating with the server for the first time and we are determining versions
+    handshake (m)
+    {
         switch (m.type) {
             case "verr":
-                this.soc.close();
+                this.socket.close();
                 alert(`Error connecting to server: version of client (${this.version}) not accepted.`);
-                console.error("Error connecting to server: version of client (${this.version}) not accepted.");
+                console.error(`Error connecting to server: version of client (${this.version}) not accepted.`);
                 console.error(m.data);
                 return;
-            case "lobby":
-                this.state = "lobby";
-                this.soc.send("ready", "");
+            case "ready":
+                this.socket.send("ready", "");
                 return;
         }
-    },
+    }
 
-    // Lobby switch, called when in the lobby and a message arrives from the server
-    lobby: function (m) {
+    // Menu switch, called when in the lobby and a message arrives from the server
+    menu (m)
+    {
         switch (m.type) {
             case "plist":
-                this.lob.packList(m.data);
+                this.lobby.packList(m.data);
                 break;
             case "glist":
-                this.lob.gameList(m.data, this.game);
+                this.lobby.gameList(m.data, this.game);
                 this.game = null;
                 break;
             case "players":
-                this.lob.players(m.data);
+                this.lobby.players(m.data);
                 break;
             case "gdel":
-                this.lob.removeGame(m.data);
+                this.lobby.removeGame(m.data);
                 break;
             case "gadd":
-                this.lob.addGame(m.data);
+                this.lobby.addGame(m.data);
                 break;
             case "pdel":
-                this.lob.removePlayer(m.data);
+                this.lobby.removePlayer(m.data);
                 break;
             case "padd":
-                this.lob.addPlayer(m.data);
+                this.lobby.addPlayer(m.data);
                 break;
             case "pmove":
-                this.lob.movePlayer(m.data);
+                this.lobby.movePlayer(m.data);
                 break;
         }
-    },
+    }
 
     // Game switch, called when in game and a message arrives from the server
-    game: function (m) {
+    game (m)
+    {
         switch (m.type) {
             
         }
-    },
+    }
+
+    // Callback when a chat event is recieved from the server
+    chat (m)
+    {
+        switch (m.type) {
+            case "delchan":
+                this.chat.deleteChannel(m.data);
+                break;
+            case "newchan":
+                this.chat.addChannel(m.data);
+                break;
+            
+            case "message":
+                this.chat.recieveMessage(m.data.type, m.data.data);
+        }
+    }
 
     // Reset the lobby and table, then attempt to reopen the connection to the server.
-    reset: function() {
-        this.state = "handshake";
+    reset ()
+    {
+        this.lobby.reset();
+        this.table.reset();
 
-        this.lob.reset();
-        this.tab.reset();
-
-        this.soc.init();
+        this.socket.init();
     }
-};
+}

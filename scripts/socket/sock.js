@@ -1,13 +1,15 @@
 // A wrapper around the wrapper 
-function SockWorker(serveraddr, version, callback) {
-    this.server = serveraddr;
-    this.version = version;
-    this.cb = callback;
-}
+class SockWorker extends EventTarget{
+    constructor (serveraddr, version)
+    {
+        super();
 
-SockWorker.prototype = {
+        this.server = serveraddr;
+        this.version = version;
+    }
+
     // Initialize the connection.
-    init: function() {
+    init () {
         if(this.server == "" || this.server == null) {
             return;
         }
@@ -22,42 +24,42 @@ SockWorker.prototype = {
         } catch (e) {
             this.err();
         }
-    },
+    }
 
     // Called when the connection connects to the server
-    o: function() {
+    o () {
         this.send("version", this.version);
-    },
+    }
 
     // Called when the connection gets a message from the server
     // Attempts to turn the message into a usable object and pass it to the callback
-    msg: function(e) {
+    msg (e) {
         if(typeof e.data == "string") {
             var dat = JSON.parse(e.data)
-            this.cb(dat);
+            this.dispatchEvent(new Event(dat.type, dat.data));
         }
-    },
+    }
 
     // Called when the connection closes.
     // Passes a close object to the callback.
-    c: function() {
-        this.cb({type: "close", data: ""});
-    },
+    c () {
+        this.dispatchEvent(new Event("closed"));
+    }
 
     // Called when the connection encounters an error.
     // Passes an error to the callback
-    err: function() {
-        this.cb({type: "error", data: ""});
-    },
+    err () {
+        this.dispatchEvent(new Event("error"));
+    }
     
     // Call to close the connection to the server
-    close: function() {
+    close () {
         this.socket.close();
-    },
+    }
 
     // Send a message to the server
-    send: function(type, data) {
+    send (type, data) {
         var m = new Message(type, data);
         this.socket.send(m.stringify())
     }
-};
+}
