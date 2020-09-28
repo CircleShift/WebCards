@@ -4,9 +4,8 @@ class Table{
         this.root = e;
         this.drag = drag;
 
-        this.root.addEventListener("mouseup", drag.stopDraggingAll.bind(drag));
-
-        //drag.addEventListener("dragstop", );
+        drag.addEventListener("dragstart", (e) => {console.log(e)});
+        drag.addEventListener("dragstop", (e) => {console.log(e)});
 
         this.socket = socket;
 
