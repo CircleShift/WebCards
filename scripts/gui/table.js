@@ -5,7 +5,7 @@ class Table{
         this.drag = drag;
 
         drag.addEventListener("dragstart", (e) => {console.log(e)});
-        drag.addEventListener("dragstop", (e) => {console.log(e)});
+        drag.addEventListener("dragstop", this.dragMsg.bind(this));
 
         this.socket = socket;
 
@@ -47,16 +47,16 @@ class Table{
     }
 
     /*   Deck and card functions   */
-    newDeck(options)
+    newDeck(id, options)
     {
-        var d = new Deck(options);
+        var d = new Deck(id, options);
         this.decks.push(d);
         this.root.appendChild(d.e);
     }
 
-    newCard(data, deck = 0)
+    newCard(id, data, deck = 0)
     {
-        var c = new Card(data);
+        var c = new Card(id, data);
         this.decks[deck].appendCard(c);
         this.drag.addTarget(c.e);
     }
@@ -66,13 +66,41 @@ class Table{
         for(let d of this.decks)
         {
             if(d.isInside(x, y))
-                return true;
+                return d;
         }
-        return false;
+        return null;
+    }
+
+    checkCard (el)
+    {
+        for(let d of this.decks)
+        {
+            let c = d.checkCard(el);
+            if(c !== null)
+                return c;
+        }
+        return null;
     }
 
     dragCheck(cap)
     {
         console.log(cap);
+    }
+
+    dragMsg (event)
+    {
+        if(event.drag.length < 1)
+            return;
+
+        var c = this.checkCard(event.drag[0].e);
+        var d = this.checkDeck(event.x, event.y);
+
+        if(c !== null)
+        {
+            if(d !== null)
+                console.log({card: c.getID(), deck: d.getID()});
+            else
+                c.resetPos();
+        }
     }
 }

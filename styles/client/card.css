@@ -14,12 +14,15 @@ card
     overflow: hidden;
     user-select: none;
     box-sizing: border-box;
+
+    z-index: 3;
 }
 
 card:hover
 {
     box-shadow: 0 0 10px var(--card-hover);
-    z-index: 3;
+
+    z-index: 4;
 }
 
 card > * {

@@ -13,7 +13,7 @@ class Deck {
     y = 0;
     e = null;
 
-    constructor(options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
+    constructor(id, options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
     {
         // View mode
         //  infdraw - infinite draw. always appears as if there are multiple cards
@@ -54,6 +54,10 @@ class Deck {
         this.e.style.left = this.x + "px";
         this.e.style.top = this.y + "px";
         this.e.setAttribute("mode", options.mode);
+
+        this.getID = function() {
+            return id;
+        }
     }
 
     updatePos()
@@ -142,5 +146,15 @@ class Deck {
     {
         var rect = this.e.getBoundingClientRect();
         return (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom)
+    }
+
+    checkCard (el)
+    {
+        for(let c of this.cards)
+        {
+            if(c.e === el)
+                return c;
+        }
+        return null;
     }
 }

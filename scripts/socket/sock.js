@@ -62,4 +62,9 @@ class SockWorker extends EventTarget{
         var m = new Message(type, data);
         this.socket.send(m.stringify())
     }
+
+    // Raw message the server
+    sendRaw (s) {
+        this.socket.send(s)
+    }
 }
