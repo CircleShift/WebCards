@@ -125,4 +125,14 @@ class Client{
 
         this.socket.init();
     }
+
+    joinGame(id)
+    {
+        this.table.openTable();
+    }
+
+    leaveGame()
+    {
+        
+    }
 }

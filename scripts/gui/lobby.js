@@ -41,10 +41,22 @@ class TopBar{
 // #############
 
 // Game represents a single game in the lobby view.  It has methods for setting up the elements and such.
-class Game{
-    constructor (name, packs, maxp, id)
-    {
-    }
+function createGameEl (options = {id: 0, name: ""}, el)
+{
+    let e = document.createElement("div");
+    e.className = "game";
+
+    let title = document.createElement("h2");
+    title.textContent = options.name;
+    e.appendChild(title);
+
+    let join = document.createElement("button");
+    join.className = "join";
+    join.textContent = "Join";
+    join.addEventListener("click", game.joinGame.bind(game, options.id));
+    e.appendChild(join);
+
+    el.appendChild(e);
 }
 
 // ##############
@@ -130,7 +142,7 @@ class Lobby {
     // { data.packs } list of the pack names used by this game
     // { data.id } room identifier (uuid)
     addGame (data) {
-
+        createGameEl(data, this.e.games);
     }
 
     // Called when a new public game is removed on the server

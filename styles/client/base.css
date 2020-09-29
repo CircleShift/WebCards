@@ -144,6 +144,9 @@ div.game {
     margin-bottom: 10px;
     padding: 5px;
 
+    display: block;
+    position: relative;
+
     text-align: left;
 }
 
@@ -327,3 +330,17 @@ div.chat-text > div {
     word-wrap: break-word;
     word-break: break-all;
 }
+
+/*   Game card element   */
+
+div.game > h2 {
+    margin: 0;
+}
+
+button.join {
+    position: absolute;
+
+    bottom: 5px;
+    right: 5px;
+}
+
