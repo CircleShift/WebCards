@@ -1,6 +1,12 @@
-@media (max-width: 599px) {
+@media (max-width: 899px) {
     div.content > div {
         display: flex;
         flex-direction: column;
+    }
+
+    div.content {
+        border-radius: 0px;
+        width:100%;
+        height: 100%;
     }
 }

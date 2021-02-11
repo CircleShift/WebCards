@@ -1,4 +1,4 @@
-@media (min-width: 600px) {
+@media (min-width: 900px) {
     div.content > div {
         display: flex;
         flex-direction: row;

@@ -375,16 +375,13 @@ div.input-container[type=select]
 {
 	border: 2px solid var(--input-border-select);
 	background-color: var(--input-bg-select);
-	min-height: 1em;
-	width: 7em;
+	min-height: 1.25em;
+	min-width: 8em;
+	width: calc(100% - 2em);
 
 	color: var(--input-color-select);
 
 	cursor: pointer;
-
-	overflow: hidden;
-
-	display: inline-block;
 
 	text-align: left;
 }
@@ -429,5 +426,23 @@ div.input-container[type=select]:focus::after
 	content: '\eab9';
 	color: var(--input-color-select-active);
 }
+
+/*    Input Title Wrapper    */
+
+div.input-title-wrapper::before
+{
+	color: var(--main-color);
+	content: attr(data-title);
+}
+
+div.input-title-wrapper
+{
+	background-color: var(--main-bg);
+	box-shadow: var(--gui-shadow-game) 3px 3px 2px;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 5px;
+}
+
 
 /*    End Input CSS    */
