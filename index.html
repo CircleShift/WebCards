@@ -33,17 +33,7 @@
     <body>
         <div class="content">
             <p style="font-size: 30px; font-weight: normal;">Web<span style="color: #0084ff; font-weight: bold;">Cards</span></p>
-            <div>
-                <div class="input-container" tabindex="0" type="select">
-                    <div id="protocol" tabindex="0" selected="1" class="input-select">
-                        <div value="ws://" onmousedown="MakeInput.selOption(this)">ws</div>
-                        <div value="wss://" onmousedown="MakeInput.selOption(this)" selected="true">wss</div>
-                    </div>
-                </div>
-
-                <input id="addr" type="text" value="localhost">
-
-                <input id="port" type="number" value="4040">
+            <div id="options">
             </div>
 
             <button id="conn" onclick="connect()">Connect</button>
@@ -113,17 +103,31 @@
         </script>
 
         <script>
-            var proto = document.getElementById("protocol");
-            var addr = document.getElementById("addr");
-            var port = document.getElementById("port");
-            var conn = document.getElementById("conn");
+            const Options = [
+                {
+                    type: "select",
+                    args: [["WSS", "WS"], ["wss://", "ws://"]],
+                    title: "Protocol"
+                },
+                {
+                    type: "text",
+                    args: ["localhost"],
+                    title: "Server URL"
+                },
+                {
+                    type: "number",
+                    args: [4040],
+                    title: "Server Port"
+                }
+            ];
 
-            //t.onchange = updateLink;
-            //a.onchange = updateLink;
-            //p.onchange = updateLink;
+            var optionsEL = document.getElementById("options");
+            var options = new Settings(Options);
+            options.putSettings(optionsEL);
 
             function connect() {
-                let concat = MakeInput.selValue(proto) + addr.value + ":" + port.value;
+                let serverParts = options.getSettings();
+                let concat = serverParts[0] + serverParts[1] + ":" + serverParts[2];
                 addAddr(concat);
                 //c.setAttribute("href", url);
                 window.location = "client.html?s=" + concat + "&g=-1";

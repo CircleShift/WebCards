@@ -226,7 +226,7 @@ class MakeInput {
     static titleWrap(el, title) {
         var wrapper = document.createElement("div");
         wrapper.className = "input-title-wrapper";
-        wrapper.setAttribute("type", el.getAttribute(type));
+        wrapper.setAttribute("type", el.getAttribute("type"));
         wrapper.setAttribute("data-title", title);
         
         wrapper.appendChild(el);
