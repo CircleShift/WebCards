@@ -433,6 +433,7 @@ div.input-title-wrapper::before
 {
 	color: var(--main-color);
 	content: attr(data-title);
+	display: block;
 }
 
 div.input-title-wrapper
@@ -442,6 +443,16 @@ div.input-title-wrapper
 	border-radius: 5px;
 	margin: 10px;
 	padding: 5px;
+}
+
+div.input-title-wrapper[type=checkbox]
+{
+	cursor: pointer;
+}
+
+div.input-title-wrapper[type=checkbox] > input
+{
+	pointer-events: none;
 }
 
 

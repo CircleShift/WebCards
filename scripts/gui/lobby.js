@@ -93,7 +93,10 @@ class Lobby {
             }
         };
 
-        this.top = new TopBar(document.getElementsByClassName("topbar")[0]);
+        this.top = new TopBar(
+            document.getElementsByClassName("topbar")[0],
+            this.e.settings
+        );
         
         this.init = false;
         this.online = [];
@@ -200,9 +203,9 @@ class Lobby {
     }
 
     // Called when the client wants to toggle the mobile settings screen
-    mobileSettings () {
+    mobileSettings (settings) {
         //if(this.init) return;
-        this.top.toggleMobileSettings();
+        this.top.toggleMobileSettings(settings);
     }
 
     // Called when the WebSocket state has changed.

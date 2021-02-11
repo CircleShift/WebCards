@@ -2,7 +2,7 @@
 
 //Mostly fixed now
 class MakeInput {
-    static createInput(type = "text", wrap = false)
+    static createInput(type = "text", wrap = false, getset = true)
     {
         var el = document.createElement("input");
         el.setAttribute("type", type);
@@ -12,12 +12,14 @@ class MakeInput {
             return this.wrapInputs(type, el);
         }
 
-        el.getValue = function () {
-            return this.value;
-        }
+        if(getset) {
+            el.getValue = function () {
+                return this.value;
+            }
 
-        el.setValue = function(value) {
-            this.value = value
+            el.setValue = function(value) {
+                this.value = value
+            }
         }
 
         return el;
@@ -55,7 +57,7 @@ class MakeInput {
     }
 
     static fileInput (accepts = "", multiple = false) {
-        var el = MakeInput.createInput("file", true);
+        var el = MakeInput.createInput("file", true, false);
         
         let e = el.getElement();
         e.setAttribute("accepts", accepts);
@@ -85,8 +87,8 @@ class MakeInput {
         return el;
     }
 
-    static checkboxInput (checked = false) {
-        var el = MakeInput.createInput("checkbox");
+    static checkboxInput (value = false) {
+        var el = MakeInput.createInput("checkbox", false, false);
 
         el.getValue = function() {
             return el.checked;
@@ -96,13 +98,13 @@ class MakeInput {
             el.checked = check;
         }
 
-        el.setValue(checked);
+        el.setValue(value);
         
         return el;
     }
 
-    static radio (group, value, checked = false) {
-        var el = MakeInput.createInput("radio");
+    static radio (value, group, checked = false) {
+        var el = MakeInput.createInput("radio", false, false);
         el.setAttribute("name", group);
         el.setAttribute("value", value);
         if(checked)
@@ -110,16 +112,16 @@ class MakeInput {
         return el;
     }
 
-    static radioInput (group, names, values, prompt = "Select One", checked = 0) {
+    static radioInput (values, names, group, prompt = "Select One", select = 0) {
 
         let toWrap = [];
 
         for(let i = 0; i < values.length; i++) {
             toWrap.push(MakeInput.inputLabel(names[i]));
-            if(i == checked)
-                toWrap.push(MakeInput.radio(group, values[i], true));
+            if(i == select)
+                toWrap.push(MakeInput.radio(values[i], group, true));
             else
-                toWrap.push(MakeInput.radio(group, values[i], false));
+                toWrap.push(MakeInput.radio(values[i], group, false));
             toWrap.push(document.createElement("br"));
         }
 
@@ -171,7 +173,7 @@ class MakeInput {
         return wrapper;
     }
 
-    static selectOption (text, index, value, selected) {
+    static selectOption (value, text, index, selected) {
         var so = document.createElement("div");
         so.innerText = text;
         so.selectValue = value;
@@ -184,7 +186,7 @@ class MakeInput {
         return so
     }
 
-    static selectInput (names, values, select = 0) {
+    static selectInput (values, names, select = 0) {
         var se = document.createElement("div");
         se.className = "input-select";
         se.setAttribute("tabindex", 0);
@@ -192,7 +194,7 @@ class MakeInput {
 
         for(let i in names)
         {
-            se.appendChild(MakeInput.selectOption(names[i], i, values[i], i == select));
+            se.appendChild(MakeInput.selectOption(values[i], names[i], i, i == select));
         }
         
         var wrapper = MakeInput.wrapInputs("select", se);
@@ -245,6 +247,8 @@ class Settings {
     constructor (template = {})
     {
         this.settings = Settings.genSettings(template);
+
+        this.wrappers = {};
     }
 
     static genSettings (template)
@@ -272,6 +276,8 @@ class Settings {
 
     putSettings (el)
     {
+        this.cleanup();
+
         this.wrappers = {};
 
         for(let key in this.settings) {

@@ -1,6 +1,29 @@
 'use strict';
 const VERSION = "1.0.0";
 
+const DefaultSettings = {
+    a: {
+        type: "color",
+        title: "Player Color",
+        args: ["#ff0000"]
+    },
+    b: {
+        type: "text",
+        title: "Player Name",
+        args: ["User " + Math.floor(Math.random() * 10000), ""]
+    },
+    d: {
+        type: "checkbox",
+        title: "Order Check (D)",
+        args: []
+    },
+    c: {
+        type: "checkbox",
+        title: "Order Check (C)",
+        args: []
+    }
+}
+
 // Client acts as the message hub for the whole game.
 // WebSocket messages come into Client and Client redirects them to the lobby or table based on the state of the game.
 // Client also performs the handshake for first starting the connection and messages everyone if the connection errors or closes.
@@ -24,6 +47,9 @@ class Client{
         this.chat = new Chat(document.getElementsByClassName("chat")[0], this.socket);
         this.chat.addChannel("global");
         this.chat.switchChannel("global");
+
+        this.settings = new Settings(DefaultSettings);
+        this.settings.putSettings(this.lobby.e.settings);
 
         this.game = game;
     }
@@ -62,8 +88,7 @@ class Client{
                 return;
 
             case "ready":
-                if(this.settings !== undefined)
-                    this.settings.cleanup();
+                this.settings.cleanup();
                 
                 this.settings = new Settings(m.data);
                 
