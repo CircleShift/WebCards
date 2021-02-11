@@ -1,3 +1,4 @@
+'use strict';
 const VERSION = "1.0.0";
 
 // Client acts as the message hub for the whole game.
@@ -51,12 +52,28 @@ class Client{
         switch (m.type) {
             case "verr":
                 this.socket.close();
+                
                 alert(`Error connecting to server: version of client (${this.version}) not accepted.`);
+                
                 console.error(`Error connecting to server: version of client (${this.version}) not accepted.`);
+                
                 console.error(m.data);
+                
                 return;
+
             case "ready":
+                if(this.settings !== undefined)
+                    this.settings.cleanup();
+                
+                this.settings = new Settings(m.data);
+                
+                if(this.lobby.top.mobileSettingsOpen())
+                    this.settings.putSettings(this.lobby.top.mobileSettings);
+                else
+                    this.settings.putSettings(this.lobby.e.settings);
+                
                 this.socket.send("ready", "");
+                
                 return;
         }
     }

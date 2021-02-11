@@ -19,7 +19,7 @@ class Theme{
     static set(sheet)
     {
         Cookies.setYearCookie("theme", sheet);
-        Theme.restore();
+        Theme.theme.setAttribute("href", sheet + "?v=" + Date.now());
     }
 }
 

@@ -1,3 +1,4 @@
+'use strict';
 // A wrapper around the wrapper 
 class SockWorker extends EventTarget{
     constructor (serveraddr, version)

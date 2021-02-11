@@ -1,3 +1,4 @@
+'use strict';
 // Table represents and manages the actual game.  It accepts inputs from the server and tries to query the server when the player makes a move.
 class Table{
     constructor(e, drag, socket) {

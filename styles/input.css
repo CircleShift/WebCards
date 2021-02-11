@@ -215,7 +215,14 @@ div.input-select
 
 	display: block;
 	position: absolute;
+	z-index: 0;
 	
+	pointer-events: none;
+
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	max-height: 8em;
 }
 
 div.input-select > div
@@ -231,9 +238,10 @@ div.input-select > div[selected=true]
 
 div.input-container:focus > div.input-select
 {
-	pointer-events: all;
-
 	transform: translate(0, 2em);
+
+	pointer-events: all;
+	z-index: 1;
 
 	border: 2px solid var(--input-border-select-active);
 	background-color: var(--input-bg-select-active);
@@ -347,7 +355,7 @@ div.input-container[type=file]::after
 div.input-container[type=radio]::before
 {
 	display: block;
-	content: 'Select one';
+	content: attr(data-prompt) ":";
 	transition-duration: 0.2s;
 }
 

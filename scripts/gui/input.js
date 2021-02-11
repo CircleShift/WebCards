@@ -1,22 +1,29 @@
 'use strict';
 
-//This whole clusterfuq of functions needs fixing.
+//Mostly fixed now
 class MakeInput {
-    static createInput(type = "text", id)
+    static createInput(type = "text", wrap = false)
     {
         var el = document.createElement("input");
         el.setAttribute("type", type);
-        
-        if(typeof id == "string")
-            el.setAttribute("id", id);
+
+        if(wrap)
+        {
+            return this.wrapInputs(type, el);
+        }
 
         el.getValue = function () {
             return this.value;
         }
 
+        el.setValue = function(value) {
+            this.value = value
+        }
+
         return el;
     }
 
+    // Function deprecated, finding another way to do this
     static inputLabel(text, id)
     {
         var el = document.createElement("label");
@@ -26,32 +33,36 @@ class MakeInput {
         return el;
     }
 
-    static colorInput (value, id) {
-        var el = MakeInput.createInput("color", id);
-        el.value = value;
+    static colorInput (value) {
+        var el = MakeInput.createInput("color", true);
+        el.setValue(value);
         return el;
     }
 
-    static textInput (value, placeholder, id)
+    static textInput (value, placeholder)
     {
-        var el = MakeInput.createInput("text", id);
+        var el = MakeInput.createInput("text");
         el.setAttribute("placeholder", placeholder);
         el.value = value;
         return el;
     }
 
-    static numberInput (value, id)
+    static numberInput (value)
     {
-        var el = MakeInput.createInput("number", id);
+        var el = MakeInput.createInput("number");
         el.value = value;
         return el;
     }
 
-    //To fix
-    static fileInput (value, id) {
-        var el = MakeInput.createInput("file", id);
+    static fileInput (accepts = "", multiple = false) {
+        var el = MakeInput.createInput("file", true);
         
-        el.value = value;
+        let e = el.getElement();
+        e.setAttribute("accepts", accepts);
+        e.multiple = multiple;
+        el.getValue = function() {
+            return e.files;
+        }
         
         el.setAttribute("data-files", "Choose a file");
 
@@ -74,15 +85,24 @@ class MakeInput {
         return el;
     }
 
-    static checkboxInput (checked = false, id) {
-        var el = MakeInput.createInput("checkbox", false, id);
-        if(checked)
-            el.setAttribute("checked");
+    static checkboxInput (checked = false) {
+        var el = MakeInput.createInput("checkbox");
+
+        el.getValue = function() {
+            return el.checked;
+        }
+
+        el.setValue = function(check) {
+            el.checked = check;
+        }
+
+        el.setValue(checked);
+        
         return el;
     }
 
-    static radioInput (group, value, checked = false, id) {
-        var el = MakeInput.createInput("radio", false, id);
+    static radio (group, value, checked = false) {
+        var el = MakeInput.createInput("radio");
         el.setAttribute("name", group);
         el.setAttribute("value", value);
         if(checked)
@@ -90,20 +110,22 @@ class MakeInput {
         return el;
     }
 
-    static radioInputs (group, names, values, checked = 0, id) {
+    static radioInput (group, names, values, prompt = "Select One", checked = 0) {
 
         let toWrap = [];
 
         for(let i = 0; i < values.length; i++) {
-            toWrap.push(MakeInput.inputLabel(names[i], group+"-"+i));
+            toWrap.push(MakeInput.inputLabel(names[i]));
             if(i == checked)
-                toWrap.push(MakeInput.radioInput(group, values[i], true, group+"-"+i));
+                toWrap.push(MakeInput.radio(group, values[i], true));
             else
-                toWrap.push(MakeInput.radioInput(group, values[i], false, group+"-"+i));
+                toWrap.push(MakeInput.radio(group, values[i], false));
             toWrap.push(document.createElement("br"));
         }
 
         var wrapper = MakeInput.wrapInputs("radio", ...toWrap);
+
+        wrapper.setAttribute("data-prompt", prompt);
 
         wrapper.getValue = function() {
             for(let i = 0; i < this.children.length; i++){
@@ -112,41 +134,14 @@ class MakeInput {
             }
         };
 
-        if(typeof id == "string")
-            wrapper.setAttribute("id", id);
-
-        return wrapper;
-    }
-
-    static selectOption (text, value, selected) {
-        var so = document.createElement("div");
-        so.innerText = text;
-        so.setAttribute("value", value);
-        so.addEventListener("mousedown", customSelectOption.bind(null, so));
-
-        if(selected === true)
-            so.setAttribute("selected", true);
-
-        return so
-    }
-
-    static selectInput (names, values, id, select = 0) {
-        var se = document.createElement("div");
-        se.className = "input-select";
-        se.setAttribute("tabindex", 0);
-        se.setAttribute("selected", select);
-
-        for(let i in names)
-        {
-            se.appendChild(MakeInput.selectOption(names[i], values[i], i == select));
-        }
-
-        if(typeof id == "string")
-            se.setAttribute("id", id);
-        
-        var wrapper = MakeInput.wrapInputs("select", se);
-        wrapper.getValue = MakeInput.selValue.bind(null, se);
-        wrapper.setAttribute("tabindex", 0);
+        wrapper.setValue = function(value) {
+            for(let i = 0; i < this.children.length; i++){
+                if(this.children[i].value == value){
+                    this.children[i].checked = true;
+                    return;
+                }
+            }
+        };
 
         return wrapper;
     }
@@ -162,6 +157,48 @@ class MakeInput {
             wrapper.appendChild(el[i]);
         }
 
+        if(el.length == 1)
+        {
+            wrapper.getValue = function () {return el[0].value;}
+    
+            wrapper.setValue = function(value) {el[0].value = value;}
+
+            wrapper.onclick = el[0].click.bind(el[0]);
+
+            wrapper.getElement = function(){return el[0];}
+        }
+
+        return wrapper;
+    }
+
+    static selectOption (text, index, value, selected) {
+        var so = document.createElement("div");
+        so.innerText = text;
+        so.selectValue = value;
+        so.selectIndex = index;
+        so.addEventListener("mousedown", MakeInput.selOption.bind(null, so));
+
+        if(selected === true)
+            so.setAttribute("selected", true);
+
+        return so
+    }
+
+    static selectInput (names, values, select = 0) {
+        var se = document.createElement("div");
+        se.className = "input-select";
+        se.setAttribute("tabindex", 0);
+        se.setAttribute("selected", select);
+
+        for(let i in names)
+        {
+            se.appendChild(MakeInput.selectOption(names[i], i, values[i], i == select));
+        }
+        
+        var wrapper = MakeInput.wrapInputs("select", se);
+        wrapper.getValue = MakeInput.selValue.bind(null, se);
+        wrapper.setAttribute("tabindex", 0);
+
         return wrapper;
     }
 
@@ -169,14 +206,14 @@ class MakeInput {
         let sel = parseInt(el.getAttribute("selected"));
             
         if(typeof sel != "undefined") {
-            return el.children[sel].getAttribute("value");
+            return el.children[sel].selectValue;
         }
     
         return "";
     }
     
     static selOption (el) {
-        let sn = Array.prototype.indexOf.call(el.parentElement.children, el);
+        let sn = el.selectIndex;
         let psn = parseInt(el.parentElement.getAttribute("selected"));
     
         if(Number.isInteger(psn))
@@ -185,8 +222,25 @@ class MakeInput {
         el.parentElement.setAttribute("selected", sn);
         el.setAttribute("selected", true);
     }
+
+    static titleWrap(el, title) {
+        var wrapper = document.createElement("div");
+        wrapper.className = "input-title-wrapper";
+        wrapper.setAttribute("type", el.getAttribute(type));
+        wrapper.setAttribute("data-title", title);
+        
+        wrapper.appendChild(el);
+
+        if(el.getAttribute("type") == "checkbox")
+        {
+            wrapper.onclick = el.click.bind(el);
+        }
+
+        return wrapper;
+    }
 }
 
+// Mostly fixed now
 class Settings {
     constructor (template = {})
     {
@@ -199,15 +253,8 @@ class Settings {
 
         for(let key in template)
         {
-            switch(template[key].type)
-            {
-                case "radio":
-                    out[key] = MakeInput.radioInputs(...template[key].args);
-                    break;
-                default:
-                    if(typeof MakeInput[template[key].type+"Input"] != null)
-                    out[key] = MakeInput[template[key].type+"Input"](...template[key].args);
-            }
+            if(typeof MakeInput[template[key].type+"Input"] != null)
+                out[key] = {el: MakeInput[template[key].type+"Input"](...template[key].args), title: template[key].title};
         }
         
         return out;
@@ -218,14 +265,25 @@ class Settings {
         var out = {};
 
         for(let key in this.settings)
-            out[key] = this.settings[key].getValue();
+            out[key] = this.settings[key].el.getValue();
         
         return out;
     }
 
     putSettings (el)
     {
-        for(let key in this.settings)
-            el.appendChild(this.settings[key]);
+        this.wrappers = {};
+
+        for(let key in this.settings) {
+            this.wrappers[key] = MakeInput.titleWrap(this.settings[key].el, this.settings[key].title)
+            el.appendChild(this.wrappers[key]);
+        }
+            
+    }
+
+    cleanup ()
+    {
+        for(let key in this.wrappers)
+            this.wrappers[key].remove();
     }
 }

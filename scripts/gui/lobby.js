@@ -1,3 +1,4 @@
+'use strict';
 // ###############
 // # TopBar Code #
 // ###############
@@ -5,9 +6,10 @@
 // TopBar represents the bar at the top of the screen when client is in the lobby.
 
 class TopBar{
-    constructor (el)
+    constructor (el, desktopSettings)
     {
         this.root = el;
+        this.desktopSettings = desktopSettings;
 
         this.newGame = el.getElementsByClassName("new-game")[0];
         this.mobileSettings = el.getElementsByClassName("mobile-settings")[0];
@@ -28,11 +30,18 @@ class TopBar{
     }
 
     // Toggle showing the mobile settings
-    toggleMobileSettings () {
-        if (this.mobileSettings.style.display !== "none")
+    toggleMobileSettings (settings) {
+        if (this.mobileSettings.style.display !== "none"){
             this.mobileSettings.style.display = "none";
-        else
+            settings.putSettings(this.desktopSettings);
+        } else {
             this.mobileSettings.style.display = "block";
+            settings.putSettings(this.mobileSettings);
+        }
+    }
+
+    mobileSettingsOpen() {
+        return this.mobileSettings.style.display !== "none"
     }
 }
 
