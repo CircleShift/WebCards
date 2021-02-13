@@ -135,8 +135,8 @@ deck {
     width: 166px;
     height: 250px;
 
-    top: 0;
-    left: 0;
+    top: calc(var(--y) * (100vh - 250px));
+    left: calc(var(--x) * (100vw - 166px));
 
     overflow: visible;
 
@@ -160,36 +160,33 @@ deck[mode="stack"] > card {
 
 deck[mode="stack"] {
     height: calc(var(--ccount) * 3px + 250px);
+    top: calc(var(--y) * (100vh - (var(--ccount) * 3px + 250px)));
 }
+
 
 deck[mode="strip-hl"] > card {
     transform: translate(calc(var(--ccount) * 75px + var(--cpos) * -75px + 5px), 7px);
-}
-
-deck[mode="strip-hl"] {
-    width: calc(var(--ccount) * 75px + 160px);
 }
 
 deck[mode="strip-hr"] > card {
     transform: translate(calc(var(--cpos) * 75px + 5px), 7px);
 }
 
-deck[mode="strip-hr"] {
+deck[mode="strip-hl"], deck[mode="strip-hr"] {
     width: calc(var(--ccount) * 75px + 160px);
+    left: calc(var(--x) * (100vw - (var(--ccount) * 75px + 160px)));
 }
+
 
 deck[mode="strip-vu"] > card {
     transform: translate(5px, calc(var(--ccount) * 115px + var(--cpos) * -115px + 7px));
-}
-
-deck[mode="strip-vu"] {
-    height: calc(var(--ccount) * 115px + 240px);
 }
 
 deck[mode="strip-vd"] > card {
     transform: translate(5px, calc(var(--cpos) * 115px + 7px));
 }
 
-deck[mode="strip-vd"] {
+deck[mode="strip-vu"], deck[mode="strip-vd"] {
     height: calc(var(--ccount) * 115px + 240px);
+    top: calc(var(--y) * (100vh - (var(--ccount) * 115px + 240px)));
 }

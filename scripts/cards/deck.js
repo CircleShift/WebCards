@@ -45,14 +45,9 @@ class Deck {
         //  all - no effect
         this.sct = options.sct > 0 ? options.sct : 0;
         
-        // Position
-        //  array of where the deck is centered
-        this.x = options.pos[0];
-        this.y = options.pos[1];
-        
         this.e = document.createElement("deck");
-        this.e.style.left = this.x + "px";
-        this.e.style.top = this.y + "px";
+        this.e.style.setProperty("--x", options.pos[0]);
+        this.e.style.setProperty("--y", options.pos[1]);
         this.e.setAttribute("mode", options.mode);
 
         this.getID = function() {
@@ -73,7 +68,6 @@ class Deck {
         this.cards.push(card);
         this.e.appendChild(card.e);
         this.updatePos();
-        
     }
 
     prependCard(card)
