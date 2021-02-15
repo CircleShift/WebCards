@@ -46,8 +46,11 @@ class Deck {
         this.sct = options.sct > 0 ? options.sct : 0;
         
         this.e = document.createElement("deck");
+
+        // x and y values are on a scale from 0 to 1, 0 being top left, 1 being bottom right.
         this.e.style.setProperty("--x", options.pos[0]);
         this.e.style.setProperty("--y", options.pos[1]);
+        
         this.e.setAttribute("mode", options.mode);
 
         this.getID = function() {
@@ -121,6 +124,17 @@ class Deck {
         return c;
     }
 
+    removeCardByID(id)
+    {
+        for(let i in this.cards)
+        {
+            if(this.cards[i].getID() == id)
+                return this.removeCard(i);
+        }
+
+        return null;
+    }
+
     removeFront()
     {
         return this.removeCard(this.cards.length - 1);
@@ -147,6 +161,16 @@ class Deck {
         for(let c of this.cards)
         {
             if(c.e === el)
+                return c;
+        }
+        return null;
+    }
+
+    hasCard(id)
+    {
+        for(let c of this.cards)
+        {
+            if(c.getID() === id)
                 return c;
         }
         return null;

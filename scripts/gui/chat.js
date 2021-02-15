@@ -101,11 +101,20 @@ class Chat {
         
         let autoscroll = c.e.scrollTop == c.e.scrollTopMax;
 
-        let csp = document.createElement("span");
-        csp.style.color = msg.color;
-        csp.innerText = msg.user + ": ";
+        let csp = document.createElement("span")
         let tsp = document.createElement("span");
-        tsp.innerText = msg.text;
+
+        if(msg.server === true){
+            csp.style.color = "white";
+            csp.style.backgroundColor = "black";
+            csp.innerText = "[SERVER]";
+            tsp.innerText = " " + msg.text;
+        } else {
+            csp.style.color = msg.color;
+            csp.innerText = msg.user + ": ";
+            tsp.innerText = msg.text;
+        }
+        
         let d = document.createElement("div");
         d.appendChild(csp);
         d.appendChild(tsp);

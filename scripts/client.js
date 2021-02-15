@@ -1,7 +1,7 @@
 'use strict';
 const VERSION = "1.0.0";
 
-const DefaultSettings = {
+const DefaultUserOps = {
     a: {
         type: "color",
         title: "Player Color",
@@ -21,6 +21,24 @@ const DefaultSettings = {
         type: "checkbox",
         title: "Order Check (C)",
         args: []
+    }
+}
+
+const DefaultGameOps = {
+    a: {
+        type: "checkbox",
+        title: "Unlisted",
+        args: []
+    },
+    b: {
+        type: "checkbox",
+        title: "Use Password",
+        args: []
+    },
+    c: {
+        type: "text",
+        title: "Set Password",
+        args: [Math.floor(Math.random() * 10000), ""]
     }
 }
 
@@ -48,8 +66,11 @@ class Client{
         this.chat.addChannel("global");
         this.chat.switchChannel("global");
 
-        this.settings = new Settings(DefaultSettings);
+        this.settings = new Settings(DefaultUserOps);
         this.settings.putSettings(this.lobby.e.settings);
+
+        this.gameOptions = new Settings(DefaultGameOps);
+        this.gameOptions.putSettings(this.lobby.top.newGame);
 
         this.game = game;
     }
@@ -89,8 +110,12 @@ class Client{
 
             case "ready":
                 this.settings.cleanup();
+                this.gameOptions.cleanup();
                 
-                this.settings = new Settings(m.data);
+                this.settings = new Settings(m.data.user);
+                this.gameOptions = new Settings(m.data.game);
+
+                this.gameOptions.putSettings(this.lobby.top.newGame);
                 
                 if(this.lobby.top.mobileSettingsOpen())
                     this.settings.putSettings(this.lobby.top.mobileSettings);

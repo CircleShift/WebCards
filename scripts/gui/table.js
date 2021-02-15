@@ -83,6 +83,38 @@ class Table{
         return null;
     }
 
+    moveCard(card, newDeck)
+    {
+        for(let d of this.decks)
+        {
+            if (d.removeCardByID(card.getID()) !== null)
+                break;
+        }
+        card.resetPos();
+        newDeck.appendCard(card);
+    }
+
+    moveByID(cardID, deckID)
+    {
+        let card, deck;
+        for(let d of this.decks)
+        {
+            let c = d.hasCard(cardID)
+            if(c !== null)
+                card = c;
+            
+            if(d.getID() == deckID)
+                deck = d;
+        }
+
+        this.moveCard(card, deck);
+    }
+
+    checkMove(cardID, deckID)
+    {
+        this.socket.send("game", {});
+    }
+
     dragCheck(cap)
     {
         console.log(cap);
@@ -99,7 +131,7 @@ class Table{
         if(c !== null)
         {
             if(d !== null)
-                console.log({card: c.getID(), deck: d.getID()});
+                this.moveCard(c, d);
             else
                 c.resetPos();
         }
