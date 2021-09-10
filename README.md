@@ -6,4 +6,4 @@
 
 An in-browser client to play WebCards
 
-This project uses the IcoFont font.  Check them out [here](https://icofont.com/).
+This project uses IcoFont.  Check them out [here](https://icofont.com/).
