@@ -40,6 +40,10 @@ class Theme{
 		Theme.theme.setAttribute("href", sheet + "?v=" + Date.now());
 	}
 
+	static get() {
+		return Cookies.getCookie("theme");
+	}
+
 	static setUserThemes() {
 		let out = "";
 		for (let i = 0; i < this.UserThemes[0].length; i++)

@@ -58,8 +58,8 @@
 		
 
 		<script>
-			var prev = Cookies.getCookie("prevAddr");
-			var prevEl = document.getElementById("prev");
+			let prev = Cookies.getCookie("prevAddr");
+			let prevEl = document.getElementById("prev");
 
 			function hasAddr(url) {
 				let urls = prev.split(",");
@@ -151,15 +151,15 @@
 				Theme.set(e.target.getValue());
 			}
 
-			var optionsEL = document.getElementById("options");
-			var options = new Settings(Options);
+			let optionsEL = document.getElementById("options");
+			let options = new Settings(Options);
 			options.putSettings(optionsEL);
 
-			var themeEL = document.getElementById("themes");
-			var themeOpt = new Settings(ThemeOptions);
+			let themeEL = document.getElementById("themes");
+			let themeOpt = new Settings(ThemeOptions);
 			themeOpt.putSettings(themeEL);
 
-			var themeSelector = MakeInput.selectInput(...BASE_THEMES);
+			let themeSelector = MakeInput.selectInput(...BASE_THEMES);
 			themeEL.appendChild(MakeInput.titleWrap(themeSelector, "Select Theme"));
 			themeSelector.addEventListener("change", changeTheme);
 
@@ -175,7 +175,7 @@
 			}
 
 			function remTheme() {
-				var idx = themeSelector.getIndex();
+				let idx = themeSelector.getIndex();
 				if (idx < BASE_THEMES[0].length)
 					return;
 				
@@ -191,6 +191,21 @@
 				addAddr(concat);
 				//c.setAttribute("href", url);
 				window.location = "client.html?s=" + concat + "&g=-1";
+			}
+
+			let themeURL = Theme.get();
+			for(let i = 0; i < BASE_THEMES[0].length; i++) {
+				if(themeURL === BASE_THEMES[0][i]){
+					themeSelector.setIndex(i);
+					break;
+				}
+			}
+
+			for(let i = 0; i < Theme.UserThemes[1].length; i++) {
+				if(themeURL === Theme.UserThemes[1][i]){
+					themeSelector.setIndex(i + BASE_THEMES[0].length);
+					break;
+				}
 			}
 			
 		</script>
