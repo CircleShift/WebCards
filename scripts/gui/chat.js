@@ -11,7 +11,7 @@ class Chat {
 		this.chatInput = cin.children[0];
 
 		cin.children[0].addEventListener("keydown", this.checkEnter.bind(this));
-		cin.children[0].addEventListener("click", this.sendMessage.bind(this));
+		cin.children[1].addEventListener("click", this.sendMessage.bind(this));
     }
 
     getChannel (name)
