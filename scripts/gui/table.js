@@ -83,7 +83,7 @@ class Table{
         return null;
     }
 
-    moveCard(card, newDeck)
+    moveCard(card, newDeck, index = -1)
     {
         for(let d of this.decks)
         {
@@ -91,10 +91,14 @@ class Table{
                 break;
         }
         card.resetPos();
-        newDeck.appendCard(card);
+
+        if(index < 0)
+            newDeck.appendCard(card);
+        else
+            newDeck.addCardAt(card, index);
     }
 
-    moveByID(cardID, deckID)
+    moveByID(cardID, deckID, index = -1)
     {
         let card, deck;
         for(let d of this.decks)
@@ -107,12 +111,12 @@ class Table{
                 deck = d;
         }
 
-        this.moveCard(card, deck);
+        this.moveCard(card, deck, index);
     }
 
-    checkMove(cardID, deckID)
+    checkMove(cardID, deckID, index = -1)
     {
-        this.socket.send("game", {});
+        this.socket.send("game", {type: "move", card: cardID, deck: deckID, pos: index});
     }
 
     dragCheck(cap)
@@ -131,7 +135,7 @@ class Table{
         if(c !== null)
         {
             if(d !== null)
-                this.moveCard(c, d);
+                this.checkMove(c.getID(), d.getID());
             else
                 c.resetPos();
         }

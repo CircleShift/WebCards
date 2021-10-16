@@ -223,6 +223,8 @@ div.input-select
 	overflow-x: hidden;
 
 	max-height: 8em;
+
+	border-radius: 3px;
 }
 
 div.input-select > div

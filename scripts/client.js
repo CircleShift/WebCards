@@ -55,6 +55,7 @@ class Client{
         this.socket.addEventListener("handshake", this.handshake.bind(this));
         this.socket.addEventListener("menu", this.menu.bind(this));
         this.socket.addEventListener("game", this.game.bind(this));
+		this.socket.addEventListener("chat", this.chat.bind(this));
 
         this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
 
@@ -63,8 +64,8 @@ class Client{
         this.table = new Table(document.getElementsByClassName("table")[0], this.drag, this.socket);
 
         this.chat = new Chat(document.getElementsByClassName("chat")[0], this.socket);
-        this.chat.addChannel("global");
-        this.chat.switchChannel("global");
+        this.chat.addChannel("Global");
+        this.chat.switchChannel("Global");
 
         this.settings = new Settings(DefaultUserOps);
         this.settings.putSettings(this.lobby.e.settings);
@@ -164,7 +165,9 @@ class Client{
     game (m)
     {
         switch (m.type) {
-            
+            case "move":
+                this.table.moveByID(m.data.card, m.data.deck, m.data.pos);
+                break;
         }
     }
 

@@ -1,5 +1,6 @@
 * {
     font-family: 'Montserrat', sans-serif;
+	transition-duration: 0.2s;
 }
 
 html, body {
@@ -25,6 +26,7 @@ div.content {
     padding: 20px;
 
     background-color: var(--gui-bg-main);
+	color: var(--main-color);
     border-radius: 10px;
 
     display: flex;

@@ -199,6 +199,10 @@ class MakeInput {
         
         var wrapper = MakeInput.wrapInputs("select", se);
         wrapper.getValue = MakeInput.selValue.bind(null, se);
+		wrapper.getIndex = MakeInput.selIndex.bind(null, se);
+		wrapper.addOption = MakeInput.selAdd.bind(se);
+		wrapper.removeOption = MakeInput.selRem.bind(se);
+		wrapper.setIndex = MakeInput.selSet.bind(se);
         wrapper.setAttribute("tabindex", 0);
 
         return wrapper;
@@ -213,17 +217,46 @@ class MakeInput {
     
         return "";
     }
+
+	static selIndex (el) {
+		return parseInt(el.getAttribute("selected"));
+	}
     
-    static selOption (el) {
+    static selOption (el, dispatch = true) {
         let sn = el.selectIndex;
         let psn = parseInt(el.parentElement.getAttribute("selected"));
     
-        if(Number.isInteger(psn))
+        if(Number.isInteger(psn) && psn < el.parentElement.childElementCount)
             el.parentElement.children[psn].setAttribute("selected", false);
     
         el.parentElement.setAttribute("selected", sn);
         el.setAttribute("selected", true);
+
+		if(dispatch)
+			el.parentElement.parentElement.dispatchEvent(new InputEvent("change"));
     }
+
+	static selSet (index) {
+		MakeInput.selOption(this.children[index], false);
+	}
+
+	static selAdd (name, value) {
+		this.appendChild(MakeInput.selectOption(value, name, this.childElementCount, false));
+		return this.childElementCount - 1;
+	}
+
+	static selRem (index) {
+		if(index >= this.childElementCount)
+			return false;
+
+		this.children[index].remove();
+
+		for(let i = index; i < this.childElementCount; i++) {
+			this.children[index].selectIndex = "" + i;
+		}
+
+		return true;
+	}
 
     static titleWrap(el, title) {
         var wrapper = document.createElement("div");

@@ -1,11 +1,17 @@
 'use strict';
 
 class Chat {
-    constructor(e)
+    constructor(e, soc)
     {
         this.chats = [];
         this.root = e;
+		this.socket = soc;
         e.getElementsByClassName("toggle-chat")[0].onclick = this.toggle.bind(this);
+		let cin = e.getElementsByClassName("chat-input")[0];
+		this.chatInput = cin.children[0];
+
+		cin.children[0].addEventListener("keydown", this.checkEnter.bind(this));
+		cin.children[0].addEventListener("click", this.sendMessage.bind(this));
     }
 
     getChannel (name)
@@ -50,7 +56,7 @@ class Chat {
 
         b.onclick = this.switchChannel.bind(this, name);
 
-        b.innerText = name[0].toUpperCase() + name.slice(1).toLowerCase();
+        b.innerText = name;
 
         d.className = "chat-text";
 
@@ -91,6 +97,21 @@ class Chat {
             top: c.e.scrollTopMax
         });
     }
+
+	checkEnter(e)
+	{
+		if(e.key === "Enter") {
+			this.sendMessage();
+		}
+	}
+
+	sendMessage ()
+	{
+		var str = this.chatInput.value;
+		this.chatInput.value = "";
+		this.socket.send("chat", str);
+
+	}
 
     recieveMessage (channel, msg)
     {

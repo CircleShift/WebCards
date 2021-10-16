@@ -12,7 +12,7 @@ class Cookies {
         return "";
     }
 
-    static setCookie(name, value, data = {}) {
+    static setCookie(name, value, data = {SameSite: "Strict"}) {
         let extra = "";
 
         for(let key in data)
@@ -26,11 +26,11 @@ class Cookies {
     static setYearCookie(name, value) {
         var date = new Date(Date.now());
         date.setFullYear(date.getFullYear() + 1);
-        Cookies.setCookie(name, value, {expires: date.toUTCString()});
+        Cookies.setCookie(name, value, {SameSite: "Strict", expires: date.toUTCString()});
     }
 
     static removeCookie(name) {
         var date = new Date(0);
-        Cookies.setCookie(name, "", {expires: date.toUTCString()});
+        Cookies.setCookie(name, "", {SameSite: "Strict", expires: date.toUTCString()});
     }
 }

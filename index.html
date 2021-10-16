@@ -1,140 +1,198 @@
 <!DOCTYPE HTML>
 
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta charset="utf-8">
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta charset="utf-8">
 
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="styles/icofont.css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="styles/icofont.css">
 
-        <link rel="icon" sizes="32x32" href="images/wc-icon-32.png">
-        <link rel="icon" sizes="48x48" href="images/wc-icon-48.png">
-        <link rel="icon" sizes="96x96" href="images/wc-icon-96.png">
-        <link rel="icon" sizes="144x144" href="images/wc-icon-144.png">
-        <link rel="icon" sizes="288x288" href="images/wc-icon-288.png">
+		<link rel="icon" sizes="32x32" href="images/wc-icon-32.png">
+		<link rel="icon" sizes="48x48" href="images/wc-icon-48.png">
+		<link rel="icon" sizes="96x96" href="images/wc-icon-96.png">
+		<link rel="icon" sizes="144x144" href="images/wc-icon-144.png">
+		<link rel="icon" sizes="288x288" href="images/wc-icon-288.png">
 
-        <link rel="stylesheet" type="text/css" href="styles/home/base.css">
-        <link rel="stylesheet" type="text/css" href="styles/home/desktop.css">
-        <link rel="stylesheet" type="text/css" href="styles/home/mobile.css">
+		<link rel="stylesheet" type="text/css" href="styles/home/base.css">
+		<link rel="stylesheet" type="text/css" href="styles/home/desktop.css">
+		<link rel="stylesheet" type="text/css" href="styles/home/mobile.css">
 
-        <link rel="stylesheet" type="text/css" href="styles/input.css">
+		<link rel="stylesheet" type="text/css" href="styles/input.css">
 
-        <link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
+		<link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
 
-        <script src="scripts/gui/input.js"></script>
+		<script src="scripts/gui/input.js"></script>
 
-        <script src="scripts/cookie.js"></script>
-        <script src="scripts/theme.js"></script>
+		<script src="scripts/cookie.js"></script>
+		<script src="scripts/theme.js"></script>
 
-        <title>WebCards</title>
-    </head>
+		<title>WebCards</title>
+	</head>
 
-    <body>
-        <div class="content">
-            <p style="font-size: 30px; font-weight: normal;">Web<span style="color: #0084ff; font-weight: bold;">Cards</span></p>
-            <div id="options">
-            </div>
+	<body>
+		<div class="content">
+			<p style="font-size: 30px; font-weight: normal;">Web<span style="color: #0084ff; font-weight: bold;">Cards</span></p>
+			<div id="options">
+			</div>
 
-            <button id="conn" onclick="connect()">Connect</button>
+			<button id="conn" onclick="connect()">Connect</button>
 
-            <div id="prev" class="prev">
+			<div id="prev" class="prev">
 
-            </div>
+			</div>
 
-            <a style="border: none; padding: 0; display: contents; margin: 0;" href="http://vanilla-js.com/"><img src="images/vanilla.png"></a>
-            
-            <div style="color: red;">This site uses cookies to store themes and previous servers.  That is all.</div>
-            <div>You may choose to submit user generated data over this site (Such as player name or text chat).  This site stores none of that data.  Please check with the server owner for privacy policy and/or any legal issue.</div>
-        </div>
+			<div id="themes">
+			</div>
+			<div>
+				<button onclick="addTheme()" style="margin-right: 2px;">Add Theme</button>
+				<button onclick="remTheme()" style="margin-left: 2px;">Remove Theme</button>
+			</div>
 
-        <script>
-            var prev = Cookies.getCookie("prevAddr");
-            var prevEl = document.getElementById("prev");
+			<div style="color: red;">This site uses cookies to store themes and previous servers.  That is all.</div>
+			<div>You may choose to submit user generated data over this site (Such as player name or text chat).  This site stores none of that data.  Please check with the server owner for privacy policy and/or any legal issue.</div>
+			
+			<a style="border: none; padding: 0; display: contents; margin: 0;" href="http://vanilla-js.com/"><img src="images/vanilla.png"></a>
+		</div>
 
-            function hasAddr(url) {
-                let urls = prev.split(",");
+		
 
-                for(let i in urls)
-                {
-                    if(urls[i] == url)
-                        return true;
-                }
+		<script>
+			var prev = Cookies.getCookie("prevAddr");
+			var prevEl = document.getElementById("prev");
 
-                return false;
-            }
+			function hasAddr(url) {
+				let urls = prev.split(",");
 
-            function addAddr(url) {
-                if(hasAddr(url))
-                    return;
+				for(u of urls)
+				{
+					if(u === url)
+						return true;
+				}
 
-                if(prev != "")
-                    prev = prev + "," + url;
-                else
-                    prev = url;
-                
-                Cookies.setYearCookie("prevAddr", prev);
-            }
+				return false;
+			}
 
-            function delAddr(el, btn) {
-                let url = el.innerText;
-                let urls = prev.split(",");
-                urls.splice(urls.indexOf(url), 1);
-                Cookies.setCookie("prevAddr", urls.join());
-                el.remove();
-                btn.remove();
-                prev = Cookies.getCookie("prevAddr");
-            }
+			function addAddr(url) {
+				if(hasAddr(url))
+					return;
 
-            let urls = prev.split(",");
-            for(let i in urls) {
-                if(urls[i] == "")
-                    continue;
-                
-                let a = document.createElement("a");
-                a.innerText = urls[i];
-                a.href = "client.html?s=" + urls[i] + "&g=-1";
-                
-                let b = document.createElement("button");
-                b.innerText = "X";
-                b.onclick = delAddr.bind(null, a, b);
+				if(prev != "")
+					prev = prev + "," + url;
+				else
+					prev = url;
+				
+				Cookies.setYearCookie("prevAddr", prev);
+			}
 
-                prevEl.appendChild(a);
-                prevEl.append(b);
-            }
+			function delAddr(el, btn) {
+				let url = el.innerText;
+				let urls = prev.split(",");
+				urls.splice(urls.indexOf(url), 1);
+				Cookies.setCookie("prevAddr", urls.join());
+				el.remove();
+				btn.remove();
+				prev = Cookies.getCookie("prevAddr");
+			}
 
-        </script>
+			let urls = prev.split(",");
+			for(let i in urls) {
+				if(urls[i] == "")
+					continue;
+				
+				let a = document.createElement("a");
+				a.innerText = urls[i];
+				a.href = "client.html?s=" + urls[i] + "&g=-1";
+				
+				let b = document.createElement("button");
+				b.innerText = "X";
+				b.onclick = delAddr.bind(null, a, b);
 
-        <script>
-            const Options = [
-                {
-                    type: "select",
-                    args: [["wss://", "ws://"], ["WSS", "WS"]],
-                    title: "Protocol"
-                },
-                {
-                    type: "text",
-                    args: ["localhost", ""],
-                    title: "Server URL"
-                },
-                {
-                    type: "number",
-                    args: [4040],
-                    title: "Server Port"
-                }
-            ];
+				prevEl.appendChild(a);
+				prevEl.append(b);
+			}
 
-            var optionsEL = document.getElementById("options");
-            var options = new Settings(Options);
-            options.putSettings(optionsEL);
+		</script>
 
-            function connect() {
-                let serverParts = options.getSettings();
-                let concat = serverParts[0] + serverParts[1] + ":" + serverParts[2];
-                addAddr(concat);
-                //c.setAttribute("href", url);
-                window.location = "client.html?s=" + concat + "&g=-1";
-            }
-        </script>
-    </body>
+		<script>
+			const Options = [
+				{
+					type: "select",
+					args: [["wss://", "ws://"], ["WSS", "WS"]],
+					title: "Protocol"
+				},
+				{
+					type: "text",
+					args: ["localhost", ""],
+					title: "Server URL"
+				},
+				{
+					type: "number",
+					args: [4040],
+					title: "Server Port"
+				}
+			];
+
+			const ThemeOptions = [
+				{
+					type: "text",
+					args: ["", ""],
+					title: "Theme Name"
+				},
+				{
+					type: "text",
+					args: ["", ""],
+					title: "Theme URL"
+				}
+			];
+			
+
+			function changeTheme(e) {
+				Theme.set(e.target.getValue());
+			}
+
+			var optionsEL = document.getElementById("options");
+			var options = new Settings(Options);
+			options.putSettings(optionsEL);
+
+			var themeEL = document.getElementById("themes");
+			var themeOpt = new Settings(ThemeOptions);
+			themeOpt.putSettings(themeEL);
+
+			var themeSelector = MakeInput.selectInput(...BASE_THEMES);
+			themeEL.appendChild(MakeInput.titleWrap(themeSelector, "Select Theme"));
+			themeSelector.addEventListener("change", changeTheme);
+
+			for(let i = 0; i < Theme.UserThemes[0].length; i++) {
+				themeSelector.addOption(Theme.UserThemes[0][i], Theme.UserThemes[1][i]);
+			}
+
+			function addTheme() {
+				let parts = themeOpt.getSettings();
+				themeSelector.setIndex(themeSelector.addOption(parts[0], parts[1]));
+				changeTheme({target: themeSelector});
+				Theme.addUserTheme(parts[0], parts[1]);
+			}
+
+			function remTheme() {
+				var idx = themeSelector.getIndex();
+				if (idx < BASE_THEMES[0].length)
+					return;
+				
+				themeSelector.removeOption(idx);
+				themeSelector.setIndex(idx - 1);
+				changeTheme({target: themeSelector});
+				Theme.removeUserTheme(idx - BASE_THEMES[0].length);
+			}
+
+			function connect() {
+				let serverParts = options.getSettings();
+				let concat = serverParts[0] + serverParts[1] + ":" + serverParts[2];
+				addAddr(concat);
+				//c.setAttribute("href", url);
+				window.location = "client.html?s=" + concat + "&g=-1";
+			}
+			
+		</script>
+	</body>
 </html>
