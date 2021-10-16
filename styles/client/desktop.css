@@ -1,149 +1,149 @@
 @media (min-width: 600px) and (min-height: 501px) {
-    body {
-        display: flex;
-    
-        align-items: center;
-        justify-content: center;
-    }
+	body {
+		display: flex;
 
-    /*
-        TopBar rules
-    */
+		align-items: center;
+		justify-content: center;
+	}
 
-    button#newgame:before{
-        content: "Create Game";
-    }
+	/*
+		TopBar rules
+	*/
 
-    button#settings {
-        display: none;
-    }
+	button#newgame:before{
+		content: "Create Game";
+	}
 
-    button#reset:before{
-        content: "Reset Connection";
-    }
+	button#settings {
+		display: none;
+	}
 
-    /*
-        Lobby rules
-    */
-    div.lobby {
-        min-width: 70vw;
-        min-height: 70vh;
-        max-height: 70vh;
-    
-        display: flex;
-        text-align: center;
-        flex-direction: column;
-    
-        align-items: center;
-    }
+	button#reset:before{
+		content: "Reset Connection";
+	}
 
-    div.server {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-    }
+	/*
+		Lobby rules
+	*/
+	div.lobby {
+		min-width: 70vw;
+		min-height: 70vh;
+		max-height: 70vh;
 
-    span.status {
-        box-sizing: border-box;
-        font-size: larger;
+		display: flex;
+		text-align: center;
+		flex-direction: column;
 
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        flex-basis: content;
+		align-items: center;
+	}
 
-        background-color: var(--server-bg-loading);
-        color: var(--server-color-loading);
-    }
+	div.server {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		margin-bottom: 10px;
+		box-sizing: border-box;
+	}
 
-    span.status[s=loading] {
-        background-color: var(--server-bg-loading);
-        color: var(--server-color-loading);
-    }
-    
-    span.status[s=ok] {
-        background-color: var(--server-bg-ok);
-        color: var(--server-color-ok);
-    }
-    
-    span.status[s=closed] {
-        background-color: var(--server-bg-closed);
-        color: var(--server-color-closed);
-    }
+	span.status {
+		box-sizing: border-box;
+		font-size: larger;
 
-    span.addr {
-        font-size: larger;
-        padding: 10px;
-        border-radius: 10px;
+		margin-right: 10px;
+		padding: 10px;
+		border-radius: 10px;
+		flex-basis: content;
 
-        background-color: var(--gui-bg-main);
+		background-color: var(--server-bg-loading);
+		color: var(--server-color-loading);
+	}
 
-        flex: 1;
-    }
+	span.status[s=loading] {
+		background-color: var(--server-bg-loading);
+		color: var(--server-color-loading);
+	}
 
-    div.content {
-        min-width: 70vw;
-        min-height: 70vh;
-    
-        display: flex;
-        flex-direction: row;
+	span.status[s=ok] {
+		background-color: var(--server-bg-ok);
+		color: var(--server-color-ok);
+	}
 
-        box-sizing: border-box;
-    }
+	span.status[s=closed] {
+		background-color: var(--server-bg-closed);
+		color: var(--server-color-closed);
+	}
 
-    div.info {
-        display: flex;
-        text-align: center;
-        flex-direction: column;
+	span.addr {
+		font-size: larger;
+		padding: 10px;
+		border-radius: 10px;
 
-        flex: 1;
+		background-color: var(--gui-bg-main);
 
-        margin-left: 10px;
+		flex: 1;
+	}
 
-        box-sizing: border-box;
-    }
+	div.content {
+		min-width: 70vw;
+		min-height: 70vh;
 
-    div.games {
-        box-sizing: border-box;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 10px;
-        border-radius: 10px;
-        background-color: var(--gui-bg-main);
-        flex: 2;
+		display: flex;
+		flex-direction: row;
 
-        border: 5px solid var(--gui-bg-main);
-    }
+		box-sizing: border-box;
+	}
 
-    div.stats, div.settings {
-        border-radius: 10px;
-        background-color: var(--gui-bg-main);
+	div.info {
+		display: flex;
+		text-align: center;
+		flex-direction: column;
 
-        box-sizing: border-box;
+		flex: 1;
 
-        flex: 1;
+		margin-left: 10px;
 
-        height: auto;
-        width: 100%;
+		box-sizing: border-box;
+	}
 
-        text-align: left;
-    }
+	div.games {
+		box-sizing: border-box;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: var(--gui-bg-main);
+		flex: 2;
 
-    div.settings {
-        margin-top: 10px;
-    }
+		border: 5px solid var(--gui-bg-main);
+	}
 
-    div.game {
-        height: 20%;
-    }
+	div.stats, div.settings {
+		border-radius: 10px;
+		background-color: var(--gui-bg-main);
 
-    /*
-        Table rules
-    */
+		box-sizing: border-box;
 
-    /*
-        Chat
-    */
+		flex: 1;
+
+		height: auto;
+		width: 100%;
+
+		text-align: left;
+	}
+
+	div.settings {
+		margin-top: 10px;
+	}
+
+	div.game {
+		height: 20%;
+	}
+
+	/*
+		Table rules
+	*/
+
+	/*
+		Chat
+	*/
 }

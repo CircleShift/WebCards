@@ -4,14 +4,14 @@
 
 input, select
 {
-    -webkit-appearance: none;
+	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 
 	margin: 5px;
-	
+
 	display: block;
-	
+
 	box-sizing: border-box;
 }
 
@@ -19,19 +19,19 @@ input, select
 
 input[type=button], input[type=submit], button, a
 {
-    padding: 10px;
+	padding: 10px;
 
-    border: none;
-    border-radius: 5px;
+	border: none;
+	border-radius: 5px;
 
-    background-color: var(--input-bg-button);
+	background-color: var(--input-bg-button);
 	color: var(--input-color-button);
-	
-    font-size: medium;
 
-    transition-duration: 0.2s;
+	font-size: medium;
 
-    cursor: pointer;
+	transition-duration: 0.2s;
+
+	cursor: pointer;
 }
 
 input[type=button]:hover, input[type=submit]:hover, button:hover, a:hover
@@ -72,14 +72,14 @@ input[type=radio]
 {	
 	width: 20px;
 	height: 20px;
-	
+
 	border: 3px solid var(--input-border-bool);
 	border-radius: 50%;
-	
+
 	transition-duration: 0.2s;
-	
+
 	background-color: var(--input-bg-bool);
-	
+
 	cursor: pointer;
 
 	display: inline-block;
@@ -115,21 +115,21 @@ input[type=checkbox]
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	
+
 	display: inline-block;
 	vertical-align: middle;
-	
+
 	width: 20px;
 	height: 20px;
-	
+
 	border: 3px solid var(--input-border-bool);
-	
+
 	border-radius: 2px;
-	
+
 	transition-duration: 0.2s;
-	
+
 	background-color: var(--input-bg-bool);
-	
+
 	cursor: pointer;
 }
 
@@ -156,23 +156,23 @@ input[type=checkbox]::after
 {
 	height: 15px;
 	width: 10px;
-	
+
 	box-sizing: border-box;
-	
+
 	position: relative;
-	
+
 	display: block;
-	
+
 	border-color: var(--input-bg-bool-true);
 	border-style: solid;
 	border-width: 0px 0px 0px 0px;
-	
+
 	top: calc(50% - 10px);
 	left: calc(50% - 5px);
-	
+
 	transform-origin: center;
 	transform: rotate(45deg);
-	
+
 	content: '';
 }
 
@@ -186,17 +186,17 @@ input[type=checkbox]:checked::after
 input[type=color]
 {	
 	display: inline-block;
-	
+
 	vertical-align: middle;
-	
+
 	height: 20px;
 	width: 20px;
-	
+
 	margin: 0;
 	padding: 0;
-	
+
 	border: 0;
-	
+
 	cursor: pointer;
 }
 
@@ -216,7 +216,7 @@ div.input-select
 	display: block;
 	position: absolute;
 	z-index: 0;
-	
+
 	pointer-events: none;
 
 	overflow-y: auto;
@@ -286,23 +286,23 @@ div.input-container:focus > div.input-select > div[selected=true]:after
 div.input-container[type=color]
 {
 	text-align: center;
-	
+
 	background-color: var(--input-bg-button);
 	color: var(--input-color-button);
 
 	transition-duration: 0.2s;
-	
+
 	cursor: pointer;
-	
+
 	width: max-content;
 }
 
 div.input-container[type=color]::after
 {
 	display: inline;
-	
+
 	vertical-align: middle;
-	
+
 	content: ' Pick a color';
 }
 
@@ -322,11 +322,11 @@ div.input-container[type=file]
 {
 	background-color: var(--input-bg-button);
 	color: var(--input-color-button);
-	
+
 	transition-duration: 0.2s;
 
 	cursor: pointer;
-	
+
 	text-align: center;
 
 	width: max-content;
@@ -346,9 +346,9 @@ div.input-container[type=file]:active
 div.input-container[type=file]::after
 {
 	display: inline;
-	
+
 	vertical-align: middle;
-	
+
 	content: attr(data-files);
 }
 

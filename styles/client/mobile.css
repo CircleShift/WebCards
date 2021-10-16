@@ -1,85 +1,85 @@
 @media (max-width: 599px), (max-height: 500px) {
-    /*
-        Hide stuff
-    */
-    div.server {
-        display: none;
-    }
+	/*
+		Hide stuff
+	*/
+	div.server {
+		display: none;
+	}
 
-    div.info {
-        display: none;
-    }
+	div.info {
+		display: none;
+	}
 
-    div.chat {
-        display: none;
-    }
+	div.chat {
+		display: none;
+	}
 
-    /*
-        TopBar for mobile
-    */
+	/*
+		TopBar for mobile
+	*/
 
-    div.topbar > div.status {
-        height: 10px;
-    }
+	div.topbar > div.status {
+		height: 10px;
+	}
 
-    div.top-buttons {
-        height: 50px;
-    }
+	div.top-buttons {
+		height: 50px;
+	}
 
-    button.top-button {
-        padding: 5px;
-    }
+	button.top-button {
+		padding: 5px;
+	}
 
-    button#reset:before, button#newgame:before, button#settings:before {
-        font-family: "IcoFont";
-        font-size: xx-large;
-    }
-    
-    button#newgame:before{
-        content: "\efc2";
-    }
+	button#reset:before, button#newgame:before, button#settings:before {
+		font-family: "IcoFont";
+		font-size: xx-large;
+	}
 
-    button#settings {
-        display: inline-block;
-    }
+	button#newgame:before{
+		content: "\efc2";
+	}
 
-    button#settings:before {
-        content: "\ef3a";
-    }
+	button#settings {
+		display: inline-block;
+	}
 
-    button#reset:before{
-        content: "\efd1";
-    }
+	button#settings:before {
+		content: "\ef3a";
+	}
 
-    /*
-        Mobile lobby
-    */
+	button#reset:before{
+		content: "\efd1";
+	}
 
-    div.lobby {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
+	/*
+		Mobile lobby
+	*/
 
-    div.content {
-        margin-top: 60px;
-        box-sizing: border-box;
-        flex: 1;
-    }
+	div.lobby {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+	}
 
-    div.games {
-        height: 100%;
-        width: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
+	div.content {
+		margin-top: 60px;
+		box-sizing: border-box;
+		flex: 1;
+	}
 
-        background-color: var(--gui-bg-main);
-        padding: 5px;
-        box-sizing: border-box;
+	div.games {
+		height: 100%;
+		width: 100%;
+		overflow-x: hidden;
+		overflow-y: auto;
 
-    }
+		background-color: var(--gui-bg-main);
+		padding: 5px;
+		box-sizing: border-box;
 
-    div.game {
-        height: 12.5%;
-    }
+	}
+
+	div.game {
+		height: 12.5%;
+	}
 }

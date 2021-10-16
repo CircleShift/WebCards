@@ -1,131 +1,131 @@
 <!DOCTYPE HTML>
 
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta charset="utf-8">
-        
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="styles/icofont.css">
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta charset="utf-8">
+		
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="styles/icofont.css">
 
-        <link rel="stylesheet" type="text/css" href="styles/input.css">
+		<link rel="stylesheet" type="text/css" href="styles/input.css">
 
-        <link rel="stylesheet" type="text/css" href="styles/client/base.css">
-        <link rel="stylesheet" type="text/css" href="styles/client/desktop.css">
-        <link rel="stylesheet" type="text/css" href="styles/client/tablet.css">
-        <link rel="stylesheet" type="text/css" href="styles/client/mobile.css">
-        <link rel="stylesheet" type="text/css" href="styles/client/card.css">
+		<link rel="stylesheet" type="text/css" href="styles/client/base.css">
+		<link rel="stylesheet" type="text/css" href="styles/client/desktop.css">
+		<link rel="stylesheet" type="text/css" href="styles/client/tablet.css">
+		<link rel="stylesheet" type="text/css" href="styles/client/mobile.css">
+		<link rel="stylesheet" type="text/css" href="styles/client/card.css">
 
-        <link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
+		<link id="theme" rel="stylesheet" type="text/css" href="styles/themes/colors-base.css">
 
-        <link rel="icon" sizes="32x32" href="images/wc-icon-32.png">
-        <link rel="icon" sizes="48x48" href="images/wc-icon-48.png">
-        <link rel="icon" sizes="96x96" href="images/wc-icon-96.png">
-        <link rel="icon" sizes="144x144" href="images/wc-icon-144.png">
-        <link rel="icon" sizes="288x288" href="images/wc-icon-288.png">
+		<link rel="icon" sizes="32x32" href="images/wc-icon-32.png">
+		<link rel="icon" sizes="48x48" href="images/wc-icon-48.png">
+		<link rel="icon" sizes="96x96" href="images/wc-icon-96.png">
+		<link rel="icon" sizes="144x144" href="images/wc-icon-144.png">
+		<link rel="icon" sizes="288x288" href="images/wc-icon-288.png">
 
-        <script src="scripts/cookie.js"></script>
-        <script src="scripts/theme.js"></script>
+		<script src="scripts/cookie.js"></script>
+		<script src="scripts/theme.js"></script>
 
-        <script src="scripts/cards/card.js"></script>
-        <script src="scripts/cards/deck.js"></script>
-        <script src="scripts/cards/drag.js"></script>
+		<script src="scripts/cards/card.js"></script>
+		<script src="scripts/cards/deck.js"></script>
+		<script src="scripts/cards/drag.js"></script>
 
-        <script src="scripts/gui/input.js"></script>
-        <script src="scripts/gui/lobby.js"></script>
-        <script src="scripts/gui/table.js"></script>
-        <script src="scripts/gui/chat.js"></script>
+		<script src="scripts/gui/input.js"></script>
+		<script src="scripts/gui/lobby.js"></script>
+		<script src="scripts/gui/table.js"></script>
+		<script src="scripts/gui/chat.js"></script>
 
-        <script src="scripts/socket/message.js"></script>
-        <script src="scripts/socket/sock.js"></script>
+		<script src="scripts/socket/message.js"></script>
+		<script src="scripts/socket/sock.js"></script>
 
-        <script src="scripts/client.js"></script>
+		<script src="scripts/client.js"></script>
 
-        <title>WebCards - Client</title>
-    </head>
+		<title>WebCards - Client</title>
+	</head>
 
-    <body>
-        
-        <div class="table" state="closed">
+	<body>
+		
+		<div class="table" state="closed">
 
-        </div>
+		</div>
 
-        <div class="topbar" style="height: auto;">
-            <div class="top-buttons">
-                <button id="newgame" class="top-button" onclick="game.lobby.newGame()"></button>
-                <button id="settings" class="top-button" onclick="game.lobby.mobileSettings(game.settings)"></button>
-                <button id="reset" class="top-button" onclick="game.reset()"></button>
-            </div>
+		<div class="topbar" style="height: auto;">
+			<div class="top-buttons">
+				<button id="newgame" class="top-button" onclick="game.lobby.newGame()"></button>
+				<button id="settings" class="top-button" onclick="game.lobby.mobileSettings(game.settings)"></button>
+				<button id="reset" class="top-button" onclick="game.reset()"></button>
+			</div>
 
-            <div class="new-game" style="display: none;"></div>
+			<div class="new-game" style="display: none;"></div>
 
-            <div class="settings mobile-settings" style="display: none;">
-            </div>
-            
-            <div class="status"></div>
-        </div>
+			<div class="settings mobile-settings" style="display: none;">
+			</div>
+			
+			<div class="status"></div>
+		</div>
 
-        <div class="lobby">
+		<div class="lobby">
 
-            <div class="server">
-                <span style="font-weight: 700;" class="status">Connecting</span>
-                <span class="addr"></span>
-            </div>
+			<div class="server">
+				<span style="font-weight: 700;" class="status">Connecting</span>
+				<span class="addr"></span>
+			</div>
 
-            <div class="content">
+			<div class="content">
 
-                <div class="games">
-                </div>
+				<div class="games">
+				</div>
 
-                <div class="info">
-                    <div class="stats">
-                        <div>
-                            <span>Game Name:</span><span id="game">-</span>
-                        </div>
+				<div class="info">
+					<div class="stats">
+						<div>
+							<span>Game Name:</span><span id="game">-</span>
+						</div>
 
-                        <div>
-                            <span>Packs Available:</span><span id="packs">-</span>
-                        </div>
-                        
-                        <div>
-                            <span>Players Online:</span><span id="online">-</span>
-                        </div>
+						<div>
+							<span>Packs Available:</span><span id="packs">-</span>
+						</div>
+						
+						<div>
+							<span>Players Online:</span><span id="online">-</span>
+						</div>
 
-                        <div>
-                            <span>Players In Game:</span><span id="ingame">-</span>
-                        </div>
+						<div>
+							<span>Players In Game:</span><span id="ingame">-</span>
+						</div>
 
-                        <div>
-                            <span>Public Games:</span><span id="pubgame">-</span>
-                        </div>
-                    </div>
+						<div>
+							<span>Public Games:</span><span id="pubgame">-</span>
+						</div>
+					</div>
 
-                    <div class="settings" >
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="settings" >
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="chat">
-            <button class="toggle-chat">Toggle Chat</button>
+		<div class="chat">
+			<button class="toggle-chat">Toggle Chat</button>
 
-            <div class="chat-select">
-            </div>
+			<div class="chat-select">
+			</div>
 
-            <div class="chat-text">
-            </div>
+			<div class="chat-text">
+			</div>
 
-            <div class="chat-input">
-                <input type="text" placeholder="Chat..."/>
-                <button>Send</button>
-            </div>
-        </div>
+			<div class="chat-input">
+				<input type="text" placeholder="Chat..."/>
+				<button>Send</button>
+			</div>
+		</div>
 
-        <script>
-            var params = new URLSearchParams((new URL(window.location)).search);
-            var game = new Client(params.get("s"), params.get("g"));
-            setTimeout(game.init.bind(game), 100);
-        </script>
-    </body>
+		<script>
+			var params = new URLSearchParams((new URL(window.location)).search);
+			var game = new Client(params.get("s"), params.get("g"));
+			setTimeout(game.init.bind(game), 100);
+		</script>
+	</body>
 
 </html>

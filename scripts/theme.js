@@ -10,11 +10,11 @@ const BASE_THEMES = [[
 ]];
 
 class Theme{
-    static theme = document.getElementById("theme");
+	static theme = document.getElementById("theme");
 	static UserThemes = [[],[]];
 
-    static init()
-    {
+	static init()
+	{
 		let uth = Cookies.getCookie("userThemes").split(',');
 
 		for (let i = 1; i < uth.length; i += 2)
@@ -23,22 +23,22 @@ class Theme{
 			this.UserThemes[1].push(uth[i]);
 		}
 
-        if(Cookies.getCookie("theme") == ""){
-            Cookies.setYearCookie("theme", "styles/themes/colors-base.css");
-        }
-    }
+		if(Cookies.getCookie("theme") == ""){
+			Cookies.setYearCookie("theme", "styles/themes/colors-base.css");
+		}
+	}
 
-    static restore()
-    {
-        Theme.init();
-        Theme.theme.setAttribute("href", Cookies.getCookie("theme") + "?v=" + Date.now());
-    }
+	static restore()
+	{
+		Theme.init();
+		Theme.theme.setAttribute("href", Cookies.getCookie("theme") + "?v=" + Date.now());
+	}
 
-    static set(sheet)
-    {
-        Cookies.setYearCookie("theme", sheet);
-        Theme.theme.setAttribute("href", sheet + "?v=" + Date.now());
-    }
+	static set(sheet)
+	{
+		Cookies.setYearCookie("theme", sheet);
+		Theme.theme.setAttribute("href", sheet + "?v=" + Date.now());
+	}
 
 	static setUserThemes() {
 		let out = "";

@@ -1,58 +1,58 @@
 * {
-    font-family: 'Montserrat', sans-serif;
+	font-family: 'Montserrat', sans-serif;
 	transition-duration: 0.2s;
 }
 
 html, body {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 
-    min-width: 100vw;
-    min-height: 100vh;
+	min-width: 100vw;
+	min-height: 100vh;
 
-    display: block;
+	display: block;
 }
 
 body {
-    display: flex;
+	display: flex;
 
-    align-items: center;
-    justify-content: center;
+	align-items: center;
+	justify-content: center;
 
-    background-color: var(--main-bg);
+	background-color: var(--main-bg);
 }
 
 div.content {
-    padding: 20px;
+	padding: 20px;
 
-    background-color: var(--gui-bg-main);
+	background-color: var(--gui-bg-main);
 	color: var(--main-color);
-    border-radius: 10px;
+	border-radius: 10px;
 
-    display: flex;
-    text-align: center;
-    flex-direction: column;
+	display: flex;
+	text-align: center;
+	flex-direction: column;
 
-    align-items: center;
+	align-items: center;
 
-    width: min-content;
+	width: min-content;
 }
 
 a, button {
-    font-size: 1em;
-    display: block;
-    color: white;
-    box-sizing: border-box;
+	font-size: 1em;
+	display: block;
+	color: white;
+	box-sizing: border-box;
 
-    border-radius: 5px;
-    border: none;
-    padding: 5px;
+	border-radius: 5px;
+	border: none;
+	padding: 5px;
 
-    background-color: #0084ff;
-    
-    transition-duration: 0.2s;
+	background-color: #0084ff;
 
-    text-decoration: none;
+	transition-duration: 0.2s;
+
+	text-decoration: none;
 
 	margin: 5px;
 }
@@ -60,53 +60,53 @@ a, button {
 
 
 div.content > div.prev {
-    width: 100%;
-    margin: 10px;
+	width: 100%;
+	margin: 10px;
 
-    display: block;
+	display: block;
 
-    padding: 0;
+	padding: 0;
 }
 
 div.prev > a{
-    display: inline-block;
-    width: 80%;
-    margin: 0;
-    padding: 5px;
-    border-radius: 0;
+	display: inline-block;
+	width: 80%;
+	margin: 0;
+	padding: 5px;
+	border-radius: 0;
 
-    text-align: left;
+	text-align: left;
 }
 
 div.prev > a:first-of-type {
-    border-top-left-radius: 5px;
+	border-top-left-radius: 5px;
 }
 
 div.prev > a:last-of-type {
-    border-bottom-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 div.prev > button {
-    display: inline-block;
-    width: 20%;
-    margin: 0;
-    background-color: #ff1e00;
-    padding: 5px;
-    border-radius: 0;
+	display: inline-block;
+	width: 20%;
+	margin: 0;
+	background-color: #ff1e00;
+	padding: 5px;
+	border-radius: 0;
 }
 
 div.prev > button:first-of-type {
-    border-top-right-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 div.prev > button:last-of-type {
-    border-bottom-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 div.prev > button:hover {
-    background-color: #ff5741;
+	background-color: #ff5741;
 }
 
 div.prev > button:active {
-    background-color: #9c1200;
+	background-color: #9c1200;
 }

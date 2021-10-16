@@ -2,239 +2,239 @@
 
 //Mostly fixed now
 class MakeInput {
-    static createInput(type = "text", wrap = false, getset = true)
-    {
-        var el = document.createElement("input");
-        el.setAttribute("type", type);
+	static createInput(type = "text", wrap = false, getset = true)
+	{
+		var el = document.createElement("input");
+		el.setAttribute("type", type);
 
-        if(wrap)
-        {
-            return this.wrapInputs(type, el);
-        }
+		if(wrap)
+		{
+			return this.wrapInputs(type, el);
+		}
 
-        if(getset) {
-            el.getValue = function () {
-                return this.value;
-            }
+		if(getset) {
+			el.getValue = function () {
+				return this.value;
+			}
 
-            el.setValue = function(value) {
-                this.value = value
-            }
-        }
+			el.setValue = function(value) {
+				this.value = value
+			}
+		}
 
-        return el;
-    }
+		return el;
+	}
 
-    // Function deprecated, finding another way to do this
-    static inputLabel(text, id)
-    {
-        var el = document.createElement("label");
-        el.innerText = text;
-        if(typeof id == "string")
-            el.setAttribute("for", id);
-        return el;
-    }
+	// Function deprecated, finding another way to do this
+	static inputLabel(text, id)
+	{
+		var el = document.createElement("label");
+		el.innerText = text;
+		if(typeof id == "string")
+			el.setAttribute("for", id);
+		return el;
+	}
 
-    static colorInput (value) {
-        var el = MakeInput.createInput("color", true);
-        el.setValue(value);
-        return el;
-    }
+	static colorInput (value) {
+		var el = MakeInput.createInput("color", true);
+		el.setValue(value);
+		return el;
+	}
 
-    static textInput (value, placeholder)
-    {
-        var el = MakeInput.createInput("text");
-        el.setAttribute("placeholder", placeholder);
-        el.value = value;
-        return el;
-    }
+	static textInput (value, placeholder)
+	{
+		var el = MakeInput.createInput("text");
+		el.setAttribute("placeholder", placeholder);
+		el.value = value;
+		return el;
+	}
 
-    static numberInput (value)
-    {
-        var el = MakeInput.createInput("number");
-        el.value = value;
-        return el;
-    }
+	static numberInput (value)
+	{
+		var el = MakeInput.createInput("number");
+		el.value = value;
+		return el;
+	}
 
-    static fileInput (accepts = "", multiple = false) {
-        var el = MakeInput.createInput("file", true, false);
-        
-        let e = el.getElement();
-        e.setAttribute("accepts", accepts);
-        e.multiple = multiple;
-        el.getValue = function() {
-            return e.files;
-        }
-        
-        el.setAttribute("data-files", "Choose a file");
+	static fileInput (accepts = "", multiple = false) {
+		var el = MakeInput.createInput("file", true, false);
+		
+		let e = el.getElement();
+		e.setAttribute("accepts", accepts);
+		e.multiple = multiple;
+		el.getValue = function() {
+			return e.files;
+		}
+		
+		el.setAttribute("data-files", "Choose a file");
 
-        el.firstElementChild.onchange = function () {
-            let text = "";
-            switch (this.files.length) {
-                case 0:
-                    text = "Choose a file";
-                    break;
-                case 1:
-                    text = "File: " + this.files[0].name;
-                    break;
-                default:
-                    text = "Files: " + this.files[0].name + "...";
-                    break;
-            }
-            el.setAttribute("data-files", text);
-        }
+		el.firstElementChild.onchange = function () {
+			let text = "";
+			switch (this.files.length) {
+				case 0:
+					text = "Choose a file";
+					break;
+				case 1:
+					text = "File: " + this.files[0].name;
+					break;
+				default:
+					text = "Files: " + this.files[0].name + "...";
+					break;
+			}
+			el.setAttribute("data-files", text);
+		}
 
-        return el;
-    }
+		return el;
+	}
 
-    static checkboxInput (value = false) {
-        var el = MakeInput.createInput("checkbox", false, false);
+	static checkboxInput (value = false) {
+		var el = MakeInput.createInput("checkbox", false, false);
 
-        el.getValue = function() {
-            return el.checked;
-        }
+		el.getValue = function() {
+			return el.checked;
+		}
 
-        el.setValue = function(check) {
-            el.checked = check;
-        }
+		el.setValue = function(check) {
+			el.checked = check;
+		}
 
-        el.setValue(value);
-        
-        return el;
-    }
+		el.setValue(value);
+		
+		return el;
+	}
 
-    static radio (value, group, checked = false) {
-        var el = MakeInput.createInput("radio", false, false);
-        el.setAttribute("name", group);
-        el.setAttribute("value", value);
-        if(checked)
-            el.checked = true;
-        return el;
-    }
+	static radio (value, group, checked = false) {
+		var el = MakeInput.createInput("radio", false, false);
+		el.setAttribute("name", group);
+		el.setAttribute("value", value);
+		if(checked)
+			el.checked = true;
+		return el;
+	}
 
-    static radioInput (values, names, group, prompt = "Select One", select = 0) {
+	static radioInput (values, names, group, prompt = "Select One", select = 0) {
 
-        let toWrap = [];
+		let toWrap = [];
 
-        for(let i = 0; i < values.length; i++) {
-            toWrap.push(MakeInput.inputLabel(names[i]));
-            if(i == select)
-                toWrap.push(MakeInput.radio(values[i], group, true));
-            else
-                toWrap.push(MakeInput.radio(values[i], group, false));
-            toWrap.push(document.createElement("br"));
-        }
+		for(let i = 0; i < values.length; i++) {
+			toWrap.push(MakeInput.inputLabel(names[i]));
+			if(i == select)
+				toWrap.push(MakeInput.radio(values[i], group, true));
+			else
+				toWrap.push(MakeInput.radio(values[i], group, false));
+			toWrap.push(document.createElement("br"));
+		}
 
-        var wrapper = MakeInput.wrapInputs("radio", ...toWrap);
+		var wrapper = MakeInput.wrapInputs("radio", ...toWrap);
 
-        wrapper.setAttribute("data-prompt", prompt);
+		wrapper.setAttribute("data-prompt", prompt);
 
-        wrapper.getValue = function() {
-            for(let i = 0; i < this.children.length; i++){
-                if(this.children[i].checked)
-                    return this.children[i].value;
-            }
-        };
+		wrapper.getValue = function() {
+			for(let i = 0; i < this.children.length; i++){
+				if(this.children[i].checked)
+					return this.children[i].value;
+			}
+		};
 
-        wrapper.setValue = function(value) {
-            for(let i = 0; i < this.children.length; i++){
-                if(this.children[i].value == value){
-                    this.children[i].checked = true;
-                    return;
-                }
-            }
-        };
+		wrapper.setValue = function(value) {
+			for(let i = 0; i < this.children.length; i++){
+				if(this.children[i].value == value){
+					this.children[i].checked = true;
+					return;
+				}
+			}
+		};
 
-        return wrapper;
-    }
+		return wrapper;
+	}
 
-    static wrapInputs (type, ...el) {
+	static wrapInputs (type, ...el) {
 
-        var wrapper = document.createElement("div");
-        wrapper.className = "input-container";
-        wrapper.setAttribute("type", type);
+		var wrapper = document.createElement("div");
+		wrapper.className = "input-container";
+		wrapper.setAttribute("type", type);
 
-        for(let i = 0; i < el.length; i++)
-        {
-            wrapper.appendChild(el[i]);
-        }
+		for(let i = 0; i < el.length; i++)
+		{
+			wrapper.appendChild(el[i]);
+		}
 
-        if(el.length == 1)
-        {
-            wrapper.getValue = function () {return el[0].value;}
-    
-            wrapper.setValue = function(value) {el[0].value = value;}
+		if(el.length == 1)
+		{
+			wrapper.getValue = function () {return el[0].value;}
 
-            wrapper.onclick = el[0].click.bind(el[0]);
+			wrapper.setValue = function(value) {el[0].value = value;}
 
-            wrapper.getElement = function(){return el[0];}
-        }
+			wrapper.onclick = el[0].click.bind(el[0]);
 
-        return wrapper;
-    }
+			wrapper.getElement = function(){return el[0];}
+		}
 
-    static selectOption (value, text, index, selected) {
-        var so = document.createElement("div");
-        so.innerText = text;
-        so.selectValue = value;
-        so.selectIndex = index;
-        so.addEventListener("mousedown", MakeInput.selOption.bind(null, so));
+		return wrapper;
+	}
 
-        if(selected === true)
-            so.setAttribute("selected", true);
+	static selectOption (value, text, index, selected) {
+		var so = document.createElement("div");
+		so.innerText = text;
+		so.selectValue = value;
+		so.selectIndex = index;
+		so.addEventListener("mousedown", MakeInput.selOption.bind(null, so));
 
-        return so
-    }
+		if(selected === true)
+			so.setAttribute("selected", true);
 
-    static selectInput (values, names, select = 0) {
-        var se = document.createElement("div");
-        se.className = "input-select";
-        se.setAttribute("tabindex", 0);
-        se.setAttribute("selected", select);
+		return so
+	}
 
-        for(let i in names)
-        {
-            se.appendChild(MakeInput.selectOption(values[i], names[i], i, i == select));
-        }
-        
-        var wrapper = MakeInput.wrapInputs("select", se);
-        wrapper.getValue = MakeInput.selValue.bind(null, se);
+	static selectInput (values, names, select = 0) {
+		var se = document.createElement("div");
+		se.className = "input-select";
+		se.setAttribute("tabindex", 0);
+		se.setAttribute("selected", select);
+
+		for(let i in names)
+		{
+			se.appendChild(MakeInput.selectOption(values[i], names[i], i, i == select));
+		}
+		
+		var wrapper = MakeInput.wrapInputs("select", se);
+		wrapper.getValue = MakeInput.selValue.bind(null, se);
 		wrapper.getIndex = MakeInput.selIndex.bind(null, se);
 		wrapper.addOption = MakeInput.selAdd.bind(se);
 		wrapper.removeOption = MakeInput.selRem.bind(se);
 		wrapper.setIndex = MakeInput.selSet.bind(se);
-        wrapper.setAttribute("tabindex", 0);
+		wrapper.setAttribute("tabindex", 0);
 
-        return wrapper;
-    }
+		return wrapper;
+	}
 
-    static selValue (el) {
-        let sel = parseInt(el.getAttribute("selected"));
-            
-        if(typeof sel != "undefined") {
-            return el.children[sel].selectValue;
-        }
-    
-        return "";
-    }
+	static selValue (el) {
+		let sel = parseInt(el.getAttribute("selected"));
+			
+		if(typeof sel != "undefined") {
+			return el.children[sel].selectValue;
+		}
+
+		return "";
+	}
 
 	static selIndex (el) {
 		return parseInt(el.getAttribute("selected"));
 	}
-    
-    static selOption (el, dispatch = true) {
-        let sn = el.selectIndex;
-        let psn = parseInt(el.parentElement.getAttribute("selected"));
-    
-        if(Number.isInteger(psn) && psn < el.parentElement.childElementCount)
-            el.parentElement.children[psn].setAttribute("selected", false);
-    
-        el.parentElement.setAttribute("selected", sn);
-        el.setAttribute("selected", true);
+
+	static selOption (el, dispatch = true) {
+		let sn = el.selectIndex;
+		let psn = parseInt(el.parentElement.getAttribute("selected"));
+
+		if(Number.isInteger(psn) && psn < el.parentElement.childElementCount)
+			el.parentElement.children[psn].setAttribute("selected", false);
+
+		el.parentElement.setAttribute("selected", sn);
+		el.setAttribute("selected", true);
 
 		if(dispatch)
 			el.parentElement.parentElement.dispatchEvent(new InputEvent("change"));
-    }
+	}
 
 	static selSet (index) {
 		MakeInput.selOption(this.children[index], false);
@@ -258,71 +258,71 @@ class MakeInput {
 		return true;
 	}
 
-    static titleWrap(el, title) {
-        var wrapper = document.createElement("div");
-        wrapper.className = "input-title-wrapper";
-        wrapper.setAttribute("type", el.getAttribute("type"));
-        wrapper.setAttribute("data-title", title);
-        
-        wrapper.appendChild(el);
+	static titleWrap(el, title) {
+		var wrapper = document.createElement("div");
+		wrapper.className = "input-title-wrapper";
+		wrapper.setAttribute("type", el.getAttribute("type"));
+		wrapper.setAttribute("data-title", title);
+		
+		wrapper.appendChild(el);
 
-        if(el.getAttribute("type") == "checkbox")
-        {
-            wrapper.onclick = el.click.bind(el);
-        }
+		if(el.getAttribute("type") == "checkbox")
+		{
+			wrapper.onclick = el.click.bind(el);
+		}
 
-        return wrapper;
-    }
+		return wrapper;
+	}
 }
 
 // Mostly fixed now
 class Settings {
-    constructor (template = {})
-    {
-        this.settings = Settings.genSettings(template);
+	constructor (template = {})
+	{
+		this.settings = Settings.genSettings(template);
 
-        this.wrappers = {};
-    }
+		this.wrappers = {};
+	}
 
-    static genSettings (template)
-    {
-        var out = {};
+	static genSettings (template)
+	{
+		var out = {};
 
-        for(let key in template)
-        {
-            if(typeof MakeInput[template[key].type+"Input"] != null)
-                out[key] = {el: MakeInput[template[key].type+"Input"](...template[key].args), title: template[key].title};
-        }
-        
-        return out;
-    }
+		for(let key in template)
+		{
+			if(typeof MakeInput[template[key].type+"Input"] != null)
+				out[key] = {el: MakeInput[template[key].type+"Input"](...template[key].args), title: template[key].title};
+		}
+		
+		return out;
+	}
 
-    getSettings ()
-    {
-        var out = {};
+	getSettings ()
+	{
+		var out = {};
 
-        for(let key in this.settings)
-            out[key] = this.settings[key].el.getValue();
-        
-        return out;
-    }
+		for(let key in this.settings)
+			out[key] = this.settings[key].el.getValue();
+		
+		return out;
+	}
 
-    putSettings (el)
-    {
-        this.cleanup();
+	putSettings (el)
+	{
+		this.cleanup();
 
-        this.wrappers = {};
+		this.wrappers = {};
 
-        for(let key in this.settings) {
-            this.wrappers[key] = MakeInput.titleWrap(this.settings[key].el, this.settings[key].title)
-            el.appendChild(this.wrappers[key]);
-        }
-            
-    }
+		for(let key in this.settings) {
+			this.wrappers[key] = MakeInput.titleWrap(this.settings[key].el, this.settings[key].title)
+			el.appendChild(this.wrappers[key]);
+		}
+			
+	}
 
-    cleanup ()
-    {
-        for(let key in this.wrappers)
-            this.wrappers[key].remove();
-    }
+	cleanup ()
+	{
+		for(let key in this.wrappers)
+			this.wrappers[key].remove();
+	}
 }

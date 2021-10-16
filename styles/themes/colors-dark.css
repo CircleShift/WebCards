@@ -1,103 +1,103 @@
 * {
-    /*  Main  */
-    --main-bg: #333;
-    --main-color: white;
+	/*  Main  */
+	--main-bg: #333;
+	--main-color: white;
 
-    /*  Server  */
-    --server-bg-ok: #0B0;
-    --server-bg-loading: #DA0;
-    --server-bg-closed: #D00;
-    --server-color-ok: white;
-    --server-color-loading: white;
-    --server-color-closed: white;
+	/*  Server  */
+	--server-bg-ok: #0B0;
+	--server-bg-loading: #DA0;
+	--server-bg-closed: #D00;
+	--server-color-ok: white;
+	--server-color-loading: white;
+	--server-color-closed: white;
 
-    /*  Gui and topbar  */
-    --gui-bg-main: #555;
-    --gui-bg-game: #777;
-    --gui-color-game: white;
-    --gui-shadow-game: #444;
+	/*  Gui and topbar  */
+	--gui-bg-main: #555;
+	--gui-bg-game: #777;
+	--gui-color-game: white;
+	--gui-shadow-game: #444;
 
-    --top-border: #999;
-    --top-bg: #333;
-    --top-bg-button: #555;
-    --top-bg-button-hover: #999;
-    --top-bg-button-active: #777;
-    --top-color-button: white;
-    --top-color-button-hover: white;
-    --top-color-button-active: white;
+	--top-border: #999;
+	--top-bg: #333;
+	--top-bg-button: #555;
+	--top-bg-button-hover: #999;
+	--top-bg-button-active: #777;
+	--top-color-button: white;
+	--top-color-button-hover: white;
+	--top-color-button-active: white;
 
-    /*  Table  */
-    --table-bg: rgb(20, 110, 50);
+	/*  Table  */
+	--table-bg: rgb(20, 110, 50);
 
-    /*  Card defaults  */
-    --card-color: black;
-    --card-bg: white;
-    --card-border: #bbb;
-    --card-hover: #0f0;
+	/*  Card defaults  */
+	--card-color: black;
+	--card-bg: white;
+	--card-border: #bbb;
+	--card-hover: #0f0;
 
-    --deck-shadow: #2696ff;
-    --deck-hover: #3ea2ff;
+	--deck-shadow: #2696ff;
+	--deck-hover: #3ea2ff;
 
-    /*  Input  */
-    
-    --input-color-text: white;
-    --input-color-text-hover: white;
-    --input-color-text-active: white;
-    --input-bg-text: #777;
-    --input-bg-text-hover: #777;
-    --input-bg-text-active: #777;
-    --input-border-text: #222;
-    --input-border-text-hover: #AAA;
-    --input-border-text-active: #3ea2ff;
+	/*  Input  */
 
-    --input-color-button: white;
-    --input-color-button-hover: white;
-    --input-color-button-active: white;
-    --input-bg-button: #0084ff;
-    --input-bg-button-hover: #3ea2ff;
-    --input-bg-button-active:#0056a7;
+	--input-color-text: white;
+	--input-color-text-hover: white;
+	--input-color-text-active: white;
+	--input-bg-text: #777;
+	--input-bg-text-hover: #777;
+	--input-bg-text-active: #777;
+	--input-border-text: #222;
+	--input-border-text-hover: #AAA;
+	--input-border-text-active: #3ea2ff;
 
-    --input-bg-bool: #555;
-    --input-bg-bool-hover: #999;
-    --input-bg-bool-active: #777;
-    --input-bg-bool-true: white;
-    --input-border-bool: #999;
-    --input-border-bool-hover: #999;
-    --input-border-bool-active: #999;
-    --input-border-bool-true: #999;
+	--input-color-button: white;
+	--input-color-button-hover: white;
+	--input-color-button-active: white;
+	--input-bg-button: #0084ff;
+	--input-bg-button-hover: #3ea2ff;
+	--input-bg-button-active:#0056a7;
 
-    --input-color-select: white;
-    --input-color-select-hover: white;
-    --input-color-select-active: white;
-    --input-bg-select: #777;
-    --input-bg-select-hover: #888;
-    --input-bg-select-active: #777;
-    --input-border-select: #222;
-    --input-border-select-hover: #AAA;
-    --input-border-select-active: #3ea2ff;
+	--input-bg-bool: #555;
+	--input-bg-bool-hover: #999;
+	--input-bg-bool-active: #777;
+	--input-bg-bool-true: white;
+	--input-border-bool: #999;
+	--input-border-bool-hover: #999;
+	--input-border-bool-active: #999;
+	--input-border-bool-true: #999;
 
-    --input-bg-multi: rgba(30, 30, 30, 0.3);
-    --input-bg-multi-hover: rgba(200, 200, 200, 0.3);
+	--input-color-select: white;
+	--input-color-select-hover: white;
+	--input-color-select-active: white;
+	--input-bg-select: #777;
+	--input-bg-select-hover: #888;
+	--input-bg-select-active: #777;
+	--input-border-select: #222;
+	--input-border-select-hover: #AAA;
+	--input-border-select-active: #3ea2ff;
 
-    /*  Chat  */
-    --chat-color: white;
-    --chat-bg: #555;
+	--input-bg-multi: rgba(30, 30, 30, 0.3);
+	--input-bg-multi-hover: rgba(200, 200, 200, 0.3);
 
-    --chat-bg-text: #444;
+	/*  Chat  */
+	--chat-color: white;
+	--chat-bg: #555;
 
-    --chat-bg-input: #555;
-    --chat-bg-input-hover: #777;
-    --chat-bg-input-active: #444;
+	--chat-bg-text: #444;
 
-    --chat-bg-select: #444;
-    --chat-bg-select-hover: #777;
-    --chat-bg-select-active: #333;
+	--chat-bg-input: #555;
+	--chat-bg-input-hover: #777;
+	--chat-bg-input-active: #444;
 
-    --chat-bg-inactive: #444;
-    --chat-bg-inactive-hover: #777;
-    --chat-bg-inactive-active: #333;
+	--chat-bg-select: #444;
+	--chat-bg-select-hover: #777;
+	--chat-bg-select-active: #333;
 
-    --chat-bg-active: rgb(255, 133, 34);
-    --chat-bg-active-hover: rgb(255, 165, 92);
-    --chat-bg-active-active: rgb(226, 102, 0);
+	--chat-bg-inactive: #444;
+	--chat-bg-inactive-hover: #777;
+	--chat-bg-inactive-active: #333;
+
+	--chat-bg-active: rgb(255, 133, 34);
+	--chat-bg-active-hover: rgb(255, 165, 92);
+	--chat-bg-active-active: rgb(226, 102, 0);
 }
