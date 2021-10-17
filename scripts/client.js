@@ -50,7 +50,7 @@ class Client{
 		this.socket.addEventListener("handshake", this.handshake.bind(this));
 		this.socket.addEventListener("menu", this.menu.bind(this));
 		this.socket.addEventListener("game", this.game.bind(this));
-		this.socket.addEventListener("chat", this.chat.bind(this));
+		this.socket.addEventListener("chat", this.msg.bind(this));
 
 		this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
 
@@ -142,7 +142,7 @@ class Client{
 	}
 
 	// Callback when a chat event is recieved from the server
-	chat (e)
+	msg (e)
 	{
 		let m = e.detail;
 		this.chat[m.type](m.data);
