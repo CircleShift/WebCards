@@ -108,9 +108,10 @@ class Chat {
 	sendMessage ()
 	{
 		var str = this.chatInput.value;
+		if(str == "")
+			return;
 		this.chatInput.value = "";
 		this.socket.send("chat", str);
-
 	}
 
 	recieveMessage (channel, msg)
