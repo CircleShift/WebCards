@@ -80,13 +80,11 @@ class Client{
 	// Callbacks for if the socket fails or closes
 
 	socketError() {
-		alert("Connection error");
 		this.lobby.setState("Error", "closed", this.socket.server);
 		this.table.handleClose();
 	}
 
 	socketClose() {
-		alert("Connection closed by server");
 		this.lobby.setState("Closed", "closed", this.socket.server);
 		this.table.handleClose();
 	}
@@ -133,61 +131,21 @@ class Client{
 	menu (e)
 	{
 		let m = e.detail;
-		switch (m.type) {
-			case "plist":
-				this.lobby.packList(m.data);
-				break;
-			case "glist":
-				this.lobby.gameList(m.data, this.game);
-				this.game = null;
-				break;
-			case "players":
-				this.lobby.players(m.data);
-				break;
-			case "gdel":
-				this.lobby.removeGame(m.data);
-				break;
-			case "gadd":
-				this.lobby.addGame(m.data);
-				break;
-			case "pdel":
-				this.lobby.removePlayer(m.data);
-				break;
-			case "padd":
-				this.lobby.addPlayer(m.data);
-				break;
-			case "pmove":
-				this.lobby.movePlayer(m.data);
-				break;
-		}
+		this.lobby[m.type](m.data);
 	}
 
 	// Game switch, called when in game and a message arrives from the server
 	game (e)
 	{
 		let m = e.detail;
-		switch (m.type) {
-			case "move":
-				this.table.moveByID(m.data.card, m.data.deck, m.data.pos);
-				break;
-		}
+		this.table[m.type](m.data);
 	}
 
 	// Callback when a chat event is recieved from the server
 	chat (e)
 	{
 		let m = e.detail;
-		switch (m.type) {
-			case "delchan":
-				this.chat.deleteChannel(m.data);
-				break;
-			case "newchan":
-				this.chat.addChannel(m.data);
-				break;
-			
-			case "message":
-				this.chat.recieveMessage(m.data.type, m.data.data);
-		}
+		this.chat[m.type](m.data);
 	}
 
 	// Reset the lobby and table, then attempt to reopen the connection to the server.
