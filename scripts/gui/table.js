@@ -10,7 +10,8 @@ class Table{
 
 		this.socket = socket;
 
-		this.decks = [];
+		this.decks = {};
+		this.cards = {};
 	}
 
 	openTable ()
@@ -41,25 +42,51 @@ class Table{
 		while(this.root.firstElementChild != null)
 			this.root.firstElementChild.remove();
 		
-		this.decks = [];
+		this.decks = {};
 
 		this.closeTable();
 		this.drag.stopDraggingAll();
 	}
 
 	/*   Deck and card functions   */
-	newDeck(id, options)
+	
+	// {data object} contains deck id and options
+	// {data.id any} identifier for deck.  Probably int or string.
+	// {data.options object} Options as found in Deck constructor
+	newDeck(data)
 	{
-		var d = new Deck(id, options);
-		this.decks.push(d);
+		var d = new Deck(data.id, data.options);
+		this.decks[data.id] = d;
 		this.root.appendChild(d.e);
 	}
 
-	newCard(id, data, deck = 0)
+	// {data object} contains data from server
+	// {data.id} card id
+	// {data.data} card data for visualization on the table
+	// {data.deck} the id of the deck to add the card to
+	newCard(data)
 	{
-		var c = new Card(id, data);
-		this.decks[deck].appendCard(c);
+		var c = new Card(data.id, data.data);
+		this.cards[data.id] = c;
+		this.decks[data.deck].appendCard(c);
 		this.drag.addTarget(c.e);
+	}
+
+	// {data object} data from the server
+	// {data.id any} card id to delete
+	deleteCard(data)
+	{
+		//this.cards[data.id].getDeck().removeCardByID
+		this.cards[data.id].e.remove();
+		delete this.cards[data.id];
+	}
+
+	// {data object} data from the server
+	// {data.id any} deck id to delete
+	deleteDeck(data)
+	{
+		//for(let i of this.deck[data.id].cards)
+		//this.deck[]
 	}
 
 	checkDeck(x, y)
@@ -83,6 +110,7 @@ class Table{
 		return null;
 	}
 
+	// {data object} data from the server
 	moveCard(card, newDeck, index = -1)
 	{
 		for(let d of this.decks)
@@ -98,11 +126,17 @@ class Table{
 			newDeck.addCardAt(card, index);
 	}
 
-	moveByID(cardID, deckID, index = -1)
+	// {data object} data from the server
+	// {data.cardID any} ID of the card to move
+	// {data.deckID any} ID of the deck to move the card to
+	// {data.index number} card index in the new deck
+	moveByID(data)
 	{
 		let card, deck;
 		for(let d of this.decks)
 		{
+			if (d.removeCardByID(cardID) !== null)
+				break;
 			let c = d.hasCard(cardID)
 			if(c !== null)
 				card = c;
@@ -110,8 +144,6 @@ class Table{
 			if(d.getID() == deckID)
 				deck = d;
 		}
-
-		this.moveCard(card, deck, index);
 	}
 
 	checkMove(cardID, deckID, index = -1)

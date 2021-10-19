@@ -51,7 +51,7 @@ class TopBar{
 
 // Game represents a single game in the lobby view.  It has methods for setting up the elements and such.
 class Game {
-	constructor(options = {id: 0, name: ""}, el)
+	constructor(options = {id: 0, name: "", password: false}, el)
 	{
 		this.getID = function () {
 			return options.id;
@@ -73,6 +73,20 @@ class Game {
 		join.textContent = "Join";
 		join.addEventListener("click", game.joinGame.bind(game, options.id));
 		e.appendChild(join);
+
+		this.hasPassword = function () {
+			return options.password;
+		}
+
+		if(usePass) {
+			let pass = MakeInput.textInput("", "Game password");
+			pass.classList.add("pass");
+			e.appendChild(pass);
+
+			this.getUserPass = function () {
+				return pass.value;
+			}
+		}
 
 		el.appendChild(e);
 	}

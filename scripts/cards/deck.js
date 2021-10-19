@@ -13,7 +13,7 @@ class Deck {
 	y = 0;
 	e = null;
 
-	constructor(id, options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
+	constructor(options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
 	{
 		// View mode
 		//  infdraw - infinite draw. always appears as if there are multiple cards
@@ -53,9 +53,7 @@ class Deck {
 		
 		this.e.setAttribute("mode", options.mode);
 
-		this.getID = function() {
-			return id;
-		}
+		this.e.deck = this;
 	}
 
 	updatePos()

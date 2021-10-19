@@ -7,16 +7,12 @@ const CardPos = ["top", "topl", "topr", "mid", "midt", "midb", "bot", "botl", "b
 // Every card should have a deck.
 // Use deck.appendCard or deck.prependCard to make a card visible
 class Card {
-	constructor (id, data)
+	constructor (data)
 	{
 		this.e = document.createElement("card");
 		this.generateElements(data);
 		this.e.style.left = "0px";
 		this.e.style.top = "0px";
-
-		this.getID = function() {
-			return id;
-		}
 	}
 
 	// Generate a card with basic text only
@@ -116,5 +112,9 @@ class Card {
 	{
 		this.e.style.left = "0px";
 		this.e.style.top = "0px";
+	}
+
+	getDeck() {
+		return this.e.parentElement.deck;
 	}
 }

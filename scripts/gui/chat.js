@@ -4,6 +4,7 @@ class Chat {
 	constructor(e, soc)
 	{
 		this.chats = [];
+		this.active = null;
 		this.root = e;
 		this.socket = soc;
 		e.getElementsByClassName("toggle-chat")[0].onclick = this.toggle.bind(this);
@@ -29,15 +30,8 @@ class Chat {
 
 	isActive (name)
 	{
-		for(let i in this.chats)
-		{
-			if (this.chats[i].name == name)
-			{
-				if(this.chats[i].btn.getAttribute("active") == "true")
-					return true;
-				return false;
-			}
-		}
+		if(this.active !== null)
+			return this.active.name === name;
 
 		return false;
 	}
@@ -68,20 +62,13 @@ class Chat {
 
 	getActiveChannel ()
 	{
-		for(let i in this.chats)
-		{
-			if (this.chats[i].btn.getAttribute("active") == "true")
-			{
-				return this.chats[i];
-			}
-		}
-
-		return null;
+		return this.active;
 	}
 
 	switchChannel (name)
 	{
 		let c = this.getChannel(name);
+		this.active = c;
 		
 		if(c == null)
 			return;
@@ -111,7 +98,7 @@ class Chat {
 		if(str == "")
 			return;
 		this.chatInput.value = "";
-		this.socket.send("chat", str);
+		this.socket.send("chat", {str});
 	}
 
 	recieveMessage (channel, msg)
@@ -162,6 +149,15 @@ class Chat {
 		let c = this.getChannel(name);
 		if(c == null)
 			return;
+		
+		let id = this.chats.indexOf(c);
+		if(this.isActive(name)) {
+			if(id == 0 && this.chats.length > 1)
+				this.switchChannel(this.chats[1].name);
+			else
+				this.switchChannel(this.chats[id - 1].name);
+		}
+			
 		
 		while(c.e.firstElementChild != null)
 			c.e.firstElementChild.remove();
