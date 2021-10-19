@@ -5,7 +5,7 @@ const CardPos = ["top", "topl", "topr", "mid", "midt", "midb", "bot", "botl", "b
 
 // Card class represents one card.
 // Every card should have a deck.
-// Use deck.appendCard or deck.prependCard to make a card visible
+// Use deck.appendCard, deck.prependCard, or deck.addCardAt to make a card visible
 class Card {
 	constructor (data)
 	{
@@ -13,6 +13,7 @@ class Card {
 		this.generateElements(data);
 		this.e.style.left = "0px";
 		this.e.style.top = "0px";
+		this.e.card = this;
 	}
 
 	// Generate a card with basic text only
@@ -43,7 +44,7 @@ class Card {
 			if (i == "style")
 			{
 				for (j in data.style) 
-					area.style[j] = data.style[j];
+					area.style.setProperty(j, data[i].style[j]);
 			}
 			
 			if (data[i].type == "text")
@@ -53,7 +54,7 @@ class Card {
 				e.innerText = data[i].text;
 
 				for (let j in data[i].style)
-					e.style[j] = data[i].style[j];
+					e.style.setProperty(j, data[i].style[j]);
 
 				area.appendChild(e);
 
@@ -65,7 +66,7 @@ class Card {
 				e.style.backgroundImage = "url(\"" + assetURL + data[i].image + "\")";
 				
 				for (let j in data[i].style)
-					e.style[j] = data[i].style[j];
+					e.style.setProperty(j, data[i].style[j]);
 
 				area.appendChild(e);
 			}
@@ -78,10 +79,10 @@ class Card {
 	static generateObjectCard (data, el)
 	{
 		// Generate card areas.
-		for (let i in CardPos)
+		for (let i of CardPos)
 		{
-			if (typeof data[CardPos[i]] == "object")
-				el.appendChild(this.generateCArea(data[CardPos[i]], CardPos[i], data.assetURL));
+			if (typeof data[i] == "object")
+				el.appendChild(this.generateCArea(data[i], i, data.assetURL));
 		}
 	}
 

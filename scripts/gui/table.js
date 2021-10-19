@@ -14,6 +14,9 @@ class Table{
 		this.cards = {};
 	}
 
+	//  GUI related functions
+
+	// Make the table element visible
 	openTable ()
 	{
 		let state = this.root.getAttribute("state")
@@ -23,6 +26,7 @@ class Table{
 		}
 	}
 
+	// Make the table element not visible
 	closeTable ()
 	{
 		let state = this.root.getAttribute("state")
@@ -32,27 +36,31 @@ class Table{
 		}
 	}
 
+	// Handle a game closing (expectedly or unexpectedly)
 	handleClose ()
 	{
 		this.reset();
 	}
 
+	// Should reset all internal objects and delete all dangling decks and cards.
 	reset ()
 	{
 		while(this.root.firstElementChild != null)
 			this.root.firstElementChild.remove();
 		
 		this.decks = {};
+		this.cards = {};
 
 		this.closeTable();
 		this.drag.stopDraggingAll();
 	}
 
-	/*   Deck and card functions   */
+	/*   Main API for server RPC   */
 	
-	// {data object} contains deck id and options
+	// Create a new deck
+	// {data object} data from the server
 	// {data.id any} identifier for deck.  Probably int or string.
-	// {data.options object} Options as found in Deck constructor
+	// {data.options object} options as found in Deck constructor
 	newDeck(data)
 	{
 		var d = new Deck(data.id, data.options);
@@ -60,6 +68,7 @@ class Table{
 		this.root.appendChild(d.e);
 	}
 
+	// Create a new card
 	// {data object} contains data from server
 	// {data.id} card id
 	// {data.data} card data for visualization on the table
@@ -72,23 +81,43 @@ class Table{
 		this.drag.addTarget(c.e);
 	}
 
-	// {data object} data from the server
-	// {data.id any} card id to delete
-	deleteCard(data)
+	// Delete a deck
+	// {id any} id of deck to delete
+	deleteDeck(id)
 	{
-		//this.cards[data.id].getDeck().removeCardByID
-		this.cards[data.id].e.remove();
-		delete this.cards[data.id];
-	}
-
-	// {data object} data from the server
-	// {data.id any} deck id to delete
-	deleteDeck(data)
-	{
-		//for(let i of this.deck[data.id].cards)
+		this.decks[id].e.remove();
+		for(let i in this.decks[id].cards)
+		{
+			delete this.cards[this.decks[id].cards[i].getID()];
+			this.decks[id].removeCard(i);
+		}
 		//this.deck[]
 	}
 
+	// Delete a card
+	// {id any} id of card to delete
+	deleteCard(id)
+	{
+		this.cards[id].getDeck().removeCardByID(id)
+		this.cards[id].e.remove();
+		delete this.cards[id];
+	}
+
+	// Move a card from one deck to another
+	// {data object} data from the server
+	// {data.cardID any} ID of the card to move
+	// {data.deckID any} ID of the deck to move the card to
+	// {data.index number} card index in the new deck
+	moveByID(data)
+	{
+		this.cards[data.cardID].getDeck().removeCardByID(data.cardID);
+		this.decks[data.deckID].addCardAt(this.cards[data.cardID], data.index);
+	}
+
+
+	/*    Internal functions    */
+
+	// Check if a position is within a deck
 	checkDeck(x, y)
 	{
 		for(let d of this.decks)
@@ -99,63 +128,22 @@ class Table{
 		return null;
 	}
 
-	checkCard (el)
-	{
-		for(let d of this.decks)
-		{
-			let c = d.checkCard(el);
-			if(c !== null)
-				return c;
-		}
-		return null;
-	}
-
-	// {data object} data from the server
-	moveCard(card, newDeck, index = -1)
-	{
-		for(let d of this.decks)
-		{
-			if (d.removeCardByID(card.getID()) !== null)
-				break;
-		}
-		card.resetPos();
-
-		if(index < 0)
-			newDeck.appendCard(card);
-		else
-			newDeck.addCardAt(card, index);
-	}
-
-	// {data object} data from the server
-	// {data.cardID any} ID of the card to move
-	// {data.deckID any} ID of the deck to move the card to
-	// {data.index number} card index in the new deck
-	moveByID(data)
-	{
-		let card, deck;
-		for(let d of this.decks)
-		{
-			if (d.removeCardByID(cardID) !== null)
-				break;
-			let c = d.hasCard(cardID)
-			if(c !== null)
-				card = c;
-			
-			if(d.getID() == deckID)
-				deck = d;
-		}
-	}
-
+	// Function to query the server about a player's move
 	checkMove(cardID, deckID, index = -1)
 	{
 		this.socket.send("game", {type: "move", card: cardID, deck: deckID, pos: index});
 	}
 
+
+	// DRAG DEBUGGING
+
+	// Generic check function for drag debugging
 	dragCheck(cap)
 	{
 		console.log(cap);
 	}
 
+	// More debugging for the drag class
 	dragMsg (event)
 	{
 		if(event.drag.length < 1)
