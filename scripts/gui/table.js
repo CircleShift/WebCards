@@ -149,7 +149,7 @@ class Table{
 		if(event.drag.length < 1)
 			return;
 
-		var c = this.checkCard(event.drag[0].e);
+		var c = event.drag[0].e.card;
 		var d = this.checkDeck(event.x, event.y);
 
 		if(c !== null)

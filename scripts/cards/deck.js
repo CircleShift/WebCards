@@ -70,17 +70,25 @@ class Deck {
 
 	appendCard(card)
 	{
+		if(this.inf) {
+			return false;
+		}
 		this.cards.push(card);
 		this.e.appendChild(card.e);
 		this.updatePos();
+		return true;
 	}
 
 	prependCard(card)
 	{
+		if(this.inf) {
+			return false;
+		}
 		this.cards.unshift(card);
 		this.e.prepend(card.e);
 		card.setPos(this.cards.length - 1);
 		this.updateCount();
+		return true;
 	}
 
 	addCardAt(card, index)
