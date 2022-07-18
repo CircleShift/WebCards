@@ -120,9 +120,9 @@ class Table{
 	// Check if a position is within a deck
 	checkDeck(x, y)
 	{
-		for(let d of this.decks)
+		for(let d of Object.keys(this.decks))
 		{
-			if(d.isInside(x, y))
+			if(this.decks[d].isInside(x, y))
 				return d;
 		}
 		return null;
@@ -155,7 +155,7 @@ class Table{
 		if(c !== null)
 		{
 			if(d !== null)
-				this.checkMove(c.getID(), d.getID());
+				this.checkMove(c.getID(), d);
 			else
 				c.resetPos();
 		}
