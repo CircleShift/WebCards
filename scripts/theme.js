@@ -9,13 +9,15 @@ const BASE_THEMES = [[
 	"Dark"
 ]];
 
+const APP_NAME = "WebCards";
+
 class Theme{
 	static theme = document.getElementById("theme");
 	static UserThemes = [[],[]];
 
 	static init()
 	{
-		let uth = Cookies.getCookie("userThemes").split(',');
+		let uth = Cookies.getCookie("userThemes-" + APP_NAME).split(',');
 
 		for (let i = 1; i < uth.length; i += 2)
 		{
@@ -23,25 +25,21 @@ class Theme{
 			this.UserThemes[1].push(uth[i]);
 		}
 
-		if(Cookies.getCookie("theme") == ""){
-			Cookies.setYearCookie("theme", "styles/themes/colors-base.css");
+		if(Cookies.getCookie("theme-" + APP_NAME) == ""){
+			Cookies.setYearCookie("theme-" + APP_NAME, BASE_THEMES[0][0]);
 		}
-	}
 
-	static restore()
-	{
-		Theme.init();
-		Theme.theme.setAttribute("href", Cookies.getCookie("theme") + "?v=" + Date.now());
+		Theme.theme.setAttribute("href", Cookies.getCookie("theme-" + APP_NAME) + "?v=" + Date.now());
 	}
 
 	static set(sheet)
 	{
-		Cookies.setYearCookie("theme", sheet);
+		Cookies.setYearCookie("theme-" + APP_NAME, sheet);
 		Theme.theme.setAttribute("href", sheet + "?v=" + Date.now());
 	}
 
 	static get() {
-		return Cookies.getCookie("theme");
+		return Cookies.getCookie("theme-" + APP_NAME);
 	}
 
 	static setUserThemes() {
@@ -54,7 +52,7 @@ class Theme{
 			out = out + this.UserThemes[0][i] + "," + this.UserThemes[1][i];
 		}
 
-		Cookies.setYearCookie("userThemes", out);
+		Cookies.setYearCookie("userThemes-" + APP_NAME, out);
 	}
 
 	static removeUserTheme (index) {
@@ -70,4 +68,4 @@ class Theme{
 	}
 }
 
-Theme.restore();
+Theme.init();

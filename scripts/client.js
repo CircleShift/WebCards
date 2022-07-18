@@ -48,9 +48,9 @@ class Client{
 		this.socket.addEventListener("error", this.socketError.bind(this));
 		this.socket.addEventListener("closed", this.socketClose.bind(this));
 		this.socket.addEventListener("handshake", this.handshake.bind(this));
-		this.socket.addEventListener("menu", this.menu.bind(this));
-		this.socket.addEventListener("game", this.game.bind(this));
-		this.socket.addEventListener("chat", this.msg.bind(this));
+		this.socket.addEventListener("menu", this.menuMsg.bind(this));
+		this.socket.addEventListener("game", this.gameMsg.bind(this));
+		this.socket.addEventListener("chat", this.chatMsg.bind(this));
 
 		this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
 
@@ -128,21 +128,21 @@ class Client{
 	}
 
 	// Menu switch, called when in the lobby and a message arrives from the server
-	menu (e)
+	menuMsg (e)
 	{
 		let m = e.detail;
 		this.lobby[m.type](m.data);
 	}
 
 	// Game switch, called when in game and a message arrives from the server
-	game (e)
+	gameMsg (e)
 	{
 		let m = e.detail;
 		this.table[m.type](m.data);
 	}
 
 	// Callback when a chat event is recieved from the server
-	msg (e)
+	chatMsg (e)
 	{
 		let m = e.detail;
 		this.chat[m.type](m.data);

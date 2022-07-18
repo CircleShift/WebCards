@@ -91,7 +91,7 @@ class Table{
 			delete this.cards[this.decks[id].cards[i].getID()];
 			this.decks[id].removeCard(i);
 		}
-		//this.deck[]
+		delete this.deck[id];
 	}
 
 	// Delete a card

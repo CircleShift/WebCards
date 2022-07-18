@@ -12,6 +12,9 @@ class MultiDrag extends EventTarget {
 		window.addEventListener("mouseup", this.stopDraggingAll.bind(this));
 		document.body.addEventListener("mouseleave", this.stopDraggingAll.bind(this));
 
+		//window.addEventListener("touchend", this.stopDraggingAll.bind(this));
+		//window.addEventListener("touchcancel", this.stopDraggingAll.bind(this));
+
 		this.ret = ret;
 	}
 
@@ -143,10 +146,14 @@ class MultiDrag extends EventTarget {
 	}
 
 	addTarget(e) {
-		e.addEventListener("mousedown", this.startDragging.bind(this));
+		e.d1 = this.startDragging.bind(this);
+		//e.d2 = this.startTouchDrag.bind(this);
+		e.addEventListener("mousedown", e.d1);
+		//e.addEventListener("touchstart", e.d2);
 	}
 
 	removeTarget (e) {
-		e.removeEventListener("mousedown", this.startDragging.bind(this));
+		e.removeEventListener("mousedown", e.d1);
+		e.removeEventListener("touchstart", e.d2);
 	}
 }

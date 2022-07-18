@@ -13,7 +13,7 @@ class Deck {
 	y = 0;
 	e = null;
 
-	constructor(options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
+	constructor(id, options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
 	{
 		// View mode
 		//  infdraw - infinite draw. always appears as if there are multiple cards
@@ -54,6 +54,10 @@ class Deck {
 		this.e.setAttribute("mode", options.mode);
 
 		this.e.deck = this;
+
+		this.getID = function() {
+			return id;
+		}
 	}
 
 	updatePos()
@@ -91,8 +95,11 @@ class Deck {
 		} else {
 			let temp = this.cards.slice(0, index);
 			temp[temp.length - 1].e.after(card.e);
-			temp.push(card);
-			this.cards.unshift(...temp);
+			this.cards.unshift(card);
+			
+			for(let i = temp.length - 1; i >= 0; i--)
+				this.cards.unshift(temp[i]);
+			
 			this.updatePos();
 		}
 	}
@@ -108,6 +115,9 @@ class Deck {
 
 		this.cards[index1 - 1].e.after(this.cards[index1]);
 		this.cards[index2 - 1].e.after(this.cards[index2]);
+
+		this.cards[index1].setPos(index1);
+		this.cards[index2].setPos(index2);
 	}
 
 	removeCard(index)
