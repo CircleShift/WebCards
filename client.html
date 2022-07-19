@@ -39,7 +39,7 @@
 		<script src="scripts/socket/message.js"></script>
 		<script src="scripts/socket/sock.js"></script>
 
-		<script src="scripts/client.js"></script>
+		<script src="scripts/client.js" defer></script>
 
 		<title>WebCards - Client</title>
 	</head>
@@ -120,12 +120,6 @@
 				<button>Send</button>
 			</div>
 		</div>
-
-		<script>
-			var params = new URLSearchParams((new URL(window.location)).search);
-			var game = new Client(params.get("s"), params.get("g"));
-			setTimeout(game.init.bind(game), 100);
-		</script>
 	</body>
 
 </html>

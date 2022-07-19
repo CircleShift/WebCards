@@ -167,3 +167,13 @@ class Client{
 		
 	}
 }
+
+// Global init of the game variable
+
+let game;
+
+(() => {
+	let params = new URLSearchParams((new URL(window.location)).search);
+	game = new Client(params.get("s"), params.get("g"));
+	game.init();
+})();
