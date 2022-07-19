@@ -144,7 +144,7 @@ class Deck {
 	{
 		for(let i in this.cards)
 		{
-			if(this.cards[i].getID() == id)
+			if(this.cards[i].id === id)
 				return this.removeCard(i);
 		}
 
@@ -186,7 +186,7 @@ class Deck {
 	{
 		for(let c of this.cards)
 		{
-			if(c.getID() === id)
+			if(c.id === id)
 				return c;
 		}
 		return null;

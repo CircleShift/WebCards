@@ -15,9 +15,7 @@ class Card {
 		this.e.style.top = "0px";
 		this.e.card = this;
 
-		this.getID = function() {
-			return id;
-		}
+		this.id = id;
 	}
 
 	// Generate a card with basic text only

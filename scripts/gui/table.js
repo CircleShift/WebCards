@@ -88,7 +88,7 @@ class Table{
 		this.decks[id].e.remove();
 		for(let i in this.decks[id].cards)
 		{
-			delete this.cards[this.decks[id].cards[i].getID()];
+			delete this.cards[this.decks[id].cards[i].id];
 			this.decks[id].removeCard(i);
 		}
 		delete this.deck[id];
@@ -112,6 +112,22 @@ class Table{
 	{
 		this.cards[data.cardID].getDeck().removeCardByID(data.cardID);
 		this.decks[data.deckID].addCardAt(this.cards[data.cardID], data.index);
+	}
+
+	// Swap card data with new data
+	// {data object} data from the server
+	// {data.cardID any} ID of the card to swap
+	// {data.newID any} New ID for the card
+	// {data.data object} visualization data
+	swapCard(data)
+	{
+		// Can't swap a card into a an id of a pre-existing card.
+		if (this.cards[data.newID] != null) {
+			return false;
+		}
+		this.cards[data.newID] = this.cards[data.cardID];
+		delete this.cards[data.cardID];
+		this.cards[data.newID].generateElements(data.data);
 	}
 
 
@@ -154,8 +170,8 @@ class Table{
 
 		if(c !== null)
 		{
-			if(d !== null)
-				this.checkMove(c.getID(), d);
+			if(d !== null && !this.decks[d].hasCard(c.id))
+				this.checkMove(c.id, d);
 			else
 				c.resetPos();
 		}
