@@ -53,10 +53,6 @@ class TopBar{
 class Game {
 	constructor(options = {id: 0, name: "", password: false}, el)
 	{
-		this.getID = function () {
-			return options.id;
-		}
-
 		this.getName = function () {
 			return options.name;
 		}
@@ -74,10 +70,6 @@ class Game {
 		join.addEventListener("click", game.joinGame.bind(game, options.id));
 		e.appendChild(join);
 
-		this.hasPassword = function () {
-			return options.password;
-		}
-
 		if(usePass) {
 			let pass = MakeInput.textInput("", "Game password");
 			pass.classList.add("pass");
@@ -89,6 +81,10 @@ class Game {
 		}
 
 		el.appendChild(e);
+
+		this.remove = function () {
+			e.remove();
+		}
 	}
 }
 
@@ -124,7 +120,7 @@ class Lobby {
 		
 		this.init = false;
 		this.online = [];
-		this.games = [];
+		this.games = {};
 		this.packs = [];
 	}
 

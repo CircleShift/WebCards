@@ -58,7 +58,7 @@ class MultiDrag extends EventTarget {
 		if(e.button != 0)
 			return;
 
-		var cap = new Event("dragstart");
+		let cap = new Event("dragstart");
 		
 		cap.drag = this.addDragEl(
 			e.target,
@@ -81,7 +81,7 @@ class MultiDrag extends EventTarget {
 		if (i < 0 || i >= this.drag.length)
 			return;
 		
-		var cap = new Event("dragstop");
+		let cap = new Event("dragstop");
 		cap.x = this.mouse[0];
 		cap.y = this.mouse[1];
 		
@@ -112,7 +112,7 @@ class MultiDrag extends EventTarget {
 		
 		this.del = true;
 		
-		var cap = new Event("dragstop");
+		let cap = new Event("dragstop");
 
 		cap.x = this.mouse[0];
 		cap.y = this.mouse[1];

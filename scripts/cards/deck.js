@@ -117,7 +117,7 @@ class Deck {
 		if(index1 < 0 || index1 >= this.cards.length || index2 < 0 || index2 >= this.cards.length)
 			return
 		
-		var temp = this.cards[index1]
+		let temp = this.cards[index1]
 		this.cards[index1] = this.cards[index2];
 		this.cards[index2] = temp;
 
@@ -168,7 +168,7 @@ class Deck {
 
 	isInside(x, y)
 	{
-		var rect = this.e.getBoundingClientRect();
+		let rect = this.e.getBoundingClientRect();
 		return (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom)
 	}
 

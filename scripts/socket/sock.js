@@ -36,7 +36,7 @@ class SockWorker extends EventTarget{
 	// Attempts to turn the message into a usable object and pass it to the callback
 	msg (e) {
 		if(typeof e.data == "string") {
-			var dat = JSON.parse(e.data);
+			let dat = JSON.parse(e.data);
 			this.dispatchEvent(new CustomEvent(dat.type, {detail: dat.data}));
 		}
 	}
@@ -60,7 +60,7 @@ class SockWorker extends EventTarget{
 
 	// Send a message to the server
 	send (type, data) {
-		var m = new Message(type, data);
+		let m = new Message(type, data);
 		this.socket.send(m.stringify())
 	}
 

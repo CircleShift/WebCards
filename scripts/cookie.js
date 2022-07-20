@@ -24,13 +24,13 @@ class Cookies {
 	}
 
 	static setYearCookie(name, value) {
-		var date = new Date(Date.now());
+		let date = new Date(Date.now());
 		date.setFullYear(date.getFullYear() + 1);
 		Cookies.setCookie(name, value, {SameSite: "Strict", expires: date.toUTCString()});
 	}
 
 	static removeCookie(name) {
-		var date = new Date(0);
+		let date = new Date(0);
 		Cookies.setCookie(name, "", {SameSite: "Strict", expires: date.toUTCString()});
 	}
 }

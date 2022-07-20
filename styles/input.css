@@ -238,7 +238,7 @@ div.input-select > div[selected=true]
 	display: block;
 }
 
-div.input-container:focus > div.input-select
+div.input-container:focus-within > div.input-select
 {
 	transform: translate(0, 2em);
 
@@ -249,7 +249,7 @@ div.input-container:focus > div.input-select
 	background-color: var(--input-bg-select-active);
 }
 
-div.input-container:focus > div.input-select > div
+div.input-container:focus-within > div.input-select > div
 {
 	pointer-events: all;
 	display: block;
@@ -257,13 +257,13 @@ div.input-container:focus > div.input-select > div
 	width: 6em;
 }
 
-div.input-container:focus > div.input-select > div:hover
+div.input-container:focus-within > div.input-select > div:hover
 {
 	background-color: var(--input-bg-select-hover);
 	color: var(--input-color-select-hover);
 }
 
-div.input-container:focus > div.input-select > div[selected=true]:after
+div.input-container:focus-within > div.input-select > div[selected=true]:after
 {
 	font-family: "IcoFont";
 	content: '\eed8';

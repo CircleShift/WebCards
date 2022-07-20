@@ -21,8 +21,6 @@ card
 card:hover
 {
 	box-shadow: 0 0 10px var(--card-hover);
-
-	z-index: 4;
 }
 
 card > * {
@@ -150,6 +148,14 @@ deck {
 
 deck:hover {
 	border: 3px solid var(--deck-hover);
+}
+
+deck:hover > card {
+	opacity: 0.5;
+}
+
+deck:hover > card:hover {
+	opacity: 1;
 }
 
 /* Deck modes */

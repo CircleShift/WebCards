@@ -77,7 +77,7 @@ class Chat {
 			this.getActiveChannel().btn.setAttribute("active", false);
 
 		c.btn.setAttribute("active", true);
-		var ct = this.root.getElementsByClassName("chat-text")[0];
+		let ct = this.root.getElementsByClassName("chat-text")[0];
 		ct.replaceWith(c.e);
 
 		c.e.scroll({
@@ -94,7 +94,7 @@ class Chat {
 
 	sendMessage ()
 	{
-		var str = this.chatInput.value;
+		let str = this.chatInput.value;
 		if(str == "")
 			return;
 		this.chatInput.value = "";
@@ -110,7 +110,7 @@ class Chat {
 		
 		let autoscroll = c.e.scrollTop == c.e.scrollTopMax;
 
-		let csp = document.createElement("span")
+		let csp = document.createElement("span");
 		let tsp = document.createElement("span");
 
 		if(msg.server === true){

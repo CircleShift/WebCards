@@ -4,11 +4,10 @@
 class MakeInput {
 	static createInput(type = "text", wrap = false, getset = true)
 	{
-		var el = document.createElement("input");
+		let el = document.createElement("input");
 		el.setAttribute("type", type);
 
-		if(wrap)
-		{
+		if(wrap) {
 			return this.wrapInputs(type, el);
 		}
 
@@ -28,7 +27,7 @@ class MakeInput {
 	// Function deprecated, finding another way to do this
 	static inputLabel(text, id)
 	{
-		var el = document.createElement("label");
+		let el = document.createElement("label");
 		el.innerText = text;
 		if(typeof id == "string")
 			el.setAttribute("for", id);
@@ -36,14 +35,14 @@ class MakeInput {
 	}
 
 	static colorInput (value) {
-		var el = MakeInput.createInput("color", true);
+		let el = MakeInput.createInput("color", true);
 		el.setValue(value);
 		return el;
 	}
 
 	static textInput (value, placeholder)
 	{
-		var el = MakeInput.createInput("text");
+		let el = MakeInput.createInput("text");
 		el.setAttribute("placeholder", placeholder);
 		el.value = value;
 		return el;
@@ -51,13 +50,13 @@ class MakeInput {
 
 	static numberInput (value)
 	{
-		var el = MakeInput.createInput("number");
+		let el = MakeInput.createInput("number");
 		el.value = value;
 		return el;
 	}
 
 	static fileInput (accepts = "", multiple = false) {
-		var el = MakeInput.createInput("file", true, false);
+		let el = MakeInput.createInput("file", true, false);
 		
 		let e = el.getElement();
 		e.setAttribute("accepts", accepts);
@@ -88,7 +87,7 @@ class MakeInput {
 	}
 
 	static checkboxInput (value = false) {
-		var el = MakeInput.createInput("checkbox", false, false);
+		let el = MakeInput.createInput("checkbox", false, false);
 
 		el.getValue = function() {
 			return el.checked;
@@ -104,7 +103,7 @@ class MakeInput {
 	}
 
 	static radio (value, group, checked = false) {
-		var el = MakeInput.createInput("radio", false, false);
+		let el = MakeInput.createInput("radio", false, false);
 		el.setAttribute("name", group);
 		el.setAttribute("value", value);
 		if(checked)
@@ -125,7 +124,7 @@ class MakeInput {
 			toWrap.push(document.createElement("br"));
 		}
 
-		var wrapper = MakeInput.wrapInputs("radio", ...toWrap);
+		let wrapper = MakeInput.wrapInputs("radio", ...toWrap);
 
 		wrapper.setAttribute("data-prompt", prompt);
 
@@ -150,7 +149,7 @@ class MakeInput {
 
 	static wrapInputs (type, ...el) {
 
-		var wrapper = document.createElement("div");
+		let wrapper = document.createElement("div");
 		wrapper.className = "input-container";
 		wrapper.setAttribute("type", type);
 
@@ -174,11 +173,18 @@ class MakeInput {
 	}
 
 	static selectOption (value, text, index, selected) {
-		var so = document.createElement("div");
+		let so = document.createElement("div");
 		so.innerText = text;
 		so.selectValue = value;
 		so.selectIndex = index;
+		so.setAttribute("tabindex", 0);
 		so.addEventListener("mousedown", MakeInput.selOption.bind(null, so));
+
+		so.addEventListener("keydown", (e) => {
+			if (e.key === "Enter") {
+				MakeInput.selOption(so);
+			}
+		});
 
 		if(selected === true)
 			so.setAttribute("selected", true);
@@ -187,9 +193,8 @@ class MakeInput {
 	}
 
 	static selectInput (values, names, select = 0) {
-		var se = document.createElement("div");
+		let se = document.createElement("div");
 		se.className = "input-select";
-		se.setAttribute("tabindex", 0);
 		se.setAttribute("selected", select);
 
 		for(let i in names)
@@ -197,7 +202,7 @@ class MakeInput {
 			se.appendChild(MakeInput.selectOption(values[i], names[i], i, i == select));
 		}
 		
-		var wrapper = MakeInput.wrapInputs("select", se);
+		let wrapper = MakeInput.wrapInputs("select", se);
 		wrapper.getValue = MakeInput.selValue.bind(null, se);
 		wrapper.getIndex = MakeInput.selIndex.bind(null, se);
 		wrapper.addOption = MakeInput.selAdd.bind(se);
@@ -259,7 +264,7 @@ class MakeInput {
 	}
 
 	static titleWrap(el, title) {
-		var wrapper = document.createElement("div");
+		let wrapper = document.createElement("div");
 		wrapper.className = "input-title-wrapper";
 		wrapper.setAttribute("type", el.getAttribute("type"));
 		wrapper.setAttribute("data-title", title);
@@ -286,7 +291,7 @@ class Settings {
 
 	static genSettings (template)
 	{
-		var out = {};
+		let out = {};
 
 		for(let key in template)
 		{
@@ -299,7 +304,7 @@ class Settings {
 
 	getSettings ()
 	{
-		var out = {};
+		let out = {};
 
 		for(let key in this.settings)
 			out[key] = this.settings[key].el.getValue();

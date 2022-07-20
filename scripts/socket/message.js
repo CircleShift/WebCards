@@ -9,7 +9,7 @@ class Message{
 
 	stringify ()
 	{
-		var dat = this.d
+		let dat = this.d
 		if(typeof dat !== "string"){
 			dat = JSON.stringify(dat);
 		}

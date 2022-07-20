@@ -63,7 +63,7 @@ class Table{
 	// {data.options object} options as found in Deck constructor
 	newDeck(data)
 	{
-		var d = new Deck(data.id, data.options);
+		let d = new Deck(data.id, data.options);
 		this.decks[data.id] = d;
 		this.root.appendChild(d.e);
 	}
@@ -75,7 +75,7 @@ class Table{
 	// {data.deck} the id of the deck to add the card to
 	newCard(data)
 	{
-		var c = new Card(data.id, data.data);
+		let c = new Card(data.id, data.data);
 		this.cards[data.id] = c;
 		this.decks[data.deck].appendCard(c);
 		this.drag.addTarget(c.e);
@@ -165,8 +165,8 @@ class Table{
 		if(event.drag.length < 1)
 			return;
 
-		var c = event.drag[0].e.card;
-		var d = this.checkDeck(event.x, event.y);
+		let c = event.drag[0].e.card;
+		let d = this.checkDeck(event.x, event.y);
 
 		if(c !== null)
 		{
