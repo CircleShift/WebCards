@@ -157,14 +157,15 @@ class Client{
 		this.socket.init();
 	}
 
-	joinGame(id)
+	joinGame(id, pass = "")
 	{
-		this.table.openTable();
+		this.lobby.setState("Joining...", "loading", this.socket.server);
+		this.socket.send("join", {id: id, pass: pass});
 	}
 
 	leaveGame()
 	{
-		
+		this.socket.send("leave", "");
 	}
 }
 
