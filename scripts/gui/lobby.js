@@ -1,4 +1,7 @@
 'use strict';
+
+const LOBBY_RPC = ["packList", "gameList", "players", "addGame", "deleteGame"]
+
 // ###############
 // # TopBar Code #
 // ###############
@@ -51,35 +54,53 @@ class TopBar{
 
 // Game represents a single game in the lobby view.  It has methods for setting up the elements and such.
 class Game {
-	constructor(options = {id: 0, name: "", password: false}, el)
+	constructor(options = {id: 0, name: "", packs: [], pass: false}, el)
 	{
-		this.getName = function () {
+		this.getName = () => {
 			return options.name;
 		}
 
+		this.getID = () => {
+			return options.id;
+		}
+
+		// Main game element
 		let e = document.createElement("div");
 		e.className = "game";
 
+		// Game title
 		let title = document.createElement("h2");
 		title.textContent = options.name;
 		e.appendChild(title);
 
+		// Game stats
+		let gid = document.createElement("span");
+		gid.textContent = `Game ID: ${options.id}`;
+		e.appendChild(gid);
+
+		let pid = document.createElement("span");
+		pid.textContent = `Pack count: ${options.packs.length}`;
+		e.appendChild(pid);
+
+		// Join/password
+		let jap = document.createElement("div");
+
 		let join = document.createElement("button");
-		join.className = "join";
 		join.textContent = "Join";
 		join.addEventListener("click", game.joinGame.bind(game, options.id));
-		e.appendChild(join);
+		jap.appendChild(join);
 
-		if(usePass) {
-			let pass = MakeInput.textInput("", "Game password");
-			pass.classList.add("pass");
-			e.appendChild(pass);
-
-			this.getUserPass = function () {
-				return pass.value;
-			}
+		this.getPass = () => {
+			return "";
 		}
 
+		if(options.pass) {
+			let pass = MakeInput.passwordInput("", "Game password");
+			jap.appendChild(pass);
+			this.getPass = pass.getValue.bind(pass);
+		}
+
+		e.appendChild(jap);
 		el.appendChild(e);
 
 		this.remove = function () {
@@ -168,14 +189,16 @@ class Lobby {
 	// { data.name } room name
 	// { data.packs } list of the pack names used by this game
 	// { data.id } room identifier (uuid)
+	// { data.pass } true or false weather the game has a password
+
 	addGame (data) {
 		let g = new Game(data, this.e.games);
-		this.games.push(g);
+		this.games[data.id] = g;
 	}
 
 	// Called when a new public game is removed on the server
 	// { data string } the uuid of the game to delete
-	removeGame (data) {
+	deleteGame (data) {
 
 	}
 

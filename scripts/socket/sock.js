@@ -1,16 +1,22 @@
 'use strict';
+
+const VALID_EVENTS = ["error", "closed", "handshake", "menu", "game", "chat", "ping"];
+
 // A wrapper around the wrapper 
 class SockWorker extends EventTarget{
+
 	constructor (serveraddr, version)
 	{
 		super();
 
 		this.server = serveraddr;
 		this.version = version;
+		this.handshake = false;
 	}
 
 	// Initialize the connection.
 	init () {
+		this.handshake = false;
 		if(this.server == "" || this.server == null) {
 			return;
 		}
@@ -37,7 +43,16 @@ class SockWorker extends EventTarget{
 	msg (e) {
 		if(typeof e.data == "string") {
 			let dat = JSON.parse(e.data);
-			this.dispatchEvent(new CustomEvent(dat.type, {detail: dat.data}));
+
+			if (!this.handshake) {
+				if (dat.type == "ready")
+					this.handshake = true;
+				this.dispatchEvent(new CustomEvent("handshake", {detail: dat.type}));
+				return;
+			}
+			
+			if (VALID_EVENTS.includes(dat.type))
+				this.dispatchEvent(new CustomEvent(dat.type, {detail: dat.data}));
 		}
 	}
 

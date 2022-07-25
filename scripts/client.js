@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = "1.0.0";
+const VERSION = "1";
 
 const DefaultUserOps = {
 	color: {
@@ -51,8 +51,10 @@ class Client{
 		this.socket.addEventListener("menu", this.menuMsg.bind(this));
 		this.socket.addEventListener("game", this.gameMsg.bind(this));
 		this.socket.addEventListener("chat", this.chatMsg.bind(this));
+		this.socket.addEventListener("ping", this.pingMsg.bind(this));
 
 		this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
+		this.lobby.setState("Connecting", "loading", this.socket.server);
 
 		this.drag = new MultiDrag();
 		
@@ -111,8 +113,8 @@ class Client{
 				this.settings.cleanup();
 				this.gameOptions.cleanup();
 				
-				this.settings = new Settings(m.data.user);
-				this.gameOptions = new Settings(m.data.game);
+				//this.settings = new Settings(m.data.user);
+				//this.gameOptions = new Settings(m.data.game);
 
 				this.gameOptions.putSettings(this.lobby.top.newGame);
 				
@@ -131,21 +133,32 @@ class Client{
 	menuMsg (e)
 	{
 		let m = e.detail;
-		this.lobby[m.type](m.data);
+
+		if (LOBBY_RPC.includes(m.type))
+			this.lobby[m.type](m.data);
 	}
 
 	// Game switch, called when in game and a message arrives from the server
 	gameMsg (e)
 	{
 		let m = e.detail;
-		this.table[m.type](m.data);
+
+		if (TABLE_RPC.includes(m.type))
+			this.table[m.type](m.data);
 	}
 
 	// Callback when a chat event is recieved from the server
 	chatMsg (e)
 	{
 		let m = e.detail;
-		this.chat[m.type](m.data);
+
+		if (CHAT_RPC.includes(m.type))
+			this.chat[m.type](m.data);
+	}
+
+	pingMsg(e)
+	{
+		this.socket.send("pong", "");
 	}
 
 	// Reset the lobby and table, then attempt to reopen the connection to the server.
@@ -157,10 +170,10 @@ class Client{
 		this.socket.init();
 	}
 
-	joinGame(id, pass = "")
+	joinGame(id)
 	{
 		this.lobby.setState("Joining...", "loading", this.socket.server);
-		this.socket.send("join", {id: id, pass: pass});
+		this.socket.send("join", {id: id, pass: this.lobby.games[id].getPass()});
 	}
 
 	leaveGame()

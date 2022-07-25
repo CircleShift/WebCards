@@ -1,5 +1,7 @@
 'use strict';
 
+const CHAT_RPC = ["addChannel", "recieveMessage", "deleteChannel"]
+
 class Chat {
 	constructor(e, soc)
 	{

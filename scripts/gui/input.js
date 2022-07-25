@@ -48,6 +48,14 @@ class MakeInput {
 		return el;
 	}
 
+	static passwordInput (value, placeholder)
+	{
+		let el = MakeInput.createInput("password");
+		el.setAttribute("placeholder", placeholder);
+		el.value = value;
+		return el;
+	}
+
 	static numberInput (value)
 	{
 		let el = MakeInput.createInput("number");

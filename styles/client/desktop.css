@@ -84,7 +84,7 @@
 	}
 
 	div.content {
-		min-width: 70vw;
+		width: 70vw;
 		min-height: 70vh;
 
 		display: flex;
@@ -133,10 +133,6 @@
 
 	div.settings {
 		margin-top: 10px;
-	}
-
-	div.game {
-		height: 20%;
 	}
 
 	/*

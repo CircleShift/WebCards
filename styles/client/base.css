@@ -337,12 +337,16 @@ div.chat-text > div {
 
 div.game > h2 {
 	margin: 0;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-button.join {
-	position: absolute;
-
-	bottom: 5px;
-	right: 5px;
+div.game > span {
+	width: 50%;
+	display: inline-block;
 }
 
+div.game > div {
+	display: flex;
+	flex-direction: row-reverse;
+}
