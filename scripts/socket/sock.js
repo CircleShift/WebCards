@@ -20,6 +20,11 @@ class SockWorker extends EventTarget{
 		if(this.server == "" || this.server == null) {
 			return;
 		}
+
+		if(this.socket != null) {
+			this.socket.close();
+		}
+
 		try {
 			this.socket = new WebSocket(this.server);
 
@@ -47,7 +52,7 @@ class SockWorker extends EventTarget{
 			if (this.handshake) {
 				if (dat.type == "ready")
 					this.handshake = false;
-				this.dispatchEvent(new CustomEvent("handshake", {detail: dat.type}));
+				this.dispatchEvent(new CustomEvent("handshake", {detail: dat}));
 				return;
 			}
 			

@@ -94,26 +94,27 @@ class Client{
 	// Callback when negotiating with the server for the first time and we are determining versions
 	handshake (e)
 	{
-		switch (e.detail) {
+		let m = e.detail
+		switch (m.type) {
 			case "verr":
 				this.socket.close();
 				
-				alert(`Error connecting to server: version of client (${this.version}) not accepted.`);
+				alert(`Error connecting to server: version of client (${VERSION}) not accepted.`);
 				
-				console.error(`Error connecting to server: version of client (${this.version}) not accepted.`);
+				console.error(`Error connecting to server: version of client (${VERSION}) not accepted.`);
 				
 				console.error(m.data);
 				
 				return;
 
 			case "ready":
-				console.log(`Handshake with server OK.  Running client version ${this.version}`);
+				console.log(`Handshake with server OK.  Running client version ${VERSION}`);
 
 				this.settings.cleanup();
 				this.gameOptions.cleanup();
 				
-				//this.settings = new Settings(m.data.user);
-				//this.gameOptions = new Settings(m.data.game);
+				this.settings = new Settings(m.data.user);
+				this.gameOptions = new Settings(m.data.game);
 
 				this.gameOptions.putSettings(this.lobby.top.newGame);
 				
