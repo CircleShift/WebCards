@@ -94,8 +94,7 @@ class Client{
 	// Callback when negotiating with the server for the first time and we are determining versions
 	handshake (e)
 	{
-		let m = e.detail;
-		switch (m.type) {
+		switch (e.detail) {
 			case "verr":
 				this.socket.close();
 				

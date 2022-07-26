@@ -11,12 +11,12 @@ class SockWorker extends EventTarget{
 
 		this.server = serveraddr;
 		this.version = version;
-		this.handshake = false;
+		this.handshake = true;
 	}
 
 	// Initialize the connection.
 	init () {
-		this.handshake = false;
+		this.handshake = true;
 		if(this.server == "" || this.server == null) {
 			return;
 		}
@@ -44,9 +44,9 @@ class SockWorker extends EventTarget{
 		if(typeof e.data == "string") {
 			let dat = JSON.parse(e.data);
 
-			if (!this.handshake) {
+			if (this.handshake) {
 				if (dat.type == "ready")
-					this.handshake = true;
+					this.handshake = false;
 				this.dispatchEvent(new CustomEvent("handshake", {detail: dat.type}));
 				return;
 			}
