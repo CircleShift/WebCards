@@ -342,7 +342,11 @@ div.game > h2 {
 }
 
 div.game > span {
-	width: 50%;
+	width: 40%;
+	padding-left: 5%;
+	padding-right: 5%;
+	overflow: hidden;
+	white-space: nowrap;
 	display: inline-block;
 }
 

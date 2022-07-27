@@ -289,12 +289,22 @@ class MakeInput {
 }
 
 // Mostly fixed now
-class Settings {
+class Settings extends EventTarget {
 	constructor (template = {})
 	{
+		super();
 		this.settings = Settings.genSettings(template);
+		this.applyEvents(template);
 
 		this.wrappers = {};
+	}
+
+	applyEvents (template) {
+		for(let key in template)
+		{
+			if(typeof MakeInput[template[key].type+"Input"] != null)
+				this.settings[key].el.onchange = (function () {this.dispatchEvent(new CustomEvent("change"));}).bind(this);
+		}
 	}
 
 	static genSettings (template)

@@ -54,6 +54,7 @@ input[type=text], input[type=password], input[type=date], input[type=time], inpu
 	background-color: var(--input-bg-text);
 	color: var(--input-color-text);
 	font-size: 1em;
+	width: calc(100% - 10px);
 }
 
 input[type=text]:hover, input[type=password]:hover, input[type=date]:hover, input[type=time]:hover, input[type="number"]:hover
@@ -427,6 +428,10 @@ div.input-container[type=select]:focus::after
 {
 	content: '\eab9';
 	color: var(--input-color-select-active);
+}
+
+div.input-container[type="button"] > input {
+	width: calc(100% - 10px);
 }
 
 /*    Input Title Wrapper    */

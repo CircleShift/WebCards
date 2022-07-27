@@ -5,7 +5,7 @@ const CHAT_RPC = ["addChannel", "recieveMessage", "deleteChannel"]
 class Chat {
 	constructor(e, soc)
 	{
-		this.chats = [];
+		this.chats = {};
 		this.active = null;
 		this.root = e;
 		this.socket = soc;
@@ -17,19 +17,6 @@ class Chat {
 		cin.getElementsByTagName("button")[0].addEventListener("click", this.sendMessage.bind(this));
 	}
 
-	getChannel (name)
-	{
-		for(let i in this.chats)
-		{
-			if (this.chats[i].name == name)
-			{
-				return this.chats[i];
-			}
-		}
-
-		return null;
-	}
-
 	isActive (name)
 	{
 		if(this.active !== null)
@@ -38,9 +25,12 @@ class Chat {
 		return false;
 	}
 
-	addChannel (name, follow = true)
+	addChannel (dat)
 	{
-		if(this.getChannel(name) != null)
+		if(typeof dat.id !== "string")
+			return;
+		
+		if(this.chats[dat.id] != null)
 			return;
 
 		let d = document.createElement("div");
@@ -50,16 +40,16 @@ class Chat {
 
 		b.setAttribute("active", false);
 
-		b.onclick = this.switchChannel.bind(this, name);
+		b.onclick = this.switchChannel.bind(this, dat.id);
 
-		b.innerText = name;
+		b.innerText = dat.name;
 
 		d.className = "chat-text";
 
-		this.chats.push({name: name, e: d, btn: b});
+		this.chats[dat.id] = {name: dat.name, e: d, btn: b};
 
-		if(follow)
-			this.switchChannel(name)
+		if(dat.follow)
+			this.switchChannel(dat.id)
 	}
 
 	getActiveChannel ()
@@ -67,10 +57,9 @@ class Chat {
 		return this.active;
 	}
 
-	switchChannel (name)
+	switchChannel (id)
 	{
-		let c = this.getChannel(name);
-		this.active = c;
+		let c = this.chats[id];
 		
 		if(c == null)
 			return;
@@ -85,6 +74,8 @@ class Chat {
 		c.e.scroll({
 			top: c.e.scrollTopMax
 		});
+
+		this.active = c;
 	}
 
 	checkEnter(e)
@@ -100,12 +91,12 @@ class Chat {
 		if(str == "")
 			return;
 		this.chatInput.value = "";
-		this.socket.send("chat", {str});
+		this.socket.send("chat", {channel: this.getActiveChannel().name, text: str});
 	}
 
-	recieveMessage (channel, msg)
+	recieveMessage (msg)
 	{
-		let c = this.getChannel(channel);
+		let c = this.chats[msg.channel];
 		
 		if(c == null)
 			return;
@@ -136,9 +127,9 @@ class Chat {
 			c.e.scroll({top: c.e.scrollTopMax});
 	}
 
-	clearChannel (name)
+	clearChannel (id)
 	{
-		let c = this.getChannel(name);
+		let c = this.chats[id];
 		if(c == null)
 			return;
 		
@@ -146,18 +137,14 @@ class Chat {
 			c.e.firstElementChild.remove();
 	}
 
-	deleteChannel (name)
+	deleteChannel (id)
 	{
-		let c = this.getChannel(name);
-		if(c == null)
+		let c = this.chats[id];
+		if(c == null || id === "global")
 			return;
 		
-		let id = this.chats.indexOf(c);
-		if(this.isActive(name)) {
-			if(id == 0 && this.chats.length > 1)
-				this.switchChannel(this.chats[1].name);
-			else
-				this.switchChannel(this.chats[id - 1].name);
+		if(this.isActive(id)) {
+			this.switchChannel("global");
 		}
 			
 		
@@ -166,7 +153,7 @@ class Chat {
 		
 		c.btn.remove();
 
-		this.chats.splice(this.chats.indexOf(c), 1);
+		delete this.chats[id];
 	}
 
 	toggle () {

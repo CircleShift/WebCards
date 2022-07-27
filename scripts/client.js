@@ -61,8 +61,7 @@ class Client{
 		this.table = new Table(document.getElementsByClassName("table")[0], this.drag, this.socket);
 
 		this.chat = new Chat(document.getElementsByClassName("chat")[0], this.socket);
-		this.chat.addChannel("Global");
-		this.chat.switchChannel("Global");
+		this.chat.addChannel({name: "Global", id: "global", follow: true});
 
 		this.settings = new Settings(DefaultUserOps);
 		this.settings.putSettings(this.lobby.e.settings);

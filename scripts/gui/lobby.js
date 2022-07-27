@@ -158,7 +158,7 @@ class Lobby {
 	// { data.name string } name of the game the server runs
 	// { data.games array } array of public games the server is running
 	// { data.games[n].name } room name
-	// { data.games[n].packs } list of the pack names used by this game
+	// { data.games[n].packs } number of extra packs used by this game
 	// { data.games[n].id } room identifier (uuid)
 	// { data.games[n].max } max players in room
 	gameList (data) {
@@ -167,8 +167,12 @@ class Lobby {
 		}
 
 		for (let i of data.games) {
-			let g = new Game(i, this.e.games);
-			this.games.push(g);
+			if (this.games[i.id] == null) {
+				let g = new Game(i, this.e.games);
+				this.games[i.id] = g;
+			} else {
+				console.log(`Game with duplicate ID ${i.id} was discarded.`);
+			}
 		}
 
 		this.e.stats.game.innerText = data.name;
