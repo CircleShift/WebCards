@@ -46,7 +46,7 @@ class Chat {
 
 		d.className = "chat-text";
 
-		this.chats[dat.id] = {name: dat.name, e: d, btn: b};
+		this.chats[dat.id] = {name: dat.name, id: dat.id, e: d, btn: b};
 
 		if(dat.follow)
 			this.switchChannel(dat.id)
@@ -91,7 +91,7 @@ class Chat {
 		if(str == "")
 			return;
 		this.chatInput.value = "";
-		this.socket.send("chat", {channel: this.getActiveChannel().name, text: str});
+		this.socket.send("chat", {channel: this.getActiveChannel().id, text: str});
 	}
 
 	recieveMessage (msg)

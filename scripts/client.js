@@ -109,6 +109,8 @@ class Client{
 			case "ready":
 				console.log(`Handshake with server OK.  Running client version ${VERSION}`);
 
+				this.lobby.setState("Connected", "ok", this.socket.server)
+
 				this.settings.cleanup();
 				this.gameOptions.cleanup();
 				
