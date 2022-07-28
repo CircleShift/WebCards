@@ -48,6 +48,13 @@ class MakeInput {
 		return el;
 	}
 
+	static buttonInput (text)
+	{
+		let el = MakeInput.createInput("button", false, false);
+		el.textContent = text;
+		return el;
+	}
+
 	static passwordInput (value, placeholder)
 	{
 		let el = MakeInput.createInput("password");
@@ -302,8 +309,10 @@ class Settings extends EventTarget {
 	applyEvents (template) {
 		for(let key in template)
 		{
-			if(typeof MakeInput[template[key].type+"Input"] != null)
-				this.settings[key].el.onchange = (function () {this.dispatchEvent(new CustomEvent("change"));}).bind(this);
+			if (template[key].type == "button")
+				this.settings[key].el.onclick = (function() {this.dispatchEvent(new CustomEvent("click", {detail: key}))}).bind(this);
+			else if(typeof MakeInput[template[key].type+"Input"] != null)
+				this.settings[key].el.onchange = (function () {this.dispatchEvent(new CustomEvent("change", {detail: key}));}).bind(this);
 		}
 	}
 

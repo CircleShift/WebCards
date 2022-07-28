@@ -150,7 +150,7 @@ class Table{
 	// Function to query the server about a player's move
 	checkMove(cardID, deckID, index = -1)
 	{
-		this.socket.send("game", {type: "move", card: cardID, deck: deckID, pos: index});
+		this.socket.send("move", {card: cardID, deck: deckID, index: index});
 	}
 
 

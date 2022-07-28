@@ -1,6 +1,6 @@
 'use strict';
 
-const LOBBY_RPC = ["packList", "gameList", "players", "addGame", "deleteGame"]
+const LOBBY_RPC = ["gameList", "stats", "addGame", "deleteGame"]
 
 // ###############
 // # TopBar Code #
@@ -54,7 +54,7 @@ class TopBar{
 
 // Game represents a single game in the lobby view.  It has methods for setting up the elements and such.
 class Game {
-	constructor(options = {id: 0, name: "", packs: [], pass: false}, el)
+	constructor(options = {id: "", name: "", packs: 0, pass: false}, el)
 	{
 		this.getName = () => {
 			return options.name;
@@ -83,12 +83,12 @@ class Game {
 		e.appendChild(pid);
 
 		// Join/password
-		let jap = document.createElement("div");
+		let joindiv = document.createElement("div");
 
 		let join = document.createElement("button");
 		join.textContent = "Join";
 		join.addEventListener("click", game.joinGame.bind(game, options.id));
-		jap.appendChild(join);
+		joindiv.appendChild(join);
 
 		this.getPass = () => {
 			return "";
@@ -96,11 +96,11 @@ class Game {
 
 		if(options.pass) {
 			let pass = MakeInput.passwordInput("", "Game password");
-			jap.appendChild(pass);
+			joindiv.appendChild(pass);
 			this.getPass = pass.getValue.bind(pass);
 		}
 
-		e.appendChild(jap);
+		e.appendChild(joindiv);
 		el.appendChild(e);
 
 		this.remove = function () {
@@ -145,17 +145,9 @@ class Lobby {
 		this.packs = [];
 	}
 
-	// Set initial pack list
-	// {data array} array of strings representing pack names
-	packList (data) {
-		this.packs = data;
-		this.top.setPacks(this.packs)
-		this.e.stats.packs.innerText = this.packs.length();
-	}
-
 	// Set initial game list.
 	// { data object } object containing {games} and {name}
-	// { data.name string } name of the game the server runs
+	// { data.game string } name of the game the server runs
 	// { data.games array } array of public games the server is running
 	// { data.games[n].name } room name
 	// { data.games[n].packs } number of extra packs used by this game
@@ -175,7 +167,8 @@ class Lobby {
 			}
 		}
 
-		this.e.stats.game.innerText = data.name;
+		this.e.stats.game.innerText = data.game;
+		this.e.stats.packs.innerText = data.packs;
 		this.e.stats.pubgame.innerText = this.games.length();
 	}
 
@@ -183,9 +176,10 @@ class Lobby {
 	// { data object } player statistics from the server
 	// { data.online number } players on server
 	// { data.ingame number } players on server and in game
-	players (data) {
+	stats (data) {
 		this.e.stats.online.innerText = data.online;
 		this.e.stats.ingame.innerText = data.ingame;
+		this.e.stats.pubgame.innerText = data.pubgame;
 	}
 
 	// Called when a new public game is created on the server

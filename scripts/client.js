@@ -115,6 +115,8 @@ class Client{
 				this.gameOptions.cleanup();
 				
 				this.settings = new Settings(m.data.user);
+				this.settings.addEventListener("change", (() => {this.socket.send("options", this.settings.getSettings())}).bind(this));
+				
 				this.gameOptions = new Settings(m.data.game);
 
 				this.gameOptions.putSettings(this.lobby.top.newGame);
