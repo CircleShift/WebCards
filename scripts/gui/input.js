@@ -51,7 +51,7 @@ class MakeInput {
 	static buttonInput (text)
 	{
 		let el = MakeInput.createInput("button", false, false);
-		el.textContent = text;
+		el.value = text;
 		return el;
 	}
 
@@ -333,8 +333,10 @@ class Settings extends EventTarget {
 	{
 		let out = {};
 
-		for(let key in this.settings)
-			out[key] = this.settings[key].el.getValue();
+		for(let key in this.settings) {
+			if (this.settings[key].el.getAttribute("type") != "button")
+				out[key] = this.settings[key].el.getValue();
+		}
 		
 		return out;
 	}

@@ -13,7 +13,7 @@ class Deck {
 	y = 0;
 	e = null;
 
-	constructor(id, options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0]})
+	constructor(id, options = {mode: "stack", smode: "one", sct: 0, pos: [0, 0, 0, 1]})
 	{
 		// View mode
 		//  infdraw - infinite draw. always appears as if there are multiple cards
@@ -50,6 +50,8 @@ class Deck {
 		// x and y values are on a scale from 0 to 1, 0 being top left, 1 being bottom right.
 		this.e.style.setProperty("--x", options.pos[0]);
 		this.e.style.setProperty("--y", options.pos[1]);
+		this.e.style.setProperty("--rot", options.pos[2]);
+		this.e.style.setProperty("--scale", options.pos[3] + "deg");
 		
 		this.e.setAttribute("mode", options.mode);
 

@@ -105,6 +105,14 @@ class Client{
 				console.error(m.data);
 				
 				return;
+			case "err":
+					this.socket.close();
+					
+					alert(`Error connecting to server: ${m.data}`);
+					
+					console.error(`Error connecting to server: ${m.data}`);
+					
+					return;
 
 			case "ready":
 				console.log(`Handshake with server OK.  Running client version ${VERSION}`);
@@ -117,7 +125,16 @@ class Client{
 				this.settings = new Settings(m.data.user);
 				this.settings.addEventListener("change", (() => {this.socket.send("options", this.settings.getSettings())}).bind(this));
 				
+				m.data.game.new = {
+					type: "button",
+					title: "",
+					args: ["Create and Join"]
+				}
 				this.gameOptions = new Settings(m.data.game);
+				this.gameOptions.addEventListener("click", ((e) => {
+					if(e.detail == "new")
+						this.socket.send("create", this.gameOptions.getSettings());
+				}).bind(this));
 
 				this.gameOptions.putSettings(this.lobby.top.newGame);
 				
