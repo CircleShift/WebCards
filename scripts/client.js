@@ -163,7 +163,11 @@ class Client{
 	{
 		let m = e.detail;
 
-		if (TABLE_RPC.includes(m.type))
+		if(m.type == "nojoin") {
+			alert(`Failed to join game. ${m.data}`);
+		} else if (m.type == "join") {
+			console.log("join not impl")
+		} else if (TABLE_RPC.includes(m.type))
 			this.table[m.type](m.data);
 	}
 

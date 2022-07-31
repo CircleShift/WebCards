@@ -23,7 +23,7 @@ class Table{
 	openTable ()
 	{
 		let state = this.root.getAttribute("state")
-		if((state == "close" || state == "closed") && state != "") {
+		if(state == "close" || state == "closed") {
 			this.root.setAttribute("state", "closed");
 			setTimeout(this.root.setAttribute.bind(this.root), 50, "state", "open");
 		}
@@ -33,10 +33,19 @@ class Table{
 	closeTable ()
 	{
 		let state = this.root.getAttribute("state")
-		if(state != "close" && state != "closed") {
+		if((state != "close" && state != "closed") && state != "") {
 			this.root.setAttribute("state", "");
 			setTimeout(this.root.setAttribute.bind(this.root), 50, "state", "close");
 		}
+	}
+
+	toggleTable ()
+	{
+		let state = this.root.getAttribute("state")
+		if(state == "close" || state == "closed")
+			this.openTable();
+		else if (state == "open")
+			this.closeTable()
 	}
 
 	// Handle a game closing (expectedly or unexpectedly)

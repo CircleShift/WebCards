@@ -194,6 +194,21 @@ div.settings {
 	opacity: 0;
 }
 
+button.toggle-table {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	transform-origin: bottom left;
+	z-index: 4;
+}
+
+button.toggle-table::before {
+	font-family: "IcoFont";
+	font-size: xx-large;
+
+	content: '\edb9';
+}
+
 @keyframes slide-in {
 	from {
 		transform: translate(0, -100vh);
