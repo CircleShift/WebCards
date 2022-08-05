@@ -42,9 +42,11 @@ const DefaultGameOps = {
 // Client also performs the handshake for first starting the connection and messages everyone if the connection errors or closes.
 class Client{
 
-	constructor (serveraddr, game)
+	constructor (s, g, p)
 	{
-		this.socket = new SockWorker(serveraddr, VERSION);
+		window.history.onpopstate = this.stateChange.bind(this);
+
+		this.socket = new SockWorker(s, VERSION);
 		this.socket.addEventListener("error", this.socketError.bind(this));
 		this.socket.addEventListener("closed", this.socketClose.bind(this));
 		this.socket.addEventListener("handshake", this.handshake.bind(this));
@@ -69,7 +71,9 @@ class Client{
 		this.gameOptions = new Settings(DefaultGameOps);
 		this.gameOptions.putSettings(this.lobby.top.newGame);
 
-		this.game = game;
+		this.game = {id: g, pass: p};
+		this.inGame = false;
+		window.history.replaceState(this.game, "", window.location);
 	}
 
 	// Initialize the connection
@@ -144,6 +148,10 @@ class Client{
 					this.settings.putSettings(this.lobby.e.settings);
 				
 				this.socket.send("ready", "");
+
+				if (this.game.id != null) {
+					this.joinGame(this.game, false);
+				}
 				
 				return;
 		}
@@ -163,10 +171,21 @@ class Client{
 	{
 		let m = e.detail;
 
-		if(m.type == "nojoin") {
+		if(m.type === "nojoin") {
 			alert(`Failed to join game. ${m.data}`);
-		} else if (m.type == "join") {
-			console.log("join not impl")
+		} else if (m.type === "join") {
+			this.table.openTable();
+			this.lobby.setState("In Game", "ok", this.socket.server)
+			this.inGame = true;
+		} else if (m.type === "leave") {
+			this.table.reset();
+
+			if (this.game.id !== m.data) {
+				this.lobby.setState("Joining...", "loading", this.socket.server);
+				this.socket.send("join", this.game);
+			}
+
+			this.inGame = false;
 		} else if (TABLE_RPC.includes(m.type))
 			this.table[m.type](m.data);
 	}
@@ -194,15 +213,42 @@ class Client{
 		this.socket.init();
 	}
 
-	joinGame(id)
+	joinGame(game, state=true)
 	{
+		if (state) {
+			let u = new URL(window.location);
+			u.searchParams.set("g", game.id);
+			u.searchParams.set("p", game.pass);
+			window.history.pushState(game, "", u);
+		}
+
 		this.lobby.setState("Joining...", "loading", this.socket.server);
-		this.socket.send("join", {id: id, pass: this.lobby.games[id].getPass()});
+		this.socket.send("join", game);
+	}
+
+	joinGameByID(id)
+	{
+		let g = this.lobby.games[id];
+		if (g != null) {
+			this.joinGame({id: id, pass: g.getPass()});
+		}
 	}
 
 	leaveGame()
 	{
 		this.socket.send("leave", "");
+	}
+
+	stateChange(e) {
+		if (e.state.id != null) {
+			this.game = e.state;
+		}
+
+		if (this.inGame) {
+			this.leaveGame();
+		} else {
+			this.joinGame(e.state, false);
+		}
 	}
 }
 
@@ -212,6 +258,6 @@ let game;
 
 (() => {
 	let params = new URLSearchParams((new URL(window.location)).search);
-	game = new Client(params.get("s"), params.get("g"));
+	game = new Client(params.get("s"), params.get("g"), params.get("p"));
 	game.init();
 })();

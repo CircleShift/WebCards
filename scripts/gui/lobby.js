@@ -87,7 +87,7 @@ class Game {
 
 		let join = document.createElement("button");
 		join.textContent = "Join";
-		join.addEventListener("click", game.joinGame.bind(game, options.id));
+		join.addEventListener("click", game.joinGameByID.bind(game, options.id));
 		joindiv.appendChild(join);
 
 		this.getPass = () => {
