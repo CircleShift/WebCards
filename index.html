@@ -102,7 +102,7 @@
 				
 				let a = document.createElement("a");
 				a.innerText = urls[i];
-				a.href = "client.html?s=" + urls[i] + "&g=-1";
+				a.href = "client.html?s=" + urls[i];
 				
 				let b = document.createElement("button");
 				b.innerText = "X";
@@ -190,7 +190,7 @@
 				let concat = serverParts[0] + serverParts[1] + ":" + serverParts[2];
 				addAddr(concat);
 				//c.setAttribute("href", url);
-				window.location = "client.html?s=" + concat + "&g=-1";
+				window.location = "client.html?s=" + concat;
 			}
 
 			let themeURL = Theme.get();
