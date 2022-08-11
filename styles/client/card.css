@@ -136,7 +136,7 @@ deck {
 	top: calc(var(--y) * (100vh - 250px));
 	left: calc(var(--x) * (100vw - 166px));
 
-	transform: scale(var(--size)) rotate(var(--rot));
+	transform: scale(var(--scale)) rotate(var(--rot));
 
 	overflow: visible;
 

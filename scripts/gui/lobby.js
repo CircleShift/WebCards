@@ -159,6 +159,9 @@ class Lobby {
 		}
 
 		for (let i of data.games) {
+			if(typeof i != "object")
+				continue;
+			
 			if (this.games[i.id] == null) {
 				let g = new Game(i, this.e.games);
 				this.games[i.id] = g;

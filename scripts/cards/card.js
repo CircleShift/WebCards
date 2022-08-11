@@ -81,6 +81,16 @@ class Card {
 	static generateObjectCard (data, el)
 	{
 		// Generate card areas.
+		if (typeof data.style == "object") {
+			for (let i in data.style) {
+				el.style.setProperty(i, data.style[i]);
+			}
+		}
+
+		if(data.assetURL == null) {
+			data.assetURL = "./";
+		}
+
 		for (let i of CardPos)
 		{
 			if (typeof data[i] == "object")

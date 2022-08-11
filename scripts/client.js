@@ -171,23 +171,32 @@ class Client{
 	{
 		let m = e.detail;
 
-		if(m.type === "nojoin") {
+		switch (m.type) {
+		case "nojoin":
 			alert(`Failed to join game. ${m.data}`);
-		} else if (m.type === "join") {
-			this.table.openTable();
-			this.lobby.setState("In Game", "ok", this.socket.server)
-			this.inGame = true;
-		} else if (m.type === "leave") {
+			break;
+		case "leave":
 			this.table.reset();
 
 			if (this.game.id !== m.data) {
 				this.lobby.setState("Joining...", "loading", this.socket.server);
 				this.socket.send("join", this.game);
+			} else {
+				this.lobby.setState("Connected", "ok", this.socket.server);
 			}
 
 			this.inGame = false;
-		} else if (TABLE_RPC.includes(m.type))
-			this.table[m.type](m.data);
+			break;
+		case "join":
+			this.table.openTable();
+			this.lobby.setState("In Game", "ok", this.socket.server);
+			this.inGame = true;
+			break;
+		default:
+			if (TABLE_RPC.includes(m.type) && this.inGame)
+				this.table[m.type](m.data);
+			break;
+		}
 	}
 
 	// Callback when a chat event is recieved from the server
