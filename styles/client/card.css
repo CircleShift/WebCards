@@ -18,6 +18,7 @@ card
 	overflow: hidden;
 	user-select: none;
 	box-sizing: border-box;
+	font-size: small;
 
 	left: calc(var(--left) / var(--scale));
 	top: calc(var(--top) / var(--scale));
@@ -50,6 +51,7 @@ carea.top, carea.topl, carea.topr
 	top: 0;
 	height: 8%;
 	text-align: center;
+	line-height: calc(0.08 * 226px);
 }
 
 carea.topl
@@ -89,6 +91,7 @@ carea.bot, carea.botl, carea.botr
 	bottom: 0;
 	height: 8%;
 	text-align: center;
+	line-height: calc(0.08 * 226px);
 }
 
 carea.botl
@@ -108,13 +111,14 @@ carea.all
 {
 	top: 0;
 	height: 100%;
+	text-align: center;
+	line-height: 226px;
 }
 
 ctext
 {
 	display: inline-block;
 	flex: 1;
-	font-size: small;
 	height: auto;
 }
 
@@ -128,7 +132,7 @@ cimage
 
 card[drag=true]
 {
-	z-index: 3;
+	z-index: 4;
 }
 
 /*  Deck  */

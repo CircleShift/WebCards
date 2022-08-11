@@ -193,8 +193,10 @@ class Lobby {
 	// { data.pass } true or false weather the game has a password
 
 	addGame (data) {
-		let g = new Game(data, this.e.games);
-		this.games[data.id] = g;
+		if(this.games[data.id] == null) {
+			let g = new Game(data, this.e.games);
+			this.games[data.id] = g;
+		}
 	}
 
 	// Called when a new public game is removed on the server
