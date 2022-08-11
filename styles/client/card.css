@@ -1,3 +1,7 @@
+.instant {
+	transition-duration: 0s;
+}
+
 card
 {
 	position: absolute;
@@ -14,6 +18,9 @@ card
 	overflow: hidden;
 	user-select: none;
 	box-sizing: border-box;
+
+	left: calc(var(--left) / var(--scale));
+	top: calc(var(--top) / var(--scale));
 
 	z-index: 3;
 }

@@ -62,8 +62,8 @@ class MultiDrag extends EventTarget {
 		
 		cap.drag = this.addDragEl(
 			e.target,
-			e.pageX - parseInt(e.target.style.left),
-			e.pageY - parseInt(e.target.style.top),
+			e.pageX - parseInt(e.target.style.getPropertyValue("--left")),
+			e.pageY - parseInt(e.target.style.getPropertyValue("--top")),
 			e.target.style.left,
 			e.target.style.top,
 			e.target.style.transitionDuration
@@ -88,8 +88,8 @@ class MultiDrag extends EventTarget {
 		this.drag[i].e.style.transitionDuration = this.drag[i].ptd;
 
 		if(this.ret) {
-			this.drag[i].e.style.left = this.drag[i].prx;
-			this.drag[i].e.style.top = this.drag[i].pry;
+			this.drag[i].e.style.setProperty("--left", this.drag[i].prx + "px");
+			this.drag[i].e.style.setProperty("--top", this.drag[i].pry + "px");
 		}
 
 		cap.drag = this.drag.splice(i, 1);
@@ -123,8 +123,8 @@ class MultiDrag extends EventTarget {
 			this.drag[0].e.style.transitionDuration = this.drag[0].ptd;
 
 			if(this.ret) {
-				this.drag[0].e.style.left = this.drag[0].prx;
-				this.drag[0].e.style.top = this.drag[0].pry;
+				this.drag[0].e.style.setProperty("--left", this.drag[0].prx + "px");
+				this.drag[0].e.style.setProperty("--top", this.drag[0].pry + "px");
 			}
 
 			cap.drag.push(this.drag.shift());
@@ -140,8 +140,8 @@ class MultiDrag extends EventTarget {
 		this.mouse[1] = e.pageY;
 
 		for (let i = 0; i < this.drag.length && !this.del; i++) {
-			this.drag[i].e.style.left = e.pageX - this.drag[i].osx + "px";
-			this.drag[i].e.style.top = e.pageY - this.drag[i].osy + "px";
+			this.drag[i].e.style.setProperty("--left", e.pageX - this.drag[i].osx + "px");
+			this.drag[i].e.style.setProperty("--top", e.pageY - this.drag[i].osy + "px");
 		}
 	}
 

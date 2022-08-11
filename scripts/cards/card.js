@@ -11,8 +11,8 @@ class Card {
 	{
 		this.e = document.createElement("card");
 		this.generateElements(data);
-		this.e.style.left = "0px";
-		this.e.style.top = "0px";
+		this.e.style.setProperty("--left", "0px");
+		this.e.style.setProperty("--top", "0px");
 		this.e.card = this;
 
 		this.id = id;
@@ -123,8 +123,16 @@ class Card {
 
 	resetPos()
 	{
-		this.e.style.left = "0px";
-		this.e.style.top = "0px";
+		this.e.style.setProperty("--left", "0px");
+		this.e.style.setProperty("--top", "0px");
+	}
+
+	resetPosInstant()
+	{
+		this.e.className = "instant";
+		this.e.style.setProperty("--left", "0px");
+		this.e.style.setProperty("--top", "0px");
+		this.e.className = "";
 	}
 
 	getDeck() {
