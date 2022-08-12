@@ -142,6 +142,7 @@ class Lobby {
 		this.init = false;
 		this.online = [];
 		this.games = {};
+		this.gameCt = 0;
 		this.packs = [];
 	}
 
@@ -162,6 +163,7 @@ class Lobby {
 		for (let i of data.games) {
 			if(typeof i != "object")
 				continue;
+			this.gameCt++;
 			
 			if (this.games[i.id] == null) {
 				let g = new Game(i, this.e.games);
@@ -173,7 +175,7 @@ class Lobby {
 
 		this.e.stats.game.innerText = data.game;
 		this.e.stats.packs.innerText = data.packs;
-		this.e.stats.pubgame.innerText = this.games.length();
+		this.e.stats.pubgame.innerText = this.gameCt;
 	}
 
 	// Set the initial player list.
@@ -197,6 +199,8 @@ class Lobby {
 		if(this.games[data.id] == null) {
 			let g = new Game(data, this.e.games);
 			this.games[data.id] = g;
+			this.gameCt++;
+			this.e.stats.pubgame.innerText = this.gameCt;
 		}
 	}
 
@@ -239,5 +243,6 @@ class Lobby {
 
 		this.setState("Connecting", "loading", this.e.addr.innerText);
 		this.init = false;
+		this.gameCt = 0;
 	}
 }
