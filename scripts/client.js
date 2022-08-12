@@ -50,7 +50,7 @@ class Client{
 		this.socket.addEventListener("error", this.socketError.bind(this));
 		this.socket.addEventListener("closed", this.socketClose.bind(this));
 		this.socket.addEventListener("handshake", this.handshake.bind(this));
-		this.socket.addEventListener("menu", this.menuMsg.bind(this));
+		this.socket.addEventListener("lobby", this.lobbyMsg.bind(this));
 		this.socket.addEventListener("game", this.gameMsg.bind(this));
 		this.socket.addEventListener("chat", this.chatMsg.bind(this));
 		this.socket.addEventListener("ping", this.pingMsg.bind(this));
@@ -158,7 +158,7 @@ class Client{
 	}
 
 	// Menu switch, called when in the lobby and a message arrives from the server
-	menuMsg (e)
+	lobbyMsg (e)
 	{
 		let m = e.detail;
 
@@ -176,8 +176,6 @@ class Client{
 			alert(`Failed to join game. ${m.data}`);
 			break;
 		case "leave":
-			this.table.reset();
-
 			if (this.game.id !== m.data) {
 				this.lobby.setState("Joining...", "loading", this.socket.server);
 				this.socket.send("join", this.game);
@@ -188,6 +186,7 @@ class Client{
 			this.inGame = false;
 			break;
 		case "join":
+			this.table.reset();
 			this.table.openTable();
 			this.lobby.setState("In Game", "ok", this.socket.server);
 			this.inGame = true;

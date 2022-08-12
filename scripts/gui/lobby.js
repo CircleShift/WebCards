@@ -155,8 +155,9 @@ class Lobby {
 	// { data.games[n].max } max players in room
 	gameList (data) {
 		while (this.e.games.firstChild != null) {
-			this.e.games.remove(this.elements.games.firstChild)
+			this.e.games.removeChild(this.e.games.firstChild)
 		}
+		console.log("eheh")
 
 		for (let i of data.games) {
 			if(typeof i != "object")

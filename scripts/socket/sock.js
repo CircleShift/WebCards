@@ -1,6 +1,6 @@
 'use strict';
 
-const VALID_EVENTS = ["error", "closed", "handshake", "menu", "game", "chat", "ping"];
+const VALID_EVENTS = ["error", "closed", "handshake", "lobby", "game", "chat", "ping"];
 
 // A wrapper around the wrapper 
 class SockWorker extends EventTarget{
