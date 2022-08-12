@@ -44,7 +44,7 @@ class Client{
 
 	constructor (s, g, p)
 	{
-		window.history.onpopstate = this.stateChange.bind(this);
+		window.onpopstate = this.stateChange.bind(this);
 
 		this.socket = new SockWorker(s, VERSION);
 		this.socket.addEventListener("error", this.socketError.bind(this));
@@ -136,6 +136,7 @@ class Client{
 				}
 				this.gameOptions = new Settings(m.data.game);
 				this.gameOptions.addEventListener("click", ((e) => {
+					this.lobby.newGame();
 					if(e.detail == "new")
 						this.socket.send("create", this.gameOptions.getSettings());
 				}).bind(this));
@@ -176,7 +177,7 @@ class Client{
 			alert(`Failed to join game. ${m.data}`);
 			break;
 		case "leave":
-			if (this.game.id !== m.data) {
+			if (this.game.id !== m.data && this.game.id != null) {
 				this.lobby.setState("Joining...", "loading", this.socket.server);
 				this.socket.send("join", this.game);
 			} else {
@@ -248,9 +249,8 @@ class Client{
 	}
 
 	stateChange(e) {
-		if (e.state.id != null) {
-			this.game = e.state;
-		}
+		this.table.reset();
+		this.game = e.state;
 
 		if (this.inGame) {
 			this.leaveGame();
