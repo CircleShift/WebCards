@@ -1,3 +1,13 @@
+drag {
+	position:absolute;
+	display:contents;
+	overflow: visible;
+	width: 0;
+	height: 0;
+	top:0;
+	left:0;
+}
+
 .instant {
 	transition-duration: 0s;
 }
@@ -20,8 +30,9 @@ card
 	box-sizing: border-box;
 	font-size: small;
 
-	left: calc(var(--left) / var(--scale));
-	top: calc(var(--top) / var(--scale));
+	left: var(--left);
+	top: var(--top);
+	transform: scale(var(--iscale)) rotate(var(--irot));
 
 	z-index: 3;
 }
@@ -130,8 +141,7 @@ cimage
 	flex: 1;
 }
 
-card[drag=true]
-{
+drag > card {
 	z-index: 4;
 }
 
@@ -157,6 +167,17 @@ deck {
 
 	border: 3px solid var(--deck-shadow);
 	box-sizing: border-box;
+	max-height: 100vh;
+	max-width: 100vw;
+	overflow: auto;
+}
+
+.maxw {
+	left: 0 !important;
+}
+
+.maxh {
+	top: 0 !important;
 }
 
 deck:hover {

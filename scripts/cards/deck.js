@@ -64,6 +64,15 @@ class Deck {
 
 	updatePos()
 	{
+		let cb = this.e.getBoundingClientRect();
+		
+		if(cb.width >= window.innerWidth) 
+			this.e.className = "maxw";
+		else if (cb.height >= window.innerHeight)
+			this.e.className = "maxh";
+		else
+			this.e.className = "";
+		
 		let len = this.cards.length - 1;
 		for(let i in this.cards)
 			this.cards[i].setPos(len-i);
@@ -77,6 +86,7 @@ class Deck {
 		}
 		this.cards.push(card);
 		this.e.appendChild(card.e);
+		card.deck = this.getID();
 		this.updatePos();
 		return true;
 	}
@@ -89,14 +99,14 @@ class Deck {
 		this.cards.unshift(card);
 		this.e.prepend(card.e);
 		card.setPos(this.cards.length - 1);
+		card.deck = this.getID();
 		this.updateCount();
 		return true;
 	}
 
 	addCardAt(card, index)
 	{
-		if(index < 0 || index > this.cards.length)
-			return
+		index = Math.min(Math.max(index, 0), this.cards.length);
 		
 		if(index == 0) {
 			this.prependCard(card);
@@ -106,6 +116,7 @@ class Deck {
 			let temp = this.cards.slice(0, index);
 			temp[temp.length - 1].e.after(card.e);
 			this.cards.unshift(card);
+			card.deck = this.getID();
 			
 			for(let i = temp.length - 1; i >= 0; i--)
 				this.cards.unshift(temp[i]);
@@ -135,7 +146,6 @@ class Deck {
 		if(index < 0 || index >= this.cards.length)
 			return
 
-		this.e.removeChild(this.cards[index].e);
 		let c = this.cards.splice(index, 1)[0];
 
 		this.updatePos();
@@ -172,6 +182,14 @@ class Deck {
 	{
 		let rect = this.e.getBoundingClientRect();
 		return (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom)
+	}
+
+	dist(x, y)
+	{
+		let rect = this.e.getBoundingClientRect();
+		let mx = rect.left + (rect.right - rect.left) / 2;
+		let my = rect.top + (rect.bottom - rect.top) / 2;
+		return Math.sqrt((mx - x)**2 + (my - y)**2);
 	}
 
 	checkCard (el)

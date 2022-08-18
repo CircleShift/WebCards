@@ -57,9 +57,8 @@ class Client{
 
 		this.lobby = new Lobby(document.getElementsByClassName("lobby")[0], this.socket);
 		this.lobby.setState("Connecting", "loading", this.socket.server);
-
-		this.drag = new MultiDrag();
 		
+		this.drag = new MultiDrag(document.getElementsByTagName("drag")[0]);
 		this.table = new Table(document.getElementsByClassName("table")[0], this.drag, this.socket);
 
 		this.chat = new Chat(document.getElementsByClassName("chat")[0], this.socket);

@@ -158,7 +158,6 @@ class Lobby {
 		while (this.e.games.firstChild != null) {
 			this.e.games.removeChild(this.e.games.firstChild)
 		}
-		console.log("eheh")
 
 		for (let i of data.games) {
 			if(typeof i != "object")
@@ -207,7 +206,7 @@ class Lobby {
 	// Called when a new public game is removed on the server
 	// { data string } the uuid of the game to delete
 	deleteGame (data) {
-
+		delete this.games[data];
 	}
 
 	// Called when the client wants to toggle the new game screen
@@ -240,6 +239,7 @@ class Lobby {
 		while (this.e.games.firstElementChild != null) {
 			this.e.games.removeChild(this.e.games.firstElementChild)
 		}
+		this.games = {};
 
 		this.setState("Connecting", "loading", this.e.addr.innerText);
 		this.init = false;

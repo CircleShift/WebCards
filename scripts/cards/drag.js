@@ -5,7 +5,7 @@ class MultiDrag extends EventTarget {
 	drag = [];
 	mouse = [null, null];
 
-	constructor(ret = false) {
+	constructor(root, ret = false) {
 		super();
 
 		window.addEventListener("mousemove", this.update.bind(this));
@@ -15,26 +15,32 @@ class MultiDrag extends EventTarget {
 		//window.addEventListener("touchend", this.stopDraggingAll.bind(this));
 		//window.addEventListener("touchcancel", this.stopDraggingAll.bind(this));
 
+		this.root = root;
 		this.ret = ret;
+		this.transform = ()=>{return [0.0, 1.0];};
 	}
 
-	addDragEl(el, ox, oy, px, py, pt) {
+	addDragEl(el, px, py) {
 		if(this.del)
 			return;
 
-		el.style.transitionDuration = "0s";
+		el.className = "instant";
 		
 		let push = {
 			e: el,
-			osx: ox,
-			osy: oy,
-			ptd: pt
+			ep: el.parentElement,
+			ex: el.getBoundingClientRect().left,
+			ey: el.getBoundingClientRect().top,
+			px: px,
+			py: py
 		};
 
-		if(this.ret) {
-			push.prx = px;
-			push.pry = py;
-		}
+		let t = this.transform(px, py);
+		this.root.appendChild(el);
+		el.style.setProperty("--left", push.ex + "px");
+		el.style.setProperty("--top", push.ey + "px");
+		el.style.setProperty("--irot", t[0]);
+		el.style.setProperty("--iscale", t[1]);
 
 		this.drag.push(push);
 
@@ -60,14 +66,7 @@ class MultiDrag extends EventTarget {
 
 		let cap = new Event("dragstart");
 		
-		cap.drag = this.addDragEl(
-			e.target,
-			e.pageX - parseInt(e.target.style.getPropertyValue("--left")),
-			e.pageY - parseInt(e.target.style.getPropertyValue("--top")),
-			e.target.style.left,
-			e.target.style.top,
-			e.target.style.transitionDuration
-		);
+		cap.drag = this.addDragEl(e.target, e.pageX, e.pageY);
 
 		this.dispatchEvent(cap);
 	}
@@ -85,11 +84,12 @@ class MultiDrag extends EventTarget {
 		cap.x = this.mouse[0];
 		cap.y = this.mouse[1];
 		
-		this.drag[i].e.style.transitionDuration = this.drag[i].ptd;
+		this.drag[i].e.className = "";
 
 		if(this.ret) {
-			this.drag[i].e.style.setProperty("--left", this.drag[i].prx + "px");
-			this.drag[i].e.style.setProperty("--top", this.drag[i].pry + "px");
+			this.drag[i].e.style.setProperty("--left", "0px");
+			this.drag[i].e.style.setProperty("--top", "0px");
+			this.drag[i].ep.appendChild(this.drag[i].e);
 		}
 
 		cap.drag = this.drag.splice(i, 1);
@@ -123,8 +123,9 @@ class MultiDrag extends EventTarget {
 			this.drag[0].e.style.transitionDuration = this.drag[0].ptd;
 
 			if(this.ret) {
-				this.drag[0].e.style.setProperty("--left", this.drag[0].prx + "px");
-				this.drag[0].e.style.setProperty("--top", this.drag[0].pry + "px");
+				this.drag[0].e.style.setProperty("--left", "0px");
+				this.drag[0].e.style.setProperty("--top", "0px");
+				this.drag[0].ep.appendChild(this.drag[0].e);
 			}
 
 			cap.drag.push(this.drag.shift());
@@ -136,12 +137,19 @@ class MultiDrag extends EventTarget {
 	}
 
 	update(e) {
+		if(this.drag.length == 0)
+			return;
+
 		this.mouse[0] = e.pageX;
 		this.mouse[1] = e.pageY;
+		let t = this.transform(this.mouse[0], this.mouse[1]);
 
 		for (let i = 0; i < this.drag.length && !this.del; i++) {
-			this.drag[i].e.style.setProperty("--left", e.pageX - this.drag[i].osx + "px");
-			this.drag[i].e.style.setProperty("--top", e.pageY - this.drag[i].osy + "px");
+			let d = this.drag[i];
+			d.e.style.setProperty("--left", (e.pageX - d.px) + d.ex + "px");
+			d.e.style.setProperty("--top", (e.pageY - d.py) + d.ey + "px");
+			d.e.style.setProperty("--irot", t[0]);
+			d.e.style.setProperty("--iscale", t[1]);
 		}
 	}
 
