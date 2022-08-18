@@ -137,8 +137,4 @@ class Card {
 		this.e.style.setProperty("--top", "0px");
 		this.e.className = "";
 	}
-
-	getDeck() {
-		return this.deck;
-	}
 }

@@ -91,7 +91,7 @@ class Table{
 	// {data.deck} the id of the deck to add the card to
 	newCard(data)
 	{
-		let c = new Card(data.id, data.data);
+		let c = new Card(data.id, data.deck, data.data);
 		this.cards[data.id] = c;
 		this.decks[data.deck].appendCard(c);
 		this.drag.addTarget(c.e);
@@ -114,8 +114,9 @@ class Table{
 	// {id any} id of card to delete
 	deleteCard(id)
 	{
-		this.cards[id].getDeck().removeCardByID(id)
-		this.cards[id].e.remove();
+		let c = this.cards[id];
+		this.decks[c.deck].removeCardByID(id)
+		c.e.remove();
 		delete this.cards[id];
 	}
 
@@ -127,7 +128,7 @@ class Table{
 	moveCard(data)
 	{
 		let c = this.cards[data.card];
-		this.decks[c.getDeck()].removeCardByID(data.card);
+		this.decks[c.deck].removeCardByID(data.card);
 		this.decks[data.deck].addCardAt(c, data.index);
 		c.resetPos();
 		c.e.className = "";
