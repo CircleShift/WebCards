@@ -63,16 +63,7 @@ class Deck {
 	}
 
 	updatePos()
-	{
-		let cb = this.e.getBoundingClientRect();
-		
-		if(cb.width >= window.innerWidth) 
-			this.e.className = "maxw";
-		else if (cb.height >= window.innerHeight)
-			this.e.className = "maxh";
-		else
-			this.e.className = "";
-		
+	{	
 		let len = this.cards.length - 1;
 		for(let i in this.cards)
 			this.cards[i].setPos(len-i);
@@ -176,6 +167,15 @@ class Deck {
 	updateCount ()
 	{
 		this.e.style.setProperty("--ccount", this.cards.length - 1);
+
+		let cb = this.e.getBoundingClientRect();
+		
+		if(cb.width >= window.innerWidth) 
+			this.e.className = "maxw";
+		else if (cb.height >= window.innerHeight)
+			this.e.className = "maxh";
+		else
+			this.e.className = "";
 	}
 
 	isInside(x, y)
