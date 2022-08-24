@@ -131,6 +131,8 @@ ctext
 	display: inline-block;
 	flex: 1;
 	height: auto;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 cimage
