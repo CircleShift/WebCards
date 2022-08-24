@@ -206,7 +206,13 @@ class Lobby {
 	// Called when a new public game is removed on the server
 	// { data string } the uuid of the game to delete
 	deleteGame (data) {
+		if(this.games[data] == null)
+			return;
+		
+		this.games[data].remove();
 		delete this.games[data];
+		this.gameCt--;
+		this.e.stats.pubgame.innerText = this.gameCt;
 	}
 
 	// Called when the client wants to toggle the new game screen
