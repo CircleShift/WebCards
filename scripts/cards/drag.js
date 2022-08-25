@@ -1,26 +1,27 @@
 'use strict';
 
 class MultiDrag extends EventTarget {
-	del = false;
-	drag = [];
-	mouse = [null, null];
+	drag = {
+		mouse: []
+	};
 
 	constructor(root, ret = false) {
 		super();
 
 		window.addEventListener("mousemove", this.update.bind(this));
-		window.addEventListener("mouseup", this.stopDraggingAll.bind(this));
-		document.body.addEventListener("mouseleave", this.stopDraggingAll.bind(this));
+		window.addEventListener("touchmove", this.update.bind(this));
 
-		//window.addEventListener("touchend", this.stopDraggingAll.bind(this));
-		//window.addEventListener("touchcancel", this.stopDraggingAll.bind(this));
+		window.addEventListener("mouseup", this.stopDragging.bind(this, "mouse"));
+		document.body.addEventListener("mouseleave", this.stopDragging.bind(this, "mouse"));
+		window.addEventListener("touchend", ((e) => {this.stopDragging(e.changedTouches[0].identifier)}).bind(this));
+		window.addEventListener("touchcancel", ((e) => {this.stopDragging(e.changedTouches[0].identifier)}).bind(this));
 
 		this.root = root;
 		this.ret = ret;
 		this.transform = ()=>{return [0.0, 1.0];};
 	}
 
-	addDragEl(el, px, py) {
+	addDragEl(el, px, py, group = "mouse") {
 		if(this.del)
 			return;
 
@@ -42,7 +43,11 @@ class MultiDrag extends EventTarget {
 		el.style.setProperty("--irot", t[0]);
 		el.style.setProperty("--iscale", t[1]);
 
-		this.drag.push(push);
+		if (typeof this.drag[group] == "undefined")
+			this.drag[group] = [push];
+		else
+			this.drag[group].push(push);
+
 
 		return push;
 	}
@@ -56,112 +61,93 @@ class MultiDrag extends EventTarget {
 	}
 
 	startDragging(e) {
-		if(this.del)
-			return;
-
-		console.log(e);
-
-		if(e.button != 0)
-			return;
-
 		let cap = new Event("dragstart");
-		
-		cap.drag = this.addDragEl(e.target, e.pageX, e.pageY);
+
+		if(e.type == "touchstart") {
+			let ct = e.changedTouches[0];
+			cap.drag = this.addDragEl(e.target, ct.pageX, ct.pageY, ct.identifier);
+		} else {
+			if(e.button != 0)
+				return;
+			cap.drag = this.addDragEl(e.target, e.pageX, e.pageY);
+		}
 
 		this.dispatchEvent(cap);
 	}
 
-	stopDragging(i) {
-		if(this.del)
-			return;
-		
-		this.del = true;
-
-		if (i < 0 || i >= this.drag.length)
+	stopDragging(group) {
+		if (typeof this.drag[group] == "undefined" || this.drag[group].length == 0)
 			return;
 		
 		let cap = new Event("dragstop");
-		cap.x = this.mouse[0];
-		cap.y = this.mouse[1];
+		cap.drag = this.drag[group];
+		if (group != "mouse")
+			delete this.drag[group];
+		else
+			this.drag.mouse = [];
 		
-		this.drag[i].e.className = "";
-
-		if(this.ret) {
-			this.drag[i].e.style.setProperty("--left", "0px");
-			this.drag[i].e.style.setProperty("--top", "0px");
-			this.drag[i].ep.appendChild(this.drag[i].e);
+		for (let i of cap.drag) {
+			i.e.className = "";
+			if (this.ret) {
+				i.e.style.setProperty("--left", "");
+				i.e.style.setProperty("--right", "");
+				i.ep.appendChild(i.e);
+			}
 		}
-
-		cap.drag = this.drag.splice(i, 1);
-
-		this.del = false;
+		
+		let rect = cap.drag[0].e.getBoundingClientRect();
+		cap.x = (rect.left - cap.drag[0].ex) + cap.drag[0].px;
+		cap.y = (rect.top - cap.drag[0].ey) + cap.drag[0].py;
 
 		this.dispatchEvent(cap);
-	}
-
-	stopDraggingEl(el) {
-		for(let d of this.drag) {
-			if(d.e === el)
-				this.stopDragging(this.drag.indexOf(d));
-		}
 	}
 
 	stopDraggingAll() {
-		if(this.del)
-			return;
-		
-		this.del = true;
-		
-		let cap = new Event("dragstop");
-
-		cap.x = this.mouse[0];
-		cap.y = this.mouse[1];
-
-		cap.drag = [];
-		
-		while (this.drag.length > 0) {
-			this.drag[0].e.style.transitionDuration = this.drag[0].ptd;
-
-			if(this.ret) {
-				this.drag[0].e.style.setProperty("--left", "0px");
-				this.drag[0].e.style.setProperty("--top", "0px");
-				this.drag[0].ep.appendChild(this.drag[0].e);
-			}
-
-			cap.drag.push(this.drag.shift());
+		for(let i in this.drag) {
+			this.stopDragging(i);
 		}
-
-		this.del = false;
-
-		this.dispatchEvent(cap);
 	}
 
 	update(e) {
-		if(this.drag.length == 0)
-			return;
+		console.log(e);
+		if(e.type == "touchmove") {
+			for (let t of e.changedTouches) {
 
-		this.mouse[0] = e.pageX;
-		this.mouse[1] = e.pageY;
-		let t = this.transform(this.mouse[0], this.mouse[1]);
+				let id = t.identifier;
+				
+				if (typeof this.drag[id] !== "undefined" && this.drag[id].length > 0) {
+					let tr = this.transform(t.pageX, t.pageY);
 
-		for (let i = 0; i < this.drag.length && !this.del; i++) {
-			let d = this.drag[i];
-			d.e.style.setProperty("--left", (e.pageX - d.px) + d.ex + "px");
-			d.e.style.setProperty("--top", (e.pageY - d.py) + d.ey + "px");
-			d.e.style.setProperty("--irot", t[0]);
-			d.e.style.setProperty("--iscale", t[1]);
+					for (let i = 0; i < this.drag[id].length; i++) {
+						let d = this.drag[id][i];
+						d.e.style.setProperty("--left", (t.pageX - d.px) + d.ex + "px");
+						d.e.style.setProperty("--top", (t.pageY - d.py) + d.ey + "px");
+						d.e.style.setProperty("--irot", tr[0]);
+						d.e.style.setProperty("--iscale", tr[1]);
+					}
+				}
+			}
+		} else if (this.drag.mouse.length > 0) {
+			let t = this.transform(e.pageX, e.pageY);
+
+			for (let i = 0; i < this.drag.mouse.length; i++) {
+				let d = this.drag.mouse[i];
+				d.e.style.setProperty("--left", (e.pageX - d.px) + d.ex + "px");
+				d.e.style.setProperty("--top", (e.pageY - d.py) + d.ey + "px");
+				d.e.style.setProperty("--irot", t[0]);
+				d.e.style.setProperty("--iscale", t[1]);
+			}
 		}
 	}
 
 	addTarget(e) {
-		e.d1 = this.startDragging.bind(this);
-		//e.d2 = this.startTouchDrag.bind(this);
-		e.addEventListener("mousedown", e.d1);
-		//e.addEventListener("touchstart", e.d2);
+		e.d = this.startDragging.bind(this)
+		e.addEventListener("mousedown", e.d);
+		e.addEventListener("touchstart", e.d);
 	}
 
 	removeTarget (e) {
-		e.removeEventListener("mousedown", e.d1);
-		e.removeEventListener("touchstart", e.d2);
+		e.removeEventListener("mousedown", e.d);
+		e.removeEventListener("touchstart", e.d);
 	}
 }

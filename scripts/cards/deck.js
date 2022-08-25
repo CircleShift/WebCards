@@ -25,7 +25,10 @@ class Deck {
 		//      vertical
 		//          up (strip-vu)
 		//          down (strip-vd)
-		this.inf = options.mode == "infdraw";
+		this.inf = options.mode == "inf";
+		if (this.inf) {
+			options.mode = "stack";
+		}
 
 		// Select mode - controls what other cards are selected when one card is selected
 		//  above - selectes cards above the selected one
@@ -73,8 +76,13 @@ class Deck {
 	appendCard(card)
 	{
 		if(this.inf) {
-			return false;
+			if (this.base == null) {
+				this.base = card.getData();
+			} else {
+
+			}
 		}
+
 		this.cards.push(card);
 		this.e.appendChild(card.e);
 		card.deck = this.getID();
@@ -166,7 +174,11 @@ class Deck {
 
 	updateCount ()
 	{
-		this.e.style.setProperty("--ccount", this.cards.length - 1);
+		if (this.cards.length <= 0) {
+			this.e.style.setProperty("--ccount", 0);
+		} else {
+			this.e.style.setProperty("--ccount", this.cards.length - 1);
+		}
 
 		let cb = this.e.getBoundingClientRect();
 		

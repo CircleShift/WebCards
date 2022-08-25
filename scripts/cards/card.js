@@ -15,6 +15,10 @@ class Card {
 		this.e.style.setProperty("--top", "0px");
 		this.e.card = this;
 
+		this.getData = () => {
+			return data;
+		};
+
 		this.id = id;
 		this.deck = deck;
 	}
