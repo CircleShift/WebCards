@@ -109,7 +109,6 @@ class MultiDrag extends EventTarget {
 	}
 
 	update(e) {
-		console.log(e);
 		if(e.type == "touchmove") {
 			for (let t of e.changedTouches) {
 

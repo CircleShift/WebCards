@@ -2,7 +2,7 @@
 
 ![WebCards](images/wc-icon-144.png)
 
-[View Live Demo](https://circleshift.github.io/WebCards/)
+[View Live Demo](http://cards.cshift.net)
 
 An in-browser client to play WebCards
 
