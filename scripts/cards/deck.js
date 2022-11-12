@@ -109,7 +109,7 @@ class Deck {
 		
 		if(index == 0) {
 			this.prependCard(card);
-		} else if (index == this.cards.length) {
+		} else if (index >= this.cards.length) {
 			this.appendCard(card);
 		} else {
 			let temp = this.cards.slice(0, index);
