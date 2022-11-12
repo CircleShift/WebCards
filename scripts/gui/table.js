@@ -146,7 +146,8 @@ class Table{
 			return false;
 		}
 		this.cards[data.id] = this.cards[data.card];
-		delete this.cards[data.card];
+		if (data.card != data.id)
+			delete this.cards[data.card];
 		this.cards[data.id].id = data.id;
 		this.cards[data.id].generateElements(data.data);
 	}
