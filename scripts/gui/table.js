@@ -142,12 +142,13 @@ class Table{
 	swapCard(data)
 	{
 		// Can't swap a card into a an id of a pre-existing card.
-		if (this.cards[data.id] != null) {
+		if (data.id == data.card && this.cards[data.id] != null)
+			this.cards[data.id].generateElements(data.data);
+		if (this.cards[data.id] != null)
 			return false;
-		}
+		
 		this.cards[data.id] = this.cards[data.card];
-		if (data.card != data.id)
-			delete this.cards[data.card];
+		delete this.cards[data.card];
 		this.cards[data.id].id = data.id;
 		this.cards[data.id].generateElements(data.data);
 	}
