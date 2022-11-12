@@ -147,6 +147,7 @@ class Table{
 		}
 		this.cards[data.id] = this.cards[data.card];
 		delete this.cards[data.card];
+		this.cards[data.id].id = data.id;
 		this.cards[data.id].generateElements(data.data);
 	}
 
