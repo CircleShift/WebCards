@@ -1,0 +1,98 @@
+* {
+	/*  Main  */
+	--main-bg: #808080;
+	--main-color: #808080;
+
+	/*  Server  */
+	--server-bg-ok: #808080;
+	--server-bg-loading: #808080;
+	--server-bg-closed: #808080;
+	--server-color-ok: #808080;
+	--server-color-loading: #808080;
+	--server-color-closed: #808080;
+
+	/*  Gui and topbar  */
+	--gui-bg-main: #808080;
+	--gui-bg-game: #808080;
+	--gui-color-game: #808080;
+	--gui-shadow-game: #808080;
+
+	--top-border: #808080;
+	--top-bg: #808080;
+	--top-bg-button: #808080;
+	--top-bg-button-hover: #808080;
+	--top-bg-button-active: #808080;
+	--top-color-button: #808080;
+	--top-color-button-hover: #808080;
+	--top-color-button-active: #808080;
+
+	/*  Table  */
+	--table-bg: #808080;
+
+	/*  Card defaults  */
+	--card-color: #808080;
+	--card-bg: #808080;
+	--card-border: #808080;
+	--card-hover: #808080;
+
+	--deck-shadow: #808080;
+	--deck-hover: #808080;
+
+	/*  Input  */
+
+	--input-color-text: #808080;
+	--input-color-text-hover: #808080;
+	--input-color-text-active: #808080;
+	--input-bg-text: #808080;
+	--input-bg-text-hover: #808080;
+	--input-bg-text-active: #808080;
+	--input-border-text: #808080;
+	--input-border-text-hover: #808080;
+	--input-border-text-active: #808080;
+
+	--input-color-button: #808080;
+	--input-color-button-hover: #808080;
+	--input-color-button-active: #808080;
+	--input-bg-button: #808080;
+	--input-bg-button-hover: #808080;
+	--input-bg-button-active: #808080;
+
+	--input-bg-bool: #808080;
+	--input-bg-bool-hover: #808080;
+	--input-bg-bool-active: #808080;
+	--input-border-bool: #808080;
+	--input-border-bool-hover: #808080;
+	--input-border-bool-active: #808080;
+	--input-border-bool-true: #808080;
+
+	--input-color-select: #808080;
+	--input-color-select-hover: #808080;
+	--input-color-select-active: #808080;
+	--input-bg-select: #808080;
+	--input-bg-select-hover: #808080;
+	--input-bg-select-active: #808080;
+	--input-border-select: #808080;
+	--input-border-select-hover: #808080;
+	--input-border-select-active: #808080;
+
+	--input-bg-multi: #808080;
+	--input-bg-multi-hover: #808080;
+
+	/*  Chat  */
+	--chat-color: #808080;
+	--chat-bg: #808080;
+
+	--chat-bg-text: #808080;
+
+	--chat-bg-input: #808080;
+	--chat-bg-input-hover: #808080;
+	--chat-bg-input-active: #808080;
+
+	--chat-bg-inactive: #808080;
+	--chat-bg-inactive-hover: #808080;
+	--chat-bg-inactive-active: #808080;
+
+	--chat-bg-active: #808080;
+	--chat-bg-active-hover: #808080;
+	--chat-bg-active-active: #808080;
+}
